@@ -1,0 +1,22 @@
+[gd_resource type="AudioBusLayout" format=3 uid="uid://c0swfa232oh26"]
+
+[sub_resource type="AudioEffectCapture" id="AudioEffectCapture_j3pel"]
+resource_name = "Capture"
+buffer_length = 0.05
+
+[sub_resource type="AudioEffectSpectrumAnalyzer" id="AudioEffectSpectrumAnalyzer_j3pel"]
+resource_name = "SpectrumAnalyzer"
+buffer_length = 0.5
+fft_size = 0
+
+[resource]
+bus/0/effect/0/effect = SubResource("AudioEffectCapture_j3pel")
+bus/0/effect/0/enabled = true
+bus/0/effect/1/effect = SubResource("AudioEffectSpectrumAnalyzer_j3pel")
+bus/0/effect/1/enabled = true
+bus/1/name = &"Sounds"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = &"Master"

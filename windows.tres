@@ -1,0 +1,55 @@
+[gd_resource type="Theme" format=3 uid="uid://dnrglrowlaq6m"]
+
+[ext_resource type="StyleBox" uid="uid://sudm7jkx7spf" path="res://theme/button_hover.tres" id="1_k5vmg"]
+[ext_resource type="Texture2D" uid="uid://ctpbom0emypug" path="res://sprites/ui/checkbox_checked.tres" id="1_t4w7s"]
+[ext_resource type="StyleBox" uid="uid://3oact7ggkkt8" path="res://theme/button.tres" id="2_6p1pm"]
+[ext_resource type="Texture2D" uid="uid://d2j0px5f1215s" path="res://sprites/ui/checkbox.tres" id="2_wm3y1"]
+[ext_resource type="StyleBox" uid="uid://d1w7a4nicoxsu" path="res://theme/button_pressed.tres" id="3_xy3xx"]
+[ext_resource type="FontFile" uid="uid://dxahrvneunmmo" path="res://fonts/RobotoFont.ttf" id="4_wm3y1"]
+[ext_resource type="StyleBox" uid="uid://b7yh638ikdl5t" path="res://theme/slider_area.tres" id="6_1v472"]
+[ext_resource type="StyleBox" uid="uid://dwx0bchhax0dc" path="res://theme/slider.tres" id="7_h0v4u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pqyne"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wm3y1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sacfx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sacfx"]
+bg_color = Color(1, 1, 1, 0.23137255)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_drtk0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4w7s"]
+bg_color = Color(1, 1, 1, 0.1764706)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k5vmg"]
+
+[resource]
+default_font = ExtResource("4_wm3y1")
+Button/styles/focus = SubResource("StyleBoxEmpty_pqyne")
+Button/styles/hover = ExtResource("1_k5vmg")
+Button/styles/normal = ExtResource("2_6p1pm")
+Button/styles/pressed = ExtResource("3_xy3xx")
+CheckBox/constants/check_v_offset = 1
+CheckBox/icons/checked = ExtResource("1_t4w7s")
+CheckBox/icons/unchecked = ExtResource("2_wm3y1")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_wm3y1")
+HSlider/styles/grabber_area = ExtResource("6_1v472")
+HSlider/styles/grabber_area_highlight = ExtResource("6_1v472")
+HSlider/styles/slider = ExtResource("7_h0v4u")
+IconButton/base_type = &"Button"
+IconButton/colors/font_color = Color(1, 1, 1, 1)
+IconButton/colors/font_disabled_color = Color(0.38928655, 0.38928664, 0.38928658, 1)
+IconButton/colors/font_hover_color = Color(1, 1, 1, 1)
+IconButton/font_sizes/font_size = 10
+IconButton/fonts/font = ExtResource("4_wm3y1")
+IconButton/styles/focus = SubResource("StyleBoxEmpty_sacfx")
+IconButton/styles/hover = SubResource("StyleBoxFlat_sacfx")
+IconButton/styles/normal = SubResource("StyleBoxEmpty_drtk0")
+IconButton/styles/pressed = SubResource("StyleBoxFlat_t4w7s")
+LineEdit/constants/minimum_character_width = 2
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_k5vmg")
+LineEdit/styles/normal = ExtResource("2_6p1pm")
+LineEdit/styles/read_only = ExtResource("3_xy3xx")
+VScrollBar/styles/grabber = ExtResource("6_1v472")

@@ -1,0 +1,1249 @@
+[gd_scene format=3 uid="uid://3hcjsna7e748"]
+
+[ext_resource type="Script" uid="uid://5xao7q07vf0n" path="res://scripts/audio_player/Main.cs" id="1_efxa6"]
+[ext_resource type="Theme" uid="uid://dnrglrowlaq6m" path="res://windows.tres" id="2_272bh"]
+[ext_resource type="Script" uid="uid://wce3rlsinvh5" path="res://scripts/MainWindowControl.cs" id="3_dg77c"]
+[ext_resource type="Texture2D" uid="uid://b8t61kcpor2ya" path="res://icons/icon16.png" id="4_dg77c"]
+[ext_resource type="Script" uid="uid://b3o0x8hctmxl3" path="res://scripts/audio_player/additional/volume_scaler.gd" id="5_074og"]
+[ext_resource type="Texture2D" uid="uid://byyxo6x103isy" path="res://sprites/ui/close_icon.tres" id="5_getpj"]
+[ext_resource type="Texture2D" uid="uid://brhfu31058r4j" path="res://sprites/eye.tres" id="6_5vw27"]
+[ext_resource type="Texture2D" uid="uid://cv343i7dh5hg0" path="res://sprites/eye_closed.tres" id="7_kek77"]
+[ext_resource type="Script" uid="uid://copt2vsf3pcsf" path="res://scripts/cat/FaceControls.cs" id="7_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://sprites/eye_closed2.tres" id="8_4c57u"]
+[ext_resource type="SpriteFrames" uid="uid://bno08nlqvcvlk" path="res://sprites/loading_animation/loading_animation.tres" id="11_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://ch0ttshyk53g7" path="res://sprites/ear/ear_outline.png" id="11_ycdy4"]
+[ext_resource type="Script" uid="uid://c2nk2plantxwq" path="res://scripts/cat/AudioVisualizator.cs" id="12_2cqfq"]
+[ext_resource type="Script" uid="uid://d0fylhsie5g80" path="res://scripts/cat/cat_parts/Ear.cs" id="12_w48qg"]
+[ext_resource type="Texture2D" uid="uid://bvr5cs4etbca" path="res://sprites/ear/ear_base.png" id="13_w48qg"]
+[ext_resource type="Script" uid="uid://chrmqfe064beg" path="res://scripts/cat/cat_parts/Paw.cs" id="15_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://x3h8r12ja0en" path="res://sprites/paw.png" id="15_vivmo"]
+[ext_resource type="AudioStream" uid="uid://cqph6lklnpwh2" path="res://sounds/purrr.ogg" id="15_yaehf"]
+[ext_resource type="Script" uid="uid://2ecvmagdwik8" path="res://scripts/audio_player/playlists/Playlist.cs" id="19_getpj"]
+[ext_resource type="Texture2D" uid="uid://brynt0sn70rxu" path="res://sprites/ui/remove_icon.tres" id="19_kq58d"]
+[ext_resource type="Texture2D" uid="uid://b6ghpt02ee2il" path="res://sprites/ui/add_icon.tres" id="19_qsp4k"]
+[ext_resource type="Texture2D" uid="uid://geql25lalr67" path="res://sprites/ui/previous_icon.tres" id="20_0odxb"]
+[ext_resource type="Texture2D" uid="uid://bqkge7q3x8kib" path="res://sprites/ui/play_icon.tres" id="20_d13ii"]
+[ext_resource type="StyleBox" uid="uid://jogtckrhlhgc" path="res://theme/panel.tres" id="20_qsp4k"]
+[ext_resource type="Texture2D" uid="uid://cex7ewseqy543" path="res://sprites/ui/next_icon.tres" id="21_1u8w0"]
+[ext_resource type="Texture2D" uid="uid://biqono55dwqjh" path="res://sprites/ui/stop_icon.tres" id="21_lswn8"]
+[ext_resource type="Texture2D" uid="uid://dtffjhci2w3t6" path="res://sprites/ui/open_folder.tres" id="21_seu75"]
+[ext_resource type="PackedScene" uid="uid://dwmmlnralxqfx" path="res://track.tscn" id="21_xuqvo"]
+[ext_resource type="Texture2D" uid="uid://bu43pqltxbjel" path="res://sprites/ui/info_icon.tres" id="24_lswn8"]
+[ext_resource type="Script" uid="uid://dfox0qsbvlho2" path="res://scripts/audio_player/FFmpegPlayer.cs" id="27_a6jrf"]
+[ext_resource type="Script" uid="uid://c4f60mfldphk1" path="res://scripts/audio_player/additional/url_player.gd" id="28_xuqvo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvp3"]
+content_margin_left = 2.0
+content_margin_right = 1.0
+bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.9411765)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(0.4862745, 0.4862745, 0.4862745, 0.28235295)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
+bg_color = Color(0.7214305, 0.15345448, 0.09808048, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vw27"]
+bg_color = Color(0.76862746, 0.16862746, 0.10980392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dm0k"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vivmo"]
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="Gradient" id="Gradient_2cqfq"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yaehf"]
+gradient = SubResource("Gradient_2cqfq")
+width = 84
+height = 84
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="Animation" id="Animation_dg77c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Line2D:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [PackedVector2Array(-17, -7, -20, -3, -19, 1.3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 19, 1, 20, -3, 17, -7)]
+}
+
+[sub_resource type="Animation" id="Animation_efxa6"]
+resource_name = "normal_to_sad"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Line2D:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(0.5946035, 1),
+"update": 0,
+"values": [PackedVector2Array(-17, -7, -20, -3, -19, 1.3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 19, 1, 20, -3, 17, -7), PackedVector2Array(-12.005, 3.053, -12, 3, -12, 3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 12, 3, 12, 3, 12.058, 3.028)]
+}
+
+[sub_resource type="Animation" id="Animation_ycdy4"]
+resource_name = "sad_to_normal"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Line2D:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(0.51763237, 1),
+"update": 0,
+"values": [PackedVector2Array(-12.005, 3.053, -12, 3, -12, 3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 12, 3, 12, 3, 12.058, 3.028), PackedVector2Array(-17, -7, -20, -3, -19, 1.3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 19, 1, 20, -3, 17, -7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ycdy4"]
+_data = {
+&"RESET": SubResource("Animation_dg77c"),
+&"normal_to_sad": SubResource("Animation_efxa6"),
+&"sad_to_normal": SubResource("Animation_ycdy4")
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xuqvo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qsp4k"]
+
+[sub_resource type="Animation" id="Animation_cegan"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingAnchor:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FaceAnchor:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FaceAnchor:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LoadingAnchor:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_074og"]
+resource_name = "loading_to_face"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingAnchor:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.3186404, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FaceAnchor:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 0.3186404, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LoadingAnchor:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("FaceAnchor:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_82xsv"]
+_data = {
+&"RESET": SubResource("Animation_cegan"),
+&"loading_to_face": SubResource("Animation_074og")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w48qg"]
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
+bg_color = Color(0, 0, 0, 0.5411765)
+
+[sub_resource type="Gradient" id="Gradient_bkj7p"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_074og"]
+gradient = SubResource("Gradient_bkj7p")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2cqfq"]
+radius = 15.132746
+
+[node name="Cat" type="Control" unique_id=1558346445 node_paths=PackedStringArray("ClickableFace", "Player", "PlaylistWindow")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 20.0
+offset_right = -50.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_efxa6")
+ClickableFace = NodePath("CatWindow/Content/Mask/Screen")
+Player = NodePath("FFmpegPlayer")
+PlaylistWindow = NodePath("PlaylistWindow")
+
+[node name="CatWindow" type="VBoxContainer" parent="." unique_id=177175176 node_paths=PackedStringArray("TopBar", "CloseButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_272bh")
+theme_override_constants/separation = 0
+script = ExtResource("3_dg77c")
+TopBar = NodePath("Topbar")
+CloseButton = NodePath("Topbar/TopbarContainer/CloseButton")
+
+[node name="Topbar" type="PanelContainer" parent="CatWindow" unique_id=1007096533]
+z_index = -2
+texture_filter = 1
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1bvp3")
+
+[node name="TopbarContainer" type="HBoxContainer" parent="CatWindow/Topbar" unique_id=270362590]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Icon" type="TextureRect" parent="CatWindow/Topbar/TopbarContainer" unique_id=2055904983]
+custom_minimum_size = Vector2(21, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_dg77c")
+expand_mode = 3
+stretch_mode = 3
+
+[node name="Title" type="Label" parent="CatWindow/Topbar/TopbarContainer" unique_id=176736144]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+text = "Cat Window :3"
+text_overrun_behavior = 3
+
+[node name="CloseButton" type="Button" parent="CatWindow/Topbar/TopbarContainer" unique_id=1209863854]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme_type_variation = &"IconButton"
+theme_override_styles/pressed = SubResource("StyleBoxFlat_272bh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5vw27")
+icon = ExtResource("5_getpj")
+icon_alignment = 1
+
+[node name="Content" type="PanelContainer" parent="CatWindow" unique_id=1353234471 node_paths=PackedStringArray("percent_label")]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_7dm0k")
+script = ExtResource("5_074og")
+percent_label = NodePath("Mask/Screen/VolumeAnchor/VolumeIndicator")
+max_volume = 2000.0
+
+[node name="Mask" type="PanelContainer" parent="CatWindow/Content" unique_id=2139340411]
+clip_children = 1
+z_index = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vivmo")
+
+[node name="AudioVisualizator" type="Control" parent="CatWindow/Content/Mask" unique_id=2054765989 node_paths=PackedStringArray("Player")]
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("12_2cqfq")
+ShakePower = 80.0
+scale = 9
+InterpalationTime = 1.0
+Player = NodePath("../../../../FFmpegPlayer")
+
+[node name="Screen" type="Control" parent="CatWindow/Content/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
+layout_mode = 2
+script = ExtResource("7_ycdy4")
+FaceAnchor = NodePath("FaceAnchor")
+OpenedEyes = NodePath("FaceAnchor/EyesAnchor/OpenedEyes")
+ClosedEyes = NodePath("FaceAnchor/EyesAnchor/ClosedEyes")
+ClosedEyes2 = NodePath("FaceAnchor/EyesAnchor/Closed2Eyes")
+ControlNode = NodePath("../../..")
+FaceContainer = NodePath("..")
+PurrSound = NodePath("../../../../PurrSound")
+MouthAnimatior = NodePath("FaceAnchor/MouthAnchor/MouthAnimator")
+CloseButton = NodePath("../../../Topbar/TopbarContainer/CloseButton")
+
+[node name="FaceAnchor" type="Control" parent="CatWindow/Content/Mask/Screen" unique_id=967110365]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FaceShadow" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor" unique_id=1428711108]
+layout_mode = 0
+offset_left = -64.0625
+offset_top = -60.9375
+offset_right = 63.9375
+offset_bottom = 67.0625
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_yaehf")
+
+[node name="EyesAnchor" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor" unique_id=512927561]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="OpenedEyes" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=269430953]
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="RightEye" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/OpenedEyes" unique_id=1246159323]
+layout_mode = 0
+offset_left = 7.9999847
+offset_top = -8.0
+offset_right = 17.999985
+offset_bottom = 2.0
+pivot_offset = Vector2(5, 5)
+mouse_filter = 2
+texture = ExtResource("6_5vw27")
+expand_mode = 1
+
+[node name="LeftEye" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/OpenedEyes" unique_id=1370584556]
+layout_mode = 0
+offset_left = -19.0
+offset_top = -8.0
+offset_right = -9.0
+offset_bottom = 2.0
+pivot_offset = Vector2(5, 5)
+mouse_filter = 2
+texture = ExtResource("6_5vw27")
+expand_mode = 1
+flip_h = true
+
+[node name="ClosedEyes" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=1854838610]
+visible = false
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="LeftClosed" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/ClosedEyes" unique_id=1780333123]
+layout_mode = 0
+offset_left = -21.0
+offset_top = -2.0
+offset_right = -7.0
+offset_bottom = 2.0
+mouse_filter = 2
+texture = ExtResource("7_kek77")
+expand_mode = 1
+flip_h = true
+
+[node name="RightEyeClosed" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/ClosedEyes" unique_id=627318391]
+layout_mode = 0
+offset_left = 6.0
+offset_top = -2.0
+offset_right = 20.0
+offset_bottom = 2.0
+mouse_filter = 2
+texture = ExtResource("7_kek77")
+expand_mode = 1
+
+[node name="Closed2Eyes" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=1313234138]
+visible = false
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="LeftClosed2" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/Closed2Eyes" unique_id=1800557127]
+layout_mode = 0
+offset_left = -22.0
+offset_top = -8.0
+offset_right = -7.0
+offset_bottom = 2.0
+pivot_offset = Vector2(8, 8)
+mouse_filter = 2
+texture = ExtResource("8_4c57u")
+expand_mode = 1
+flip_h = true
+
+[node name="RightEyeClosed2" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/Closed2Eyes" unique_id=1245795200]
+layout_mode = 0
+offset_left = 6.0
+offset_top = -8.0
+offset_right = 21.0
+offset_bottom = 2.0
+pivot_offset = Vector2(8, 8)
+mouse_filter = 2
+texture = ExtResource("8_4c57u")
+expand_mode = 1
+
+[node name="MouthAnchor" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor" unique_id=1611480699]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 10.5
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Line2D" type="Line2D" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1304906749]
+points = PackedVector2Array(-17, -7, -20, -3, -19, 1.3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 19, 1, 20, -3, 17, -7)
+width = 7.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Line2D3" type="Line2D" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=377694598]
+visible = false
+points = PackedVector2Array(-17, -7, -20, -3, -19, 1.3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 19, 1, 20, -3, 17, -7)
+width = 7.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Line2D2" type="Line2D" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1597460374]
+visible = false
+points = PackedVector2Array(-19, 5, -13, 17, 0, 22, 13, 17, 19, 5)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="MouthAnimator" type="AnimationPlayer" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=2017440135]
+libraries/ = SubResource("AnimationLibrary_ycdy4")
+
+[node name="LoadingAnchor" type="Control" parent="CatWindow/Content/Mask/Screen" unique_id=1499100665]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CatWindow/Content/Mask/Screen/LoadingAnchor" unique_id=482775952]
+visible = false
+texture_filter = 1
+position = Vector2(0.5, 0)
+sprite_frames = ExtResource("11_2cqfq")
+autoplay = "default"
+frame_progress = 0.54116553
+
+[node name="VolumeAnchor" type="Control" parent="CatWindow/Content/Mask/Screen" unique_id=1397319058]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+
+[node name="VolumeIndicator" type="Label" parent="CatWindow/Content/Mask/Screen/VolumeAnchor" unique_id=2059402012]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.5
+offset_top = 2.0
+offset_right = 36.5
+offset_bottom = 19.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxEmpty_xuqvo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qsp4k")
+text = "100%"
+horizontal_alignment = 1
+
+[node name="ScreenAnimator" type="AnimationPlayer" parent="CatWindow/Content/Mask/Screen" unique_id=105337075]
+libraries/ = SubResource("AnimationLibrary_82xsv")
+metadata/sfsf = false
+
+[node name="LeftEarAnchor" type="Control" parent="CatWindow/Content" unique_id=1307574944]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="LeftEar" type="TextureRect" parent="CatWindow/Content/LeftEarAnchor" unique_id=967423504]
+self_modulate = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+offset_left = -17.0
+offset_top = -47.0
+offset_right = 47.0
+offset_bottom = 17.0
+pivot_offset = Vector2(32, 64)
+mouse_filter = 2
+texture = ExtResource("11_ycdy4")
+expand_mode = 1
+script = ExtResource("12_w48qg")
+EarEndPoint = Vector2i(-60, -66)
+VelocityDamping = 0.82
+AccelerationDamping = 0.461
+
+[node name="TextureRect4" type="TextureRect" parent="CatWindow/Content/LeftEarAnchor/LeftEar" unique_id=2098082209]
+modulate = Color(0, 0, 0, 1)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(32, 64)
+mouse_filter = 2
+texture = ExtResource("13_w48qg")
+expand_mode = 1
+
+[node name="RightEarAnchor" type="Control" parent="CatWindow/Content" unique_id=837336765]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="RightEar" type="TextureRect" parent="CatWindow/Content/RightEarAnchor" unique_id=1041129862]
+self_modulate = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -48.0
+offset_top = -47.0
+offset_right = 16.0
+offset_bottom = 17.0
+grow_horizontal = 0
+rotation = -0.0031479904
+pivot_offset = Vector2(32, 64)
+mouse_filter = 2
+texture = ExtResource("11_ycdy4")
+expand_mode = 1
+script = ExtResource("12_w48qg")
+EarEndPoint = Vector2i(60, -66)
+VelocityDamping = 0.82
+AccelerationDamping = 0.461
+
+[node name="TextureRect3" type="TextureRect" parent="CatWindow/Content/RightEarAnchor/RightEar" unique_id=2042892108]
+modulate = Color(0, 0, 0, 1)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(32, 64)
+mouse_filter = 2
+texture = ExtResource("13_w48qg")
+expand_mode = 1
+
+[node name="MeowSound" type="AudioStreamPlayer" parent="." unique_id=1502461157]
+bus = &"Sounds"
+
+[node name="PurrSound" type="AudioStreamPlayer" parent="." unique_id=512919543]
+stream = ExtResource("15_yaehf")
+volume_db = -17.023
+bus = &"Sounds"
+parameters/looping = true
+
+[node name="SettingsWindow" type="Window" parent="." unique_id=42616857]
+transparent_bg = true
+oversampling_override = 1.0
+title = "Settings"
+initial_position = 4
+size = Vector2i(407, 324)
+visible = false
+wrap_controls = true
+unresizable = true
+always_on_top = true
+transparent = true
+sharp_corners = true
+maximize_disabled = true
+min_size = Vector2i(220, 228)
+theme = ExtResource("2_272bh")
+
+[node name="Content" type="PanelContainer" parent="SettingsWindow" unique_id=879065324]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_w48qg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsWindow/Content" unique_id=171894829]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsWindow/Content/HBoxContainer" unique_id=1221477071]
+layout_mode = 2
+size_flags_vertical = 5
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=1426545211]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=765840505]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1956664997]
+layout_mode = 2
+text = "General"
+
+[node name="HSeparator2" type="HSeparator" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1852650739]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CheckBox" type="CheckBox" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=505050581]
+visible = false
+layout_mode = 2
+button_pressed = true
+text = "Eating Files"
+
+[node name="CanSleep" type="CheckBox" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=34669652]
+layout_mode = 2
+button_pressed = true
+text = "Can Sleep"
+
+[node name="ShowPaws" type="CheckBox" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=1110174552]
+layout_mode = 2
+button_pressed = true
+text = "Show Paws"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=1631375334]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1069883633]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=591860955]
+layout_mode = 2
+text = "Ears"
+
+[node name="HSeparator2" type="HSeparator" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=949343087]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=143533119]
+layout_mode = 2
+text = "Ears Acceleration Power"
+
+[node name="HSlider" type="HSlider" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=182846098]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 0.526
+
+[node name="Label2" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=1175131775]
+layout_mode = 2
+text = "Ears Air Friction"
+
+[node name="HSlider2" type="HSlider" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=1931321129]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 0.732
+
+[node name="Label3" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=345535306]
+layout_mode = 2
+text = "Cat Title"
+
+[node name="LineEdit" type="LineEdit" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer" unique_id=684944318]
+layout_mode = 2
+text = "Cat Window :3"
+
+[node name="VSeparator" type="VSeparator" parent="SettingsWindow/Content/HBoxContainer" unique_id=402659646]
+layout_mode = 2
+size_flags_vertical = 5
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="SettingsWindow/Content/HBoxContainer" unique_id=1722559395]
+layout_mode = 2
+size_flags_vertical = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=891454255]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=2014162915]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1626455658]
+layout_mode = 2
+text = "Audio Visualizator"
+
+[node name="HSeparator2" type="HSeparator" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=254434049]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ShowSounds2" type="CheckBox" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=1127790199]
+layout_mode = 2
+button_pressed = true
+text = "Audio Visualizator"
+
+[node name="Label4" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=769152687]
+layout_mode = 2
+text = "Opacity"
+
+[node name="HSlider4" type="HSlider" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=560487424]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 0.526
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=137794517]
+layout_mode = 2
+text = "Interpolation"
+
+[node name="HSlider" type="HSlider" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=1765887825]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+value = 0.526
+
+[node name="CheckBox" type="CheckBox" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=361167384]
+visible = false
+layout_mode = 2
+button_pressed = true
+text = "Eating Files"
+
+[node name="CanSleep" type="CheckBox" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=557124143]
+layout_mode = 2
+button_pressed = true
+text = "Cat Bump"
+
+[node name="Label3" type="Label" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=1139765167]
+layout_mode = 2
+text = "Bump Power"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2" unique_id=1300258710]
+layout_mode = 2
+
+[node name="HSlider3" type="HSlider" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=1135292247]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.001
+value = 0.526
+
+[node name="LineEdit" type="LineEdit" parent="SettingsWindow/Content/HBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=699144601]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_stretch_ratio = 0.0
+text = "20"
+
+[node name="PlaylistWindow" type="Window" parent="." unique_id=1787179825 node_paths=PackedStringArray("Player", "TrackLabelsContainer", "StopButton")]
+oversampling_override = 1.0
+title = "₍^•ω•^₎⟆"
+initial_position = 4
+size = Vector2i(557, 350)
+wrap_controls = true
+always_on_top = true
+sharp_corners = true
+minimize_disabled = true
+theme = ExtResource("2_272bh")
+script = ExtResource("19_getpj")
+TrackLabelTemplate = ExtResource("21_xuqvo")
+Player = NodePath("../FFmpegPlayer")
+TrackLabelsContainer = NodePath("Content/VBoxContainer/PanelContainer/ScrollContainer/Container")
+StopButton = NodePath("Content/VBoxContainer/Controls/StopButton")
+
+[node name="Content" type="PanelContainer" parent="PlaylistWindow" unique_id=2130255548]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_w48qg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlaylistWindow/Content" unique_id=1953077299]
+layout_mode = 2
+
+[node name="Summary" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=1351538531]
+layout_mode = 2
+
+[node name="TotalTracks" type="Label" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=787674207]
+layout_mode = 2
+text = "Playlist"
+
+[node name="UpdateButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=455621334]
+visible = false
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "-"
+
+[node name="PlaylistsDropdown" type="OptionButton" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=215050437]
+visible = false
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 8
+selected = 0
+item_count = 1
+popup/item_0/text = "New Unnamed Playlist"
+popup/item_0/id = 0
+
+[node name="RemovePlaylist" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=591477105]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Remove Track"
+icon = ExtResource("19_kq58d")
+icon_alignment = 2
+
+[node name="NewPlaylist" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=2101433007]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+text = "Add Track"
+icon = ExtResource("19_qsp4k")
+icon_alignment = 2
+
+[node name="OpenPlaylist" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=1353809143]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+tooltip_text = "Add created"
+icon = ExtResource("21_seu75")
+
+[node name="PanelContainer" type="PanelContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=728599844]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("20_qsp4k")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PlaylistWindow/Content/VBoxContainer/PanelContainer" unique_id=1373729665]
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Container" type="VBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/PanelContainer/ScrollContainer" unique_id=895144078]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=1951029035]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer" unique_id=824242571]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=608447915]
+layout_mode = 2
+text = "Volume"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1112842766]
+layout_mode = 2
+
+[node name="HSlider" type="HSlider" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1335791797]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 200.0
+value = 100.0
+
+[node name="SpinBox" type="SpinBox" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=121429928]
+custom_minimum_size = Vector2(80, 28)
+layout_mode = 2
+max_value = 200.0
+value = 100.0
+suffix = "%"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer" unique_id=178290399]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=685122921]
+layout_mode = 2
+text = "Playback Speed"
+
+[node name="SpinBox" type="SpinBox" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=1095275095]
+custom_minimum_size = Vector2(80, 28)
+layout_mode = 2
+max_value = 20.0
+step = 0.1
+value = 1.0
+suffix = "x"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=1785716662]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer2" unique_id=286702951]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Playback"
+
+[node name="Label2" type="Label" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer2" unique_id=1709063749]
+layout_mode = 2
+text = "0:23 / 2:56"
+
+[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541]
+layout_mode = 2
+
+[node name="HSlider" type="HSlider" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1543049038]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 0.0
+
+[node name="Button" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1836025060]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+icon = ExtResource("20_0odxb")
+icon_alignment = 1
+
+[node name="StopButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=689423410]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+icon = ExtResource("21_lswn8")
+icon_alignment = 1
+
+[node name="Button3" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1980844304]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+icon = ExtResource("20_d13ii")
+icon_alignment = 1
+
+[node name="Button4" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=683132719]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+icon = ExtResource("21_1u8w0")
+icon_alignment = 1
+
+[node name="Button5" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=2136091940]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+icon = ExtResource("24_lswn8")
+icon_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=2015927253 node_paths=PackedStringArray("Player", "PlayButton", "InputLineEdit")]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+script = ExtResource("28_xuqvo")
+Player = NodePath("../../../../FFmpegPlayer")
+PlayButton = NodePath("Button")
+InputLineEdit = NodePath("LineEdit")
+
+[node name="LineEdit" type="LineEdit" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer3" unique_id=703296425]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "URL..."
+clear_button_enabled = true
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="Button" type="Button" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer3" unique_id=1621196282]
+layout_mode = 2
+text = "Play!"
+
+[node name="Label" type="Label" parent="." unique_id=2078924189]
+layout_mode = 0
+offset_left = 2583.0
+offset_top = 1566.0
+offset_right = 3193.0
+offset_bottom = 2176.0
+text = ""
+autowrap_mode = 1
+
+[node name="LeftPawAnchor" type="Control" parent="." unique_id=325740499 node_paths=PackedStringArray("PawNodes", "PawLine", "NodeToPush", "PawDragControl", "PawDragJoint", "PawRoot")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+script = ExtResource("15_2cqfq")
+PawNodes = [NodePath("PawPhysics/PawKnee"), NodePath("PawPhysics/PawRoot")]
+PawLine = NodePath("Line2D")
+NodeToPush = NodePath("PawPhysics/PawKnee")
+PawDragControl = NodePath("PawPhysics/PawKnee/MoveControl2")
+PawDragJoint = NodePath("PawPhysics/PawKnee/MoveControl2/PinJoint2D2")
+PawRoot = NodePath("PawPhysics/PawRoot")
+MaxPushMagnitude = 100.0
+
+[node name="Line2D" type="Line2D" parent="LeftPawAnchor" unique_id=586303237]
+position = Vector2(30, -22)
+points = PackedVector2Array(0, 35, 0, 0)
+width = 30.0
+texture = ExtResource("15_vivmo")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+
+[node name="PawPhysics" type="Node2D" parent="LeftPawAnchor" unique_id=696405988]
+position = Vector2(30, -22)
+
+[node name="PawRoot" type="StaticBody2D" parent="LeftPawAnchor/PawPhysics" unique_id=1615711425]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D3" type="Sprite2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=121601370]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=1894028317]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="DampedSpringJoint2D2" type="PinJoint2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=1908256987]
+node_a = NodePath("..")
+node_b = NodePath("../../PawKnee")
+disable_collision = false
+angular_limit_enabled = true
+angular_limit_lower = -0.34906584
+angular_limit_upper = 0.34906584
+
+[node name="PawKnee" type="RigidBody2D" parent="LeftPawAnchor/PawPhysics" unique_id=1719679755]
+position = Vector2(0, 34)
+
+[node name="Sprite2D2" type="Sprite2D" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=36772808]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=1178976792]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="MoveControl2" type="Control" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=559584714]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+pivot_offset = Vector2(15, 15)
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="LeftPawAnchor/PawPhysics/PawKnee/MoveControl2" unique_id=1157155399]
+position = Vector2(15, 15)
+node_b = NodePath("../..")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeftPawAnchor/PawPhysics/PawKnee/MoveControl2/PinJoint2D2" unique_id=566852529]
+
+[node name="RightPawAnchor" type="Control" parent="." unique_id=1936857273 node_paths=PackedStringArray("PawNodes", "PawLine", "NodeToPush", "PawDragControl", "PawDragJoint", "PawRoot")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("15_2cqfq")
+PawNodes = [NodePath("PawPhysics2/PawKnee"), NodePath("PawPhysics2/PawRoot")]
+PawLine = NodePath("Line2D2")
+NodeToPush = NodePath("PawPhysics2/PawKnee")
+PawDragControl = NodePath("PawPhysics2/PawKnee/MoveControl")
+PawDragJoint = NodePath("PawPhysics2/PawKnee/MoveControl/PinJoint2D")
+PawRoot = NodePath("PawPhysics2/PawRoot")
+MaxPushMagnitude = 100.0
+
+[node name="Line2D2" type="Line2D" parent="RightPawAnchor" unique_id=431053123]
+position = Vector2(-30, -22)
+points = PackedVector2Array(0, 35, 0, 0)
+width = 30.0
+texture = ExtResource("15_vivmo")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+
+[node name="PawPhysics2" type="Node2D" parent="RightPawAnchor" unique_id=536988227]
+position = Vector2(-30, -22)
+
+[node name="PawRoot" type="StaticBody2D" parent="RightPawAnchor/PawPhysics2" unique_id=757149736]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D3" type="Sprite2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=1806896965]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=1338943225]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="DampedSpringJoint2D2" type="PinJoint2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=779085411]
+node_a = NodePath("..")
+node_b = NodePath("../../PawKnee")
+disable_collision = false
+angular_limit_enabled = true
+angular_limit_lower = -0.34906584
+angular_limit_upper = 0.34906584
+
+[node name="PawKnee" type="RigidBody2D" parent="RightPawAnchor/PawPhysics2" unique_id=1506979335]
+position = Vector2(0, 34)
+
+[node name="Sprite2D2" type="Sprite2D" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1817433025]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1078358460]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="MoveControl" type="Control" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1156148681]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+pivot_offset = Vector2(15, 15)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="RightPawAnchor/PawPhysics2/PawKnee/MoveControl" unique_id=486726548]
+position = Vector2(15, 15)
+node_b = NodePath("../..")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="RightPawAnchor/PawPhysics2/PawKnee/MoveControl/PinJoint2D" unique_id=424966871]
+
+[node name="FFmpegPlayer" type="Node" parent="." unique_id=253374428]
+script = ExtResource("27_a6jrf")
+Loop = true
+TargetBus = 1
+metadata/_custom_type_script = "uid://dfox0qsbvlho2"
+
+[node name="Window" type="Window" parent="." unique_id=589452129]
+oversampling_override = 1.0
+title = "3:<"
+initial_position = 1
+size = Vector2i(280, 161)
+visible = false
+unresizable = true
+sharp_corners = true
+minimize_disabled = true
+maximize_disabled = true
+theme = ExtResource("2_272bh")
+
+[node name="MarginContainer" type="MarginContainer" parent="Window" unique_id=1537097475]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer" unique_id=1173410344]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer" unique_id=37877439]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "You haven't given me audio
+files for the third minute!1! 3:<
+I'm leaving."
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=354218728]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="Window/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1041144481]
+layout_mode = 2
+text = "NOOOOO"

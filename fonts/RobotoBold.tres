@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://co65oureegfeq"]
+
+[ext_resource type="FontFile" uid="uid://dxahrvneunmmo" path="res://fonts/RobotoFont.ttf" id="1_d7kd4"]
+
+[resource]
+base_font = ExtResource("1_d7kd4")
+variation_embolden = 0.87
