@@ -18,6 +18,7 @@ config/name="Cat Window"
 config/version="3.0"
 run/main_scene="uid://3hcjsna7e748"
 config/use_custom_user_dir=true
+config/custom_user_dir_name="CatWindow"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
