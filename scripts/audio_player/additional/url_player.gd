@@ -7,5 +7,5 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	PlayButton.pressed.connect(func ():
-		Player.Play(InputLineEdit.text);
+		Player.Play(InputLineEdit.text, 0);
 	)

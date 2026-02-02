@@ -21,8 +21,6 @@ public partial class Playlist : Window
 	public Container TrackLabelsContainer;
 	//[Export]
 	//public OptionButton PlaylistDropdown;
-	[Export]
-	public Button StopButton;
 
 
 	public override void _Ready()
@@ -44,7 +42,6 @@ public partial class Playlist : Window
 			UpdatePlaylists(playlistsFolder.GetFiles(), 0); // zero for new playlist
 
 		*/
-		StopButton.Pressed += Player.Stop;
 		CloseRequested += Hide;
 	}
 	/*

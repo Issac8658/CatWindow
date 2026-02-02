@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://biqono55dwqjh" path="res://sprites/ui/stop_icon.tres" id="21_lswn8"]
 [ext_resource type="Texture2D" uid="uid://dtffjhci2w3t6" path="res://sprites/ui/open_folder.tres" id="21_seu75"]
 [ext_resource type="PackedScene" uid="uid://dwmmlnralxqfx" path="res://track.tscn" id="21_xuqvo"]
+[ext_resource type="Script" uid="uid://bd6vdplgg71ix" path="res://scripts/audio_player/AudioControls.cs" id="23_htxhm"]
 [ext_resource type="Texture2D" uid="uid://bu43pqltxbjel" path="res://sprites/ui/info_icon.tres" id="24_lswn8"]
 [ext_resource type="Script" uid="uid://dfox0qsbvlho2" path="res://scripts/audio_player/FFmpegPlayer.cs" id="27_a6jrf"]
 [ext_resource type="Script" uid="uid://c4f60mfldphk1" path="res://scripts/audio_player/additional/url_player.gd" id="28_xuqvo"]
@@ -838,7 +839,7 @@ size_flags_horizontal = 8
 size_flags_stretch_ratio = 0.0
 text = "20"
 
-[node name="PlaylistWindow" type="Window" parent="." unique_id=1787179825 node_paths=PackedStringArray("Player", "TrackLabelsContainer", "StopButton")]
+[node name="PlaylistWindow" type="Window" parent="." unique_id=1787179825 node_paths=PackedStringArray("Player", "TrackLabelsContainer")]
 oversampling_override = 1.0
 title = "₍^•ω•^₎⟆"
 initial_position = 4
@@ -852,7 +853,6 @@ script = ExtResource("19_getpj")
 TrackLabelTemplate = ExtResource("21_xuqvo")
 Player = NodePath("../FFmpegPlayer")
 TrackLabelsContainer = NodePath("Content/VBoxContainer/PanelContainer/ScrollContainer/Container")
-StopButton = NodePath("Content/VBoxContainer/Controls/StopButton")
 
 [node name="Content" type="PanelContainer" parent="PlaylistWindow" unique_id=2130255548]
 anchors_preset = 15
@@ -982,15 +982,20 @@ text = "Playback"
 layout_mode = 2
 text = "0:23 / 2:56"
 
-[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541]
+[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "SeekSlider")]
 layout_mode = 2
+script = ExtResource("23_htxhm")
+Player = NodePath("../../../../FFmpegPlayer")
+StopButton = NodePath("StopButton")
+SeekSlider = NodePath("SeekSlider")
 
-[node name="HSlider" type="HSlider" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1543049038]
+[node name="SeekSlider" type="HSlider" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1543049038]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 0.0
+step = 0.01
 
 [node name="Button" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1836025060]
 custom_minimum_size = Vector2(28, 28)

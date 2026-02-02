@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,24 +17,49 @@ namespace FFmpeg
 	[GlobalClass]
 	public partial class FFmpegPlayer : Node // named so because otherwise Godot would not see it
 	{
+		[Signal] public delegate void PlayedEventHandler();
+		[Signal] public delegate void StoppedEventHandler();
+
 		public const int SAMPLE_RATE = FFmpeg.SAMPLE_RATE;
 		public const int CHANNELS = FFmpeg.CHANNELS;
 		public const int FRAMES = FFmpeg.FRAMES;
+		public const int SCALE = 4;
 
 		private AudioStreamGeneratorPlayback _playback;
 		private Process _ffmpeg;
 		private CancellationTokenSource _cts;
-
 		private AudioStreamPlayer _player;
 
 		private Queue<byte[]> _pcmQueue = new();
 		private object _lock = new();
 
 		private bool _playing = false;
+		private string _currentFile = null;
+		private double _bufferedSeconds = 0;
+		private double _startOffset = 0; // in seconds
+		private ulong _totalPlaybackFrames = 0; // in frames
 
-		public bool Playing
+		private FFprobeResult _metadata;
+		public FFprobeResult Metadata
 		{
-			get => _playing;
+			get => _metadata;
+		}
+
+
+		public bool Playing { get => _playing; }
+		public string CurrentFile { get => _currentFile; }
+		public double PlaybackPosition 
+		{ 	get
+			{
+				if(Metadata != null)
+				{
+					double PlayingTime = (double)(_totalPlaybackFrames - SAMPLE_RATE * SCALE) / SAMPLE_RATE / SCALE / 2.0 + _startOffset;
+					double Duration = double.Parse(Metadata.Format.Duration.ToString().Replace('.', ','));
+					return PlayingTime - Mathf.Floor(PlayingTime / Duration) * Duration;
+				}
+				else
+					return 0;
+			}
 		}
 
 		[Export]
@@ -48,7 +75,7 @@ namespace FFmpeg
 			AudioStreamGenerator gen = new()
 			{
 				MixRate = SAMPLE_RATE,
-				BufferLength = 3.0f
+				BufferLength = 1f
 			};
 
 			_player.Stream = gen;
@@ -70,39 +97,50 @@ namespace FFmpeg
 			if (data == null)
 				return;
 
-			int floatCount = data.Length / 4;
+			int floatCount = data.Length / SCALE;
 			float[] samples = new float[floatCount];
 			Buffer.BlockCopy(data, 0, samples, 0, data.Length);
 
 			PushSamples(_playback, samples);
+			_bufferedSeconds = _playback.GetFramesAvailable() / SAMPLE_RATE;
+			_totalPlaybackFrames++;
 		}
 
-		public void Play(string pathOrUrl)
+		#region Public Methods
+		public void Play(string pathOrUrl, double StartOffset = 0.0)
 		{
+			GD.Print("Play called");
 			Stop();
-			_player.Play();
-			_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
 
-			_cts = new CancellationTokenSource();
-
-			string input = pathOrUrl.StartsWith("user://") // res:// not supported because of ffmpeg, need to extract it before use
+			string input = pathOrUrl.StartsWith("user://") // res:// not supported because of ffmpeg, need to extract audio before use
 				? ProjectSettings.GlobalizePath(pathOrUrl)
 				: pathOrUrl;
 
-			string[] additionalArgs = [];
+			_cts = new CancellationTokenSource();
+			_player.Play();
+			_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+			_currentFile = input;
+			_startOffset = StartOffset;
+
+			Godot.Collections.Array<string> additionalArgs = [];
 			if (Loop)
 			{
-				additionalArgs = ["-stream_loop", "-1"];
+				additionalArgs += ["-stream_loop", "-1"];
 			}
+			additionalArgs += ["-ss", StartOffset.ToString().Replace(',', '.')];
 
-			_ffmpeg = StartFFmpeg(input, FFmpeg.IsUrl(pathOrUrl), additionalArgs);
+			_ffmpeg = StartFFmpeg(input, FFmpeg.IsUrl(pathOrUrl), [.. additionalArgs]);
 
+			_metadata = FFprobe.FFprobe.GetMetadata(pathOrUrl);
 			_ = Task.Run(() => ReadPcmLoop(_cts.Token));
 			_playing = true;
+			EmitSignal("Played");
+			GD.Print("Playing");
 		}
 
 		public void Stop()
 		{
+			EmitSignal("Stopped");
 			_cts?.Cancel();
 			_cts = null;
 
@@ -119,9 +157,24 @@ namespace FFmpeg
 				_pcmQueue.Clear();
 			_player.Stop();
 			_playing = false;
+			_totalPlaybackFrames = 0;
+			_startOffset = 0;
+			_currentFile = null;
+			_metadata = null;
 		}
 
+		public void Seek(double Time) // In seconds
+		{
+			if (Playing)
+			{
+				string file = _currentFile;
+				Stop();
+				Play(file, Time);
+			}
+		}
 
+		#endregion
+		#region Decoding
 		private static Process StartFFmpeg(string input, bool IsURL, string[] additionalArgs)
 		{
 			Godot.Collections.Array<string> ResultArgs = [];
@@ -156,7 +209,7 @@ namespace FFmpeg
 		async Task ReadPcmLoop(CancellationToken token)
 		{
 			Stream stdout = _ffmpeg.StandardOutput.BaseStream;
-			byte[] buffer = new byte[FRAMES * CHANNELS * 4];
+			byte[] buffer = new byte[FRAMES * CHANNELS * SCALE];
 
 			try
 			{
@@ -172,6 +225,7 @@ namespace FFmpeg
 
 					byte[] chunk = new byte[read];
 					Buffer.BlockCopy(buffer, 0, chunk, 0, read);
+					_totalPlaybackFrames += (ulong)read;
 
 					lock (_lock)
 						_pcmQueue.Enqueue(chunk);
@@ -191,6 +245,7 @@ namespace FFmpeg
 				}
 			}
 		}
+		#endregion
 	}
 	#endregion
 
@@ -314,6 +369,20 @@ namespace FFmpeg
 				}
 				return ":3";
 			}
+			
+			public static FFprobeResult GetMetadata(string filePath)
+			{
+				string RawMetadata = GetRawMetadata(filePath);
+				//GD.Print(RawMetadata);
+				GD.Print("hmmm, need to deserialize?");
+				if (RawMetadata == ":3")
+				{
+					GD.Print("No.");
+					return null;
+				}
+				GD.Print("Yes! Deserialized!");
+				return JsonSerializer.Deserialize<FFprobeResult>(RawMetadata);
+			}
 
 			public static Process Start(string[] arguments)
 			{
@@ -335,5 +404,65 @@ namespace FFmpeg
 			}
 		}
 	}
+	#region FFprobe Metadata
+	public class FFprobeResult()
+	{
+		[JsonPropertyName("format")]
+		public FFprobeFormat Format { get; set; }
+	}
+	public class FFprobeFormat()
+	{
+		[JsonPropertyName("filename")]
+		public string Filename { get; set; }
+		[JsonPropertyName("nb_streams")]
+		public float NB_Streams { get; set; }
+		[JsonPropertyName("nb_programs")]
+		public float NB_Programs { get; set; }
+		[JsonPropertyName("nb_stream_groups")]
+		public float NB_StreamGroups { get; set; }
+		[JsonPropertyName("format_name")]
+		public string FormatName { get; set; }
+		[JsonPropertyName("format_long_name")]
+		public string FormatLongName { get; set; }
+		[JsonPropertyName("start_time")]
+		public string StartTime { get; set; }
+		[JsonPropertyName("duration")]
+		public string Duration { get; set; }
+		[JsonPropertyName("size")]
+		public string Size { get; set; }
+		[JsonPropertyName("bit_rate")]
+		public string BitRate { get; set; }
+		[JsonPropertyName("probe_score")]
+		public float ProbeScore { get; set; }
+
+		[JsonPropertyName("tags")]
+		public FFprobeTags Tags { get; set; }
+	}
+	public class FFprobeTags
+	{
+		[JsonPropertyName("title")]
+		public string Title { get; set; }
+		[JsonPropertyName("artist")]
+		public string Artist { get; set; }
+		[JsonPropertyName("composer")]
+		public string Composer { get; set; }
+		[JsonPropertyName("album")]
+		public string Album { get; set; }
+		[JsonPropertyName("genre")]
+		public string Genre { get; set; }
+		[JsonPropertyName("track")]
+		public string Track { get; set; }
+		[JsonPropertyName("date")]
+		public string Date { get; set; }
+		[JsonPropertyName("comment")]
+		public string Comment { get; set; }
+		[JsonPropertyName("encoded_by")]
+		public string EncodedBy { get; set; }
+		[JsonPropertyName("disk")]
+		public string Disk { get; set; }
+		[JsonPropertyName("TBPM")]
+		public double? BPM { get; set; }
+	}
+	#endregion
 	#endregion
 }
