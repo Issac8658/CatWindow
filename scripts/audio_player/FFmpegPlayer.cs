@@ -117,6 +117,8 @@ namespace FFmpeg
 				? ProjectSettings.GlobalizePath(pathOrUrl)
 				: pathOrUrl;
 
+			GD.Print($"Input: \"{pathOrUrl}\"\nFull path: \"{input}\"");
+
 			_cts = new CancellationTokenSource();
 			_player.Play();
 			_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
@@ -161,6 +163,7 @@ namespace FFmpeg
 			_startOffset = 0;
 			_currentFile = null;
 			_metadata = null;
+			GD.Print("Stopped");
 		}
 
 		public void Seek(double Time) // In seconds
@@ -174,30 +177,33 @@ namespace FFmpeg
 		}
 		public void Restart(double StartOffset = 0)
 		{
-			// stoping
-			GD.Print("Restarting");
-			_cts?.Cancel();
-			_cts = null;
-
-			try
+			if (Playing)
 			{
-				if (_ffmpeg != null && !_ffmpeg.HasExited)
-					_ffmpeg.Kill();
+				// stoping
+				GD.Print("Restarting");
+				_cts?.Cancel();
+				_cts = null;
+	
+				try
+				{
+					if (_ffmpeg != null && !_ffmpeg.HasExited)
+						_ffmpeg.Kill();
+				}
+				catch { }
+	
+				_ffmpeg = null;
+				
+				// starting
+				_cts = new CancellationTokenSource();
+	
+				_ffmpeg = StartFFmpeg(_currentFile, FFmpeg.IsUrl(_currentFile), []);
+	
+				//GD.Print("Metadating");
+				//_metadata = FFprobe.FFprobe.GetMetadata(_currentFile);
+				//GD.Print("Metadated");
+				_ = Task.Run(() => ReadPcmLoop(_cts.Token));
+				_playing = true;
 			}
-			catch { }
-
-			_ffmpeg = null;
-			
-			// starting
-			_cts = new CancellationTokenSource();
-
-			_ffmpeg = StartFFmpeg(_currentFile, FFmpeg.IsUrl(_currentFile), []);
-
-			//GD.Print("Metadating");
-			//_metadata = FFprobe.FFprobe.GetMetadata(_currentFile);
-			//GD.Print("Metadated");
-			_ = Task.Run(() => ReadPcmLoop(_cts.Token));
-			_playing = true;
 		}
 
 		#endregion
@@ -405,7 +411,7 @@ namespace FFmpeg
 			public static FFprobeResult GetMetadata(string filePath)
 			{
 				string RawMetadata = GetRawMetadata(filePath);
-				GD.Print(RawMetadata);
+				//GD.Print(RawMetadata);
 				//GD.Print("hmmm, need to deserialize?");
 				if (RawMetadata == ":3")
 				{
@@ -424,6 +430,7 @@ namespace FFmpeg
 					RedirectStandardOutput = true,
 					RedirectStandardError = false,
 					UseShellExecute = false,
+   					StandardOutputEncoding = System.Text.Encoding.UTF8,
 					CreateNoWindow = !OS.GetCmdlineArgs().Contains("--ffmpeg_debug")
 				};
 
