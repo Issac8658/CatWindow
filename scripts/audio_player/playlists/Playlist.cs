@@ -101,40 +101,30 @@ public partial class Playlist : Window
 					if (Folder.FileExists(line))
 					{
 						GD.Print($"Track {line}");
-						string RawMetadata = FFprobe.GetRawMetadata(RelToAbs(Folder, line));
-						if (RawMetadata == ":3") break;
+						FFprobeResult Metadata = FFprobe.GetMetadata(RelToAbs(Folder, line));
+						if (Metadata == null) break;
 
 						Track trackLabel = TrackLabelTemplate.Instantiate<Track>();
 						trackLabel.TrackIndex = ++i;
 						trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
 
-						Variant ParsedMetadata = Json.ParseString(RawMetadata);
-						//GD.Print(ParsedMetadata);
+						GD.Print($"Has meta");
 
-						Godot.Collections.Dictionary metadataDict = ParsedMetadata.As<Godot.Collections.Dictionary>();
+						trackLabel.TrackType = Metadata.Format.FormatName;
+						trackLabel.TrackLength = float.Parse(Metadata.Format.Duration.Replace('.', ','));
+						trackLabel.TrackSize = ulong.Parse(Metadata.Format.Size.ToString());
 
-						if (metadataDict.ContainsKey("format"))
+						if (Metadata.Format != null)
 						{
-							GD.Print($"Has meta");
-							Godot.Collections.Dictionary Format = metadataDict["format"].AsGodotDictionary();
+							GD.Print($"Has tags");
 
-							trackLabel.TrackType = Format["format_name"].AsString();
-							trackLabel.TrackLength = float.Parse(Format["duration"].ToString().Replace('.', ','));
-							trackLabel.TrackSize = ulong.Parse(Format["size"].ToString());
-
-							if (Format.ContainsKey("tags"))
-							{
-								GD.Print($"Has tags");
-								Godot.Collections.Dictionary Tags = Format["tags"].AsGodotDictionary();
-
-								if (Tags.ContainsKey("artist") && Tags.ContainsKey("title"))
-									trackLabel.TrackName = $"{Tags["title"]}[color=dim_gray] — {Tags["artist"]}[/color]";
-								else if (Tags.ContainsKey("title"))
-									trackLabel.TrackName = Tags["title"].AsString();
+							if (Metadata.Format.Tags.Title != null)
+								if (Metadata.Format.Tags.Artist != null)
+									trackLabel.TrackName = $"{Metadata.Format.Tags.Title}[color=dim_gray] — {Metadata.Format.Tags.Artist}[/color]";
 								else
-									trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
-							}
-
+									trackLabel.TrackName = Metadata.Format.Tags.Title;
+							else
+								trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
 						}
 						//trackLabel.TrackLength = Godot.FileAccess.GetSize(Folder.GetCurrentDir());
 						TrackLabelsContainer.AddChild(trackLabel);

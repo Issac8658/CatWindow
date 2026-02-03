@@ -24,6 +24,7 @@ namespace FFmpeg
 		public const int CHANNELS = FFmpeg.CHANNELS;
 		public const int FRAMES = FFmpeg.FRAMES;
 		public const int SCALE = 4;
+		public const float BUFFER_LENGTH = 1.0f;
 
 		private AudioStreamGeneratorPlayback _playback;
 		private Process _ffmpeg;
@@ -75,7 +76,7 @@ namespace FFmpeg
 			AudioStreamGenerator gen = new()
 			{
 				MixRate = SAMPLE_RATE,
-				BufferLength = 1f
+				BufferLength = BUFFER_LENGTH
 			};
 
 			_player.Stream = gen;
@@ -123,15 +124,14 @@ namespace FFmpeg
 			_startOffset = StartOffset;
 
 			Godot.Collections.Array<string> additionalArgs = [];
-			if (Loop)
-			{
-				additionalArgs += ["-stream_loop", "-1"];
-			}
+			
 			additionalArgs += ["-ss", StartOffset.ToString().Replace(',', '.')];
 
 			_ffmpeg = StartFFmpeg(input, FFmpeg.IsUrl(pathOrUrl), [.. additionalArgs]);
 
-			_metadata = FFprobe.FFprobe.GetMetadata(pathOrUrl);
+			//GD.Print("Metadating");
+			_metadata = FFprobe.FFprobe.GetMetadata(input);
+			//GD.Print("Metadated");
 			_ = Task.Run(() => ReadPcmLoop(_cts.Token));
 			_playing = true;
 			EmitSignal("Played");
@@ -171,6 +171,33 @@ namespace FFmpeg
 				Stop();
 				Play(file, Time);
 			}
+		}
+		public void Restart(double StartOffset = 0)
+		{
+			// stoping
+			GD.Print("Restarting");
+			_cts?.Cancel();
+			_cts = null;
+
+			try
+			{
+				if (_ffmpeg != null && !_ffmpeg.HasExited)
+					_ffmpeg.Kill();
+			}
+			catch { }
+
+			_ffmpeg = null;
+			
+			// starting
+			_cts = new CancellationTokenSource();
+
+			_ffmpeg = StartFFmpeg(_currentFile, FFmpeg.IsUrl(_currentFile), []);
+
+			//GD.Print("Metadating");
+			//_metadata = FFprobe.FFprobe.GetMetadata(_currentFile);
+			//GD.Print("Metadated");
+			_ = Task.Run(() => ReadPcmLoop(_cts.Token));
+			_playing = true;
 		}
 
 		#endregion
@@ -213,15 +240,19 @@ namespace FFmpeg
 
 			try
 			{
+				bool canContinue = true;
 				while (!token.IsCancellationRequested)
 				{
-					int read = await stdout.ReadAsync(buffer, 0, buffer.Length, token);
-
-					if (read == 0)
+					int read = await stdout.ReadAsync(buffer, token);
+					if (!canContinue) break;
+					if (read == 0 && canContinue)
 					{
+						canContinue = false;
 						await Task.Delay(10, token);
 						continue;
 					}
+					else canContinue = true;
+
 
 					byte[] chunk = new byte[read];
 					Buffer.BlockCopy(buffer, 0, chunk, 0, read);
@@ -230,6 +261,7 @@ namespace FFmpeg
 					lock (_lock)
 						_pcmQueue.Enqueue(chunk);
 				}
+				if (Loop) Restart();
 			}
 			catch (OperationCanceledException) { }
 		}
@@ -367,20 +399,20 @@ namespace FFmpeg
 
 					return result;
 				}
-				return ":3";
+				return ":3"; // why do null when I can do ":3"?
 			}
 			
 			public static FFprobeResult GetMetadata(string filePath)
 			{
 				string RawMetadata = GetRawMetadata(filePath);
-				//GD.Print(RawMetadata);
-				GD.Print("hmmm, need to deserialize?");
+				GD.Print(RawMetadata);
+				//GD.Print("hmmm, need to deserialize?");
 				if (RawMetadata == ":3")
 				{
-					GD.Print("No.");
+					//GD.Print("No.");
 					return null;
 				}
-				GD.Print("Yes! Deserialized!");
+				//GD.Print("Yes! Deserialized!");
 				return JsonSerializer.Deserialize<FFprobeResult>(RawMetadata);
 			}
 
@@ -424,6 +456,9 @@ namespace FFmpeg
 		public string FormatName { get; set; }
 		[JsonPropertyName("format_long_name")]
 		public string FormatLongName { get; set; }
+		/// <summary>
+		/// Can be null
+		/// </summary>
 		[JsonPropertyName("start_time")]
 		public string StartTime { get; set; }
 		[JsonPropertyName("duration")]
@@ -461,7 +496,7 @@ namespace FFmpeg
 		[JsonPropertyName("disk")]
 		public string Disk { get; set; }
 		[JsonPropertyName("TBPM")]
-		public double? BPM { get; set; }
+		public string BPM { get; set; }
 	}
 	#endregion
 	#endregion
