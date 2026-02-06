@@ -7,11 +7,10 @@
 [ext_resource type="StyleBox" uid="uid://d1w7a4nicoxsu" path="res://theme/button_pressed.tres" id="3_xy3xx"]
 [ext_resource type="FontFile" uid="uid://dxahrvneunmmo" path="res://fonts/RobotoFont.ttf" id="4_wm3y1"]
 [ext_resource type="StyleBox" uid="uid://b7yh638ikdl5t" path="res://theme/slider_area.tres" id="6_1v472"]
+[ext_resource type="StyleBox" uid="uid://c3qmsq846s7ne" path="res://theme/empty.tres" id="6_6p1pm"]
 [ext_resource type="StyleBox" uid="uid://dwx0bchhax0dc" path="res://theme/slider.tres" id="7_h0v4u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pqyne"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wm3y1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sacfx"]
 
@@ -34,7 +33,18 @@ Button/styles/pressed = ExtResource("3_xy3xx")
 CheckBox/constants/check_v_offset = 1
 CheckBox/icons/checked = ExtResource("1_t4w7s")
 CheckBox/icons/unchecked = ExtResource("2_wm3y1")
-CheckBox/styles/focus = SubResource("StyleBoxEmpty_wm3y1")
+CheckBox/styles/disabled = ExtResource("6_6p1pm")
+CheckBox/styles/focus = ExtResource("6_6p1pm")
+CheckBox/styles/hover = ExtResource("6_6p1pm")
+CheckBox/styles/hover_pressed = ExtResource("6_6p1pm")
+CheckBox/styles/normal = ExtResource("6_6p1pm")
+CheckBox/styles/pressed = ExtResource("6_6p1pm")
+CheckButton/styles/disabled = ExtResource("6_6p1pm")
+CheckButton/styles/focus = ExtResource("6_6p1pm")
+CheckButton/styles/hover = ExtResource("6_6p1pm")
+CheckButton/styles/hover_pressed = ExtResource("6_6p1pm")
+CheckButton/styles/normal = ExtResource("6_6p1pm")
+CheckButton/styles/pressed = ExtResource("6_6p1pm")
 HSlider/styles/grabber_area = ExtResource("6_1v472")
 HSlider/styles/grabber_area_highlight = ExtResource("6_1v472")
 HSlider/styles/slider = ExtResource("7_h0v4u")

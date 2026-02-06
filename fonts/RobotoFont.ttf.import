@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/RobotoFont.ttf-1f56485eb6d07d98d270e1a2abcdcb
 [params]
 
 Rendering=null
-antialiasing=1
+antialiasing=2
 generate_mipmaps=false
 disable_embedded_bitmaps=false
 multichannel_signed_distance_field=false

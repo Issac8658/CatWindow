@@ -2,7 +2,6 @@
 
 [sub_resource type="AudioEffectCapture" id="AudioEffectCapture_j3pel"]
 resource_name = "Capture"
-buffer_length = 0.05
 
 [sub_resource type="AudioEffectSpectrumAnalyzer" id="AudioEffectSpectrumAnalyzer_j3pel"]
 resource_name = "SpectrumAnalyzer"

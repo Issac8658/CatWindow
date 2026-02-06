@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ch0ttshyk53g7"
-path="res://.godot/imported/ear_outline.png-00005cef00662e8c0e513a134010763e.ctex"
+uid="uid://x3h8r12ja0en"
+path="res://.godot/imported/paw.png-f12d6da9927f24e2858789b18efa934c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/ear/ear_outline.png"
-dest_files=["res://.godot/imported/ear_outline.png-00005cef00662e8c0e513a134010763e.ctex"]
+source_file="res://sprites/cat/paw.png"
+dest_files=["res://.godot/imported/paw.png-f12d6da9927f24e2858789b18efa934c.ctex"]
 
 [params]
 

@@ -6,17 +6,22 @@
 [ext_resource type="Texture2D" uid="uid://b8t61kcpor2ya" path="res://icons/icon16.png" id="4_dg77c"]
 [ext_resource type="Script" uid="uid://b3o0x8hctmxl3" path="res://scripts/audio_player/additional/volume_scaler.gd" id="5_074og"]
 [ext_resource type="Texture2D" uid="uid://byyxo6x103isy" path="res://sprites/ui/close_icon.tres" id="5_getpj"]
-[ext_resource type="Texture2D" uid="uid://brhfu31058r4j" path="res://sprites/eye.tres" id="6_5vw27"]
-[ext_resource type="Texture2D" uid="uid://cv343i7dh5hg0" path="res://sprites/eye_closed.tres" id="7_kek77"]
+[ext_resource type="Texture2D" uid="uid://brhfu31058r4j" path="res://sprites/cat/eye.tres" id="6_5vw27"]
+[ext_resource type="Shader" uid="uid://cg3t4ael3q1ur" path="res://visualizator.gdshader" id="7_b1qrp"]
+[ext_resource type="Texture2D" uid="uid://cv343i7dh5hg0" path="res://sprites/cat/eye_closed.tres" id="7_kek77"]
 [ext_resource type="Script" uid="uid://copt2vsf3pcsf" path="res://scripts/cat/FaceControls.cs" id="7_ycdy4"]
-[ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://sprites/eye_closed2.tres" id="8_4c57u"]
+[ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://sprites/cat/eye_closed2.tres" id="8_4c57u"]
+[ext_resource type="Texture2D" uid="uid://r1xec0igyanx" path="res://sprites/cat/eye_half_closed.tres" id="10_facbu"]
 [ext_resource type="SpriteFrames" uid="uid://bno08nlqvcvlk" path="res://sprites/loading_animation/loading_animation.tres" id="11_2cqfq"]
-[ext_resource type="Texture2D" uid="uid://ch0ttshyk53g7" path="res://sprites/ear/ear_outline.png" id="11_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://ch0ttshyk53g7" path="res://sprites/cat/ear/ear_outline.png" id="11_ycdy4"]
 [ext_resource type="Script" uid="uid://c2nk2plantxwq" path="res://scripts/cat/AudioVisualizator.cs" id="12_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://c2hs3wds2qjjr" path="res://sprites/cat/mouth.tres" id="12_4k2k6"]
 [ext_resource type="Script" uid="uid://d0fylhsie5g80" path="res://scripts/cat/cat_parts/Ear.cs" id="12_w48qg"]
-[ext_resource type="Texture2D" uid="uid://bvr5cs4etbca" path="res://sprites/ear/ear_base.png" id="13_w48qg"]
+[ext_resource type="Texture2D" uid="uid://dh1os3ghexq33" path="res://sprites/cat/mouth_sad.tres" id="13_0rl1p"]
+[ext_resource type="Texture2D" uid="uid://bvr5cs4etbca" path="res://sprites/cat/ear/ear_base.png" id="13_w48qg"]
+[ext_resource type="Texture2D" uid="uid://cw3po3kcwwls6" path="res://sprites/cat/mouth_open.tres" id="14_ok6jj"]
 [ext_resource type="Script" uid="uid://chrmqfe064beg" path="res://scripts/cat/cat_parts/Paw.cs" id="15_2cqfq"]
-[ext_resource type="Texture2D" uid="uid://x3h8r12ja0en" path="res://sprites/paw.png" id="15_vivmo"]
+[ext_resource type="Texture2D" uid="uid://x3h8r12ja0en" path="res://sprites/cat/paw.png" id="15_vivmo"]
 [ext_resource type="AudioStream" uid="uid://cqph6lklnpwh2" path="res://sounds/purrr.ogg" id="15_yaehf"]
 [ext_resource type="Script" uid="uid://2ecvmagdwik8" path="res://scripts/audio_player/playlists/Playlist.cs" id="19_getpj"]
 [ext_resource type="Texture2D" uid="uid://brynt0sn70rxu" path="res://sprites/ui/remove_icon.tres" id="19_kq58d"]
@@ -64,6 +69,10 @@ corner_radius_top_left = 24
 corner_radius_top_right = 24
 corner_radius_bottom_right = 24
 corner_radius_bottom_left = 24
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_come4"]
+shader = ExtResource("7_b1qrp")
+shader_parameter/chromatic_distance = Vector2(-1, 0)
 
 [sub_resource type="Gradient" id="Gradient_2cqfq"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
@@ -163,26 +172,26 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("FaceAnchor:visible")
+tracks/2/path = NodePath("LoadingAnchor:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("LoadingAnchor:visible")
+tracks/3/path = NodePath("FaceAnchor:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_074og"]
@@ -203,26 +212,26 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FaceAnchor:modulate")
+tracks/1/path = NodePath("LoadingAnchor:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5),
-"transitions": PackedFloat32Array(1, 0.3186404, 1),
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [true, false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LoadingAnchor:visible")
+tracks/2/path = NodePath("FaceAnchor:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 0.3186404, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -242,6 +251,9 @@ _data = {
 &"RESET": SubResource("Animation_cegan"),
 &"loading_to_face": SubResource("Animation_074og")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_facbu"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w48qg"]
 content_margin_left = 24.0
@@ -287,7 +299,7 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_efxa6")
-ClickableFace = NodePath("CatWindow/Content/Mask/Screen")
+ClickableFace = NodePath("CatWindow/ContentAndVolume/Mask/Screen")
 Player = NodePath("FFmpegPlayer")
 PlaylistWindow = NodePath("PlaylistWindow")
 
@@ -340,31 +352,45 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_5vw27")
 icon = ExtResource("5_getpj")
 icon_alignment = 1
 
-[node name="Content" type="PanelContainer" parent="CatWindow" unique_id=1353234471 node_paths=PackedStringArray("percent_label")]
+[node name="ContentAndVolume" type="PanelContainer" parent="CatWindow" unique_id=1353234471 node_paths=PackedStringArray("percent_label", "volume_slider", "volume_spinbox", "unlock_volume_checkbox")]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_7dm0k")
 script = ExtResource("5_074og")
 percent_label = NodePath("Mask/Screen/VolumeAnchor/VolumeIndicator")
-max_volume = 2000.0
+volume_slider = NodePath("../../PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/HSlider")
+volume_spinbox = NodePath("../../PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/SpinBox")
+unlock_volume_checkbox = NodePath("../../PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CheckBox")
 
-[node name="Mask" type="PanelContainer" parent="CatWindow/Content" unique_id=2139340411]
+[node name="Mask" type="PanelContainer" parent="CatWindow/ContentAndVolume" unique_id=2139340411]
 clip_children = 1
 z_index = 1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_vivmo")
 
-[node name="AudioVisualizator" type="Control" parent="CatWindow/Content/Mask" unique_id=2054765989 node_paths=PackedStringArray("Player")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CatWindow/ContentAndVolume/Mask" unique_id=1037830324]
+material = SubResource("ShaderMaterial_come4")
 layout_mode = 2
-mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer" unique_id=1597360845]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+canvas_item_default_texture_repeat = 1
+size = Vector2i(146, 102)
+render_target_update_mode = 4
+
+[node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
 script = ExtResource("12_2cqfq")
 ShakePower = 80.0
-scale = 9
-InterpalationTime = 1.0
-Player = NodePath("../../../../FFmpegPlayer")
+WaveScale = 9.0
+MinFramesCount = 1387
+Player = NodePath("../../../../../../FFmpegPlayer")
 
-[node name="Screen" type="Control" parent="CatWindow/Content/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
+[node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
 script = ExtResource("7_ycdy4")
 FaceAnchor = NodePath("FaceAnchor")
@@ -377,7 +403,7 @@ PurrSound = NodePath("../../../../PurrSound")
 MouthAnimatior = NodePath("FaceAnchor/MouthAnchor/MouthAnimator")
 CloseButton = NodePath("../../../Topbar/TopbarContainer/CloseButton")
 
-[node name="FaceAnchor" type="Control" parent="CatWindow/Content/Mask/Screen" unique_id=967110365]
+[node name="FaceAnchor" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen" unique_id=967110365]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -389,7 +415,7 @@ offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FaceShadow" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor" unique_id=1428711108]
+[node name="FaceShadow" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor" unique_id=1428711108]
 layout_mode = 0
 offset_left = -64.0625
 offset_top = -60.9375
@@ -398,7 +424,7 @@ offset_bottom = 67.0625
 mouse_filter = 2
 texture = SubResource("GradientTexture2D_yaehf")
 
-[node name="EyesAnchor" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor" unique_id=512927561]
+[node name="EyesAnchor" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor" unique_id=512927561]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -411,11 +437,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="OpenedEyes" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=269430953]
+[node name="OpenedEyes" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=269430953]
 anchors_preset = 0
 mouse_filter = 2
 
-[node name="RightEye" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/OpenedEyes" unique_id=1246159323]
+[node name="RightEye" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/OpenedEyes" unique_id=1246159323]
 layout_mode = 0
 offset_left = 7.9999847
 offset_top = -8.0
@@ -426,11 +452,11 @@ mouse_filter = 2
 texture = ExtResource("6_5vw27")
 expand_mode = 1
 
-[node name="LeftEye" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/OpenedEyes" unique_id=1370584556]
+[node name="LeftEye" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/OpenedEyes" unique_id=1370584556]
 layout_mode = 0
-offset_left = -19.0
+offset_left = -18.0
 offset_top = -8.0
-offset_right = -9.0
+offset_right = -8.0
 offset_bottom = 2.0
 pivot_offset = Vector2(5, 5)
 mouse_filter = 2
@@ -438,23 +464,51 @@ texture = ExtResource("6_5vw27")
 expand_mode = 1
 flip_h = true
 
-[node name="ClosedEyes" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=1854838610]
+[node name="HalfClosedEyes" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=1199117905]
 visible = false
 anchors_preset = 0
 mouse_filter = 2
 
-[node name="LeftClosed" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/ClosedEyes" unique_id=1780333123]
+[node name="RightEye" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/HalfClosedEyes" unique_id=1883219499]
 layout_mode = 0
-offset_left = -21.0
+offset_left = 5.9999847
+offset_top = -8.0
+offset_right = 19.999985
+offset_bottom = 2.0
+pivot_offset = Vector2(5, 5)
+mouse_filter = 2
+texture = ExtResource("10_facbu")
+expand_mode = 1
+
+[node name="LeftEye" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/HalfClosedEyes" unique_id=1368204313]
+layout_mode = 0
+offset_left = -20.0
+offset_top = -8.0
+offset_right = -6.0
+offset_bottom = 2.0
+pivot_offset = Vector2(5, 5)
+mouse_filter = 2
+texture = ExtResource("10_facbu")
+expand_mode = 1
+flip_h = true
+
+[node name="ClosedEyes" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=1854838610]
+visible = false
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="LeftClosed" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/ClosedEyes" unique_id=1780333123]
+layout_mode = 0
+offset_left = -20.0
 offset_top = -2.0
-offset_right = -7.0
+offset_right = -6.0
 offset_bottom = 2.0
 mouse_filter = 2
 texture = ExtResource("7_kek77")
 expand_mode = 1
 flip_h = true
 
-[node name="RightEyeClosed" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/ClosedEyes" unique_id=627318391]
+[node name="RightEyeClosed" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/ClosedEyes" unique_id=627318391]
 layout_mode = 0
 offset_left = 6.0
 offset_top = -2.0
@@ -464,16 +518,16 @@ mouse_filter = 2
 texture = ExtResource("7_kek77")
 expand_mode = 1
 
-[node name="Closed2Eyes" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=1313234138]
+[node name="Closed2Eyes" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor" unique_id=1313234138]
 visible = false
 anchors_preset = 0
 mouse_filter = 2
 
-[node name="LeftClosed2" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/Closed2Eyes" unique_id=1800557127]
+[node name="LeftClosed2" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/Closed2Eyes" unique_id=1800557127]
 layout_mode = 0
-offset_left = -22.0
+offset_left = -21.0
 offset_top = -8.0
-offset_right = -7.0
+offset_right = -6.0
 offset_bottom = 2.0
 pivot_offset = Vector2(8, 8)
 mouse_filter = 2
@@ -481,7 +535,7 @@ texture = ExtResource("8_4c57u")
 expand_mode = 1
 flip_h = true
 
-[node name="RightEyeClosed2" type="TextureRect" parent="CatWindow/Content/Mask/Screen/FaceAnchor/EyesAnchor/Closed2Eyes" unique_id=1245795200]
+[node name="RightEyeClosed2" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/EyesAnchor/Closed2Eyes" unique_id=1245795200]
 layout_mode = 0
 offset_left = 6.0
 offset_top = -8.0
@@ -492,27 +546,29 @@ mouse_filter = 2
 texture = ExtResource("8_4c57u")
 expand_mode = 1
 
-[node name="MouthAnchor" type="Control" parent="CatWindow/Content/Mask/Screen/FaceAnchor" unique_id=1611480699]
+[node name="MouthAnchor" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor" unique_id=1611480699]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_top = 10.5
-offset_bottom = 10.5
+offset_top = 9.0
+offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Line2D" type="Line2D" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1304906749]
+[node name="Line2D" type="Line2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1304906749]
+visible = false
+position = Vector2(0, 2)
 points = PackedVector2Array(-17, -7, -20, -3, -19, 1.3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 19, 1, 20, -3, 17, -7)
 width = 7.0
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="Line2D3" type="Line2D" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=377694598]
+[node name="Line2D3" type="Line2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=377694598]
 visible = false
 points = PackedVector2Array(-17, -7, -20, -3, -19, 1.3, -12, 3, -4, 0, 0, -4, 4, 0, 12, 3, 19, 1, 20, -3, 17, -7)
 width = 7.0
@@ -520,16 +576,31 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="Line2D2" type="Line2D" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1597460374]
+[node name="Line2D2" type="Line2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1597460374]
 visible = false
 points = PackedVector2Array(-19, 5, -13, 17, 0, 22, 13, 17, 19, 5)
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="MouthAnimator" type="AnimationPlayer" parent="CatWindow/Content/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=2017440135]
+[node name="MouthAnimator" type="AnimationPlayer" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=2017440135]
 libraries/ = SubResource("AnimationLibrary_ycdy4")
 
-[node name="LoadingAnchor" type="Control" parent="CatWindow/Content/Mask/Screen" unique_id=1499100665]
+[node name="Normalk" type="Sprite2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1289366568]
+texture = ExtResource("12_4k2k6")
+
+[node name="Sad" type="Sprite2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1676494747]
+position = Vector2(0, 1.5)
+texture = ExtResource("13_0rl1p")
+
+[node name="Node2D" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=418635001]
+visible = false
+position = Vector2(0, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor/Node2D" unique_id=2025718913]
+position = Vector2(0, 12.9999695)
+texture = ExtResource("14_ok6jj")
+
+[node name="LoadingAnchor" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen" unique_id=1499100665]
 visible = false
 texture_filter = 1
 layout_mode = 1
@@ -541,7 +612,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CatWindow/Content/Mask/Screen/LoadingAnchor" unique_id=482775952]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CatWindow/ContentAndVolume/Mask/Screen/LoadingAnchor" unique_id=482775952]
 visible = false
 texture_filter = 1
 position = Vector2(0.5, 0)
@@ -549,14 +620,14 @@ sprite_frames = ExtResource("11_2cqfq")
 autoplay = "default"
 frame_progress = 0.54116553
 
-[node name="VolumeAnchor" type="Control" parent="CatWindow/Content/Mask/Screen" unique_id=1397319058]
+[node name="VolumeAnchor" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen" unique_id=1397319058]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 grow_horizontal = 2
 
-[node name="VolumeIndicator" type="Label" parent="CatWindow/Content/Mask/Screen/VolumeAnchor" unique_id=2059402012]
+[node name="VolumeIndicator" type="Label" parent="CatWindow/ContentAndVolume/Mask/Screen/VolumeAnchor" unique_id=2059402012]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -572,16 +643,47 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_qsp4k")
 text = "100%"
 horizontal_alignment = 1
 
-[node name="ScreenAnimator" type="AnimationPlayer" parent="CatWindow/Content/Mask/Screen" unique_id=105337075]
+[node name="ScreenAnimator" type="AnimationPlayer" parent="CatWindow/ContentAndVolume/Mask/Screen" unique_id=105337075]
 libraries/ = SubResource("AnimationLibrary_82xsv")
 metadata/sfsf = false
 
-[node name="LeftEarAnchor" type="Control" parent="CatWindow/Content" unique_id=1307574944]
+[node name="PanelContainer" type="PanelContainer" parent="CatWindow/ContentAndVolume/Mask" unique_id=527328272]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_facbu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CatWindow/ContentAndVolume/Mask/PanelContainer" unique_id=493958147]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CatWindow/ContentAndVolume/Mask/PanelContainer/VBoxContainer" unique_id=1760522877]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "3:"
+
+[node name="Label2" type="Label" parent="CatWindow/ContentAndVolume/Mask/PanelContainer/VBoxContainer" unique_id=1907699918]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Critical Error"
+
+[node name="ErrorText" type="Label" parent="CatWindow/ContentAndVolume/Mask/PanelContainer/VBoxContainer" unique_id=1414766560]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(114, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "PAW_NOT_FOUND"
+autowrap_mode = 3
+
+[node name="LeftEarAnchor" type="Control" parent="CatWindow/ContentAndVolume" unique_id=1307574944]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="LeftEar" type="TextureRect" parent="CatWindow/Content/LeftEarAnchor" unique_id=967423504]
+[node name="LeftEar" type="TextureRect" parent="CatWindow/ContentAndVolume/LeftEarAnchor" unique_id=967423504]
 self_modulate = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
 z_index = -1
 layout_mode = 1
@@ -599,7 +701,7 @@ EarEndPoint = Vector2i(-60, -66)
 VelocityDamping = 0.82
 AccelerationDamping = 0.461
 
-[node name="TextureRect4" type="TextureRect" parent="CatWindow/Content/LeftEarAnchor/LeftEar" unique_id=2098082209]
+[node name="TextureRect4" type="TextureRect" parent="CatWindow/ContentAndVolume/LeftEarAnchor/LeftEar" unique_id=2098082209]
 modulate = Color(0, 0, 0, 1)
 z_index = 1
 layout_mode = 1
@@ -613,12 +715,12 @@ mouse_filter = 2
 texture = ExtResource("13_w48qg")
 expand_mode = 1
 
-[node name="RightEarAnchor" type="Control" parent="CatWindow/Content" unique_id=837336765]
+[node name="RightEarAnchor" type="Control" parent="CatWindow/ContentAndVolume" unique_id=837336765]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="RightEar" type="TextureRect" parent="CatWindow/Content/RightEarAnchor" unique_id=1041129862]
+[node name="RightEar" type="TextureRect" parent="CatWindow/ContentAndVolume/RightEarAnchor" unique_id=1041129862]
 self_modulate = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
 z_index = -1
 layout_mode = 1
@@ -640,7 +742,7 @@ EarEndPoint = Vector2i(60, -66)
 VelocityDamping = 0.82
 AccelerationDamping = 0.461
 
-[node name="TextureRect3" type="TextureRect" parent="CatWindow/Content/RightEarAnchor/RightEar" unique_id=2042892108]
+[node name="TextureRect3" type="TextureRect" parent="CatWindow/ContentAndVolume/RightEarAnchor/RightEar" unique_id=2042892108]
 modulate = Color(0, 0, 0, 1)
 z_index = 1
 layout_mode = 1
@@ -946,9 +1048,20 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=608447915]
+[node name="HBoxContainer" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1866590283]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=608447915]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Volume"
+
+[node name="CheckBox" type="CheckBox" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1835679933]
+layout_mode = 2
+text = "Unlock Volume"
+
+[node name="VSeparator" type="VSeparator" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1268862376]
+layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1112842766]
 layout_mode = 2
@@ -962,7 +1075,7 @@ max_value = 200.0
 value = 100.0
 
 [node name="SpinBox" type="SpinBox" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=121429928]
-custom_minimum_size = Vector2(80, 28)
+custom_minimum_size = Vector2(82, 28)
 layout_mode = 2
 max_value = 200.0
 value = 100.0

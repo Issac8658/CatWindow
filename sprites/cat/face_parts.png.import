@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x3h8r12ja0en"
-path="res://.godot/imported/paw.png-3ba23eee4a6705e39b9a82c0ce772a55.ctex"
+uid="uid://c6qadcxpiu0rd"
+path="res://.godot/imported/face_parts.png-1ee63a47c3dc29c5de8873e237861f65.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/paw.png"
-dest_files=["res://.godot/imported/paw.png-3ba23eee4a6705e39b9a82c0ce772a55.ctex"]
+source_file="res://sprites/cat/face_parts.png"
+dest_files=["res://.godot/imported/face_parts.png-1ee63a47c3dc29c5de8873e237861f65.ctex"]
 
 [params]
 

@@ -117,7 +117,7 @@ namespace FFmpeg
 				? ProjectSettings.GlobalizePath(pathOrUrl)
 				: pathOrUrl;
 
-			GD.Print($"Input: \"{pathOrUrl}\"\nFull path: \"{input}\"");
+			GD.Print($"Input: \"{pathOrUrl}\"");
 
 			_cts = new CancellationTokenSource();
 			_player.Play();
