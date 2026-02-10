@@ -32,7 +32,7 @@ buses/default_bus_layout="uid://c0swfa232oh26"
 
 [autoload]
 
-MutexListener="*uid://bmpyyobtun04y"
+PipeListener="*uid://bmpyyobtun04y"
 CursorController="*res://scripts/CursorController.cs"
 
 [display]

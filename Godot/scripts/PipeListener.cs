@@ -4,7 +4,7 @@ using System.IO.Pipes;
 using System.Text;
 using System.Threading.Tasks;
 
-public partial class MutexListener : Node
+public partial class PipeListener : Node
 {
 	[Signal] public delegate void FileCaughtEventHandler(string FilePath);
 	[Signal] public delegate void NewCatRequiredEventHandler();

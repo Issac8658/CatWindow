@@ -37,7 +37,7 @@ public partial class Main : Control
 					PlaylistWindow.Visible = !PlaylistWindow.Visible;
 		};
 
-		GetNode("/root/MutexListener").Connect("FileCaught", Callable.From((string path) =>
+		GetNode("/root/PipeListener").Connect("FileCaught", Callable.From((string path) =>
 		{
 			if (Godot.FileAccess.FileExists(path) || FFmpeg.FFmpeg.IsUrl(path))
 				Player.Play(path);
