@@ -3,7 +3,7 @@ using Godot;
 
 // draw your ascii cat here
 
-public partial class Main : Node
+public partial class Main : Control
 {
 	[Export]
 	public Control ClickableFace;
@@ -12,14 +12,13 @@ public partial class Main : Node
 	[Export]
 	public Playlist PlaylistWindow;
 
-	private Window _mainWindow;
-
 	public override void _Ready()
 	{
-		_mainWindow = GetWindow();
-
-		_mainWindow.MaximizeDisabled = true;
-		_mainWindow.MinimizeDisabled = true;
+		if (OS.GetCmdlineArgs().Length > 0)
+			if (Godot.FileAccess.FileExists(OS.GetCmdlineArgs()[0]) || FFmpeg.FFmpeg.IsUrl(OS.GetCmdlineArgs()[0]))
+			{
+				Player.Play(OS.GetCmdlineArgs()[0]);
+			}
 
 		GetWindow().FilesDropped += (files) =>
 		{
@@ -37,5 +36,11 @@ public partial class Main : Node
 				if (Event.IsPressed() && EventMouse.ButtonIndex == MouseButton.Left)
 					PlaylistWindow.Visible = !PlaylistWindow.Visible;
 		};
+
+		GetNode("/root/MutexListener").Connect("FileCaught", Callable.From((string path) =>
+		{
+			if (Godot.FileAccess.FileExists(path) || FFmpeg.FFmpeg.IsUrl(path))
+				Player.Play(path);
+		}));
 	}
 }

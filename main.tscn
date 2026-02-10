@@ -72,7 +72,7 @@ corner_radius_bottom_left = 24
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_come4"]
 shader = ExtResource("7_b1qrp")
-shader_parameter/chromatic_distance = Vector2(-1, 0)
+shader_parameter/chromatic_distance = Vector2(-2, 0)
 
 [sub_resource type="Gradient" id="Gradient_2cqfq"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
@@ -959,6 +959,7 @@ oversampling_override = 1.0
 title = "₍^•ω•^₎⟆"
 initial_position = 4
 size = Vector2i(500, 350)
+visible = false
 wrap_controls = true
 always_on_top = true
 sharp_corners = true

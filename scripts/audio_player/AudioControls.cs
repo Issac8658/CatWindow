@@ -28,20 +28,23 @@ public partial class AudioControls : Control
 		};
 		Player.Played += () =>
 		{
-			if (Player.Metadata.Format.StartTime != null)
-				SeekSlider.MinValue = float.Parse(Player.Metadata.Format.StartTime.Replace('.', ','));
-			else
-				SeekSlider.MinValue = 0;
-			SeekSlider.MaxValue = float.Parse(Player.Metadata.Format.Duration.Replace('.', ','));
-
-			if (Player.Metadata.Format.Tags != null) // чем гуще лес if else if else...
-				if (Player.Metadata.Format.Tags.Title != null)
-					if (Player.Metadata.Format.Tags.Artist != null)
-						NameLabel.Text = $"{Player.Metadata.Format.Tags.Title}[color=dim_gray] — {Player.Metadata.Format.Tags.Artist}[/color]";
-					else
-						NameLabel.Text = Player.Metadata.Format.Tags.Title;
+			if (Player.Metadata != null)
+			{
+				if (Player.Metadata.Format.StartTime != null)
+					SeekSlider.MinValue = float.Parse(Player.Metadata.Format.StartTime.Replace('.', ','));
 				else
-					NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
+					SeekSlider.MinValue = 0;
+				SeekSlider.MaxValue = float.Parse(Player.Metadata.Format.Duration.Replace('.', ','));
+	
+				if (Player.Metadata.Format.Tags != null) // чем гуще лес if else if else...
+					if (Player.Metadata.Format.Tags.Title != null)
+						if (Player.Metadata.Format.Tags.Artist != null)
+							NameLabel.Text = $"{Player.Metadata.Format.Tags.Title}[color=dim_gray] — {Player.Metadata.Format.Tags.Artist}[/color]";
+						else
+							NameLabel.Text = Player.Metadata.Format.Tags.Title;
+					else
+						NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
+			}
 		};
 		Player.Stopped += () => NameLabel.Text = "";
 	}
