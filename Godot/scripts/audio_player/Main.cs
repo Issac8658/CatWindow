@@ -1,7 +1,7 @@
 using System.IO;
 using Godot;
 
-// draw your ascii cat here
+// draw your ascii cat here :3c
 
 public partial class Main : Control
 {

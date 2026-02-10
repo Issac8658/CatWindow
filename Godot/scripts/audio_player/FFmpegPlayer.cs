@@ -80,6 +80,8 @@ namespace FFmpeg
 			};
 
 			_player.Stream = gen;
+
+			GD.Print($"Launches from {OS.GetExecutablePath()}");
 		}
 
 		public override void _Process(double delta)
@@ -300,13 +302,16 @@ namespace FFmpeg
 		{
 			get
 			{
-				string userDir = OS.GetUserDataDir();
+				string userDir = Path.GetDirectoryName(OS.GetExecutablePath()); //OS.GetUserDataDir();
 				string ffmpegPath = Path.Combine(userDir, "ffmpeg.exe");
 
 				if (File.Exists(ffmpegPath))
 					return ffmpegPath;
+				GD.Print($"kdfhsgr; {ffmpegPath}");
 
-				Extract();
+				//Extract();
+
+				GD.PushError("FFmpeg not exist!11!!!1! panic panic where ffmpeg??"); // I clearly needed more sleep...
 
 				return ffmpegPath;
 			}
@@ -331,6 +336,7 @@ namespace FFmpeg
 			return p;
 		}
 
+		/* some legacy code lol
 		public static void Extract()
 		{
 			string userDir = OS.GetUserDataDir();
@@ -352,6 +358,7 @@ namespace FFmpeg
 			else
 				GD.Print("FFmpeg already extracted, continuing");
 		}
+		*/
 
 		public static bool IsUrl(string path)
 		{
@@ -373,13 +380,14 @@ namespace FFmpeg
 			{
 				get
 				{
-					string userDir = OS.GetUserDataDir();
-					string ffprobePath = Path.Combine(userDir, "ffprobe.exe");
+				string userDir = Path.GetDirectoryName(OS.GetExecutablePath()); //OS.GetUserDataDir();
+				string ffprobePath = Path.Combine(userDir, "ffprobe.exe");
 
 					if (File.Exists(ffprobePath))
 						return ffprobePath;
 
-					FFmpeg.Extract();
+					//FFmpeg.Extract();
+					GD.PushError("FFprobe not found, panic #2 idk");
 
 					return ffprobePath;
 				}

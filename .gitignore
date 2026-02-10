@@ -15,6 +15,9 @@ export_credentials.cfg
 data_*/
 mono_crash.*.json
 
-# other
+# Bootstrapper C# ignores
+bin
+obj
+
+# IDE
 .vscode/
-.vscode/launch.json
