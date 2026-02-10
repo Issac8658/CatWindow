@@ -1,6 +1,6 @@
 # Cat Window
 Simple audioplayer with cute interface :3c
-You need him. Don't ask me why.
+> You need him. Don't ask me why.
 
 ### Features
 - Supports all formats played by FFmpeg
@@ -13,7 +13,7 @@ You need him. Don't ask me why.
 
 ## Expoting
 1. Godot
-Main part is made on Godot Mono 4.6 and it is used to export this part.
+Main part is made on [Godot Mono](https://godotengine.org/download/) 4.6 and it is used to export this part.
 
 2. Bootstrap
 It is needed for a single-instance, this is a mini DotNet project, vs code with the appropriate plugins is used for building
@@ -21,9 +21,9 @@ It is needed for a single-instance, this is a mini DotNet project, vs code with 
 3. Packing
 - Create any folder anywhere.
 - Move the following to this folder:
-+ Export results of Godot part and rename the executable file to CatWindow.bin (or another name if you changed it in Bootstrap)
-+ Bootstrap executable file (and dependencies, if any)
-+ ffmpeg and ffprobe binaries(You can use other versions of ffmpeg, the main thing is that ffmpeg.exe and ffprobe.exe are in the folder)
+<br>Export results of Godot part and rename the executable file to CatWindow.bin (or another name if you changed it in Bootstrap)
+<br>Bootstrap executable file (and dependencies, if any)
+<br>ffmpeg and ffprobe binaries(You can use other versions of ffmpeg, the main thing is that ffmpeg.exe and ffprobe.exe are in the folder)
 - Launch Bootstrap and use
 
 ## [FFmpeg](https://ffmpeg.org)
