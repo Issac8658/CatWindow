@@ -44,29 +44,31 @@ public partial class AudioVisualizator : Node2D
 		float Volume = Mathf.DbToLinear(AudioServer.GetBusPeakVolumeLeftDb(0, 0));
 		float PoweredVolume = Mathf.Pow(Volume - 0.0025f, 0.25f); // for wave transparency
 
+		Vector2I viewportSize = _viewport.Size;
+
 		if (Capture.GetFramesAvailable() / MinFramesCount >= 1)
 		{
 			Godot.Collections.Array<Vector2> Samples = [.. Capture.GetBuffer(Capture.GetFramesAvailable() / MinFramesCount * MinFramesCount)];
 			Buffer += Samples;
 			Buffer.Reverse();
-			Buffer.Resize((int)((_viewport.Size.X + 1) * WaveScale));
+			Buffer.Resize((int)((viewportSize.X + 1) * WaveScale));
 			Buffer.Reverse();
 		}
-
-		for (int i = 0; i < _viewport.Size.X; i += 1)
+		
+		for (int i = 0; i < viewportSize.X; i += 1)
 		{
 			// left channel
-			float Sample1 = Buffer[(int)(i * WaveScale)].X;
+			float Sample1 = Buffer[Mathf.Clamp((int)(i * WaveScale), 0, Buffer.Count - 1)].X;
 			float X1 = i;
-			float Y1 = _viewport.Size.Y / 2 + Sample1 * _viewport.Size.Y / 2;
+			float Y1 = viewportSize.Y / 2 + Sample1 * viewportSize.Y / 2;
 
 			// right channel
-			float Sample2 = Buffer[(int)((i+1) * WaveScale)].Y;
+			float Sample2 = Buffer[Mathf.Clamp((int)((i + 1) * WaveScale), 0, Buffer.Count - 1)].X;
 			float X2 = i + 1;
-			float Y2 = _viewport.Size.Y / 2 + Sample2 * _viewport.Size.Y / 2;
+			float Y2 = viewportSize.Y / 2 + Sample2 * viewportSize.Y / 2;
 
 			// Making lines red if amplitude >1
-			Color col = new Color(1, 1, 1, PoweredVolume);
+			Color col = new(1, 1, 1, PoweredVolume);
 			if (MathF.Abs(Sample1) > 1f || MathF.Abs(Sample2) > 1f)
 				col = new Color(1, 0, 0, PoweredVolume);
 
