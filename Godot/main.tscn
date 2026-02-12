@@ -959,6 +959,7 @@ oversampling_override = 1.0
 title = "₍^•ω•^₎⟆"
 initial_position = 4
 size = Vector2i(500, 350)
+visible = false
 wrap_controls = true
 always_on_top = true
 sharp_corners = true
