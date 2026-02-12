@@ -38,6 +38,7 @@
 [ext_resource type="Texture2D" uid="uid://bu43pqltxbjel" path="res://sprites/ui/info_icon.tres" id="24_lswn8"]
 [ext_resource type="Script" uid="uid://dfox0qsbvlho2" path="res://scripts/audio_player/FFmpegPlayer.cs" id="27_a6jrf"]
 [ext_resource type="Script" uid="uid://c4f60mfldphk1" path="res://scripts/audio_player/additional/url_player.gd" id="28_xuqvo"]
+[ext_resource type="Texture2D" uid="uid://blwjrcxnfx6rs" path="res://sprites/ui/pause_icon.tres" id="33_come4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvp3"]
 content_margin_left = 2.0
@@ -269,7 +270,7 @@ script/source = "extends Button
 
 func _ready() -> void:
 	pressed.connect(func ():
-		player.Restart(0);
+		player.Restart();
 	)
 	
 "
@@ -958,7 +959,6 @@ oversampling_override = 1.0
 title = "₍^•ω•^₎⟆"
 initial_position = 4
 size = Vector2i(500, 350)
-visible = false
 wrap_controls = true
 always_on_top = true
 sharp_corners = true
@@ -1116,11 +1116,13 @@ autowrap_mode = 0
 layout_mode = 2
 text = "0:23 / 2:56"
 
-[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "SeekSlider", "TimeLabel", "NameLabel")]
+[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "PlayButton", "PauseButton", "SeekSlider", "TimeLabel", "NameLabel")]
 layout_mode = 2
 script = ExtResource("23_htxhm")
 Player = NodePath("../../../../FFmpegPlayer")
 StopButton = NodePath("StopButton")
+PlayButton = NodePath("PlayButton")
+PauseButton = NodePath("PauseButton")
 SeekSlider = NodePath("SeekSlider")
 TimeLabel = NodePath("../HBoxContainer2/Label2")
 NameLabel = NodePath("../HBoxContainer2/PanelContainer/Label")
@@ -1133,7 +1135,7 @@ size_flags_vertical = 4
 max_value = 1.0
 step = 0.01
 
-[node name="Button" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1836025060]
+[node name="PreviousButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1836025060]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("20_0odxb")
@@ -1145,7 +1147,7 @@ layout_mode = 2
 icon = ExtResource("21_lswn8")
 icon_alignment = 1
 
-[node name="StopButton2" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1651618102 node_paths=PackedStringArray("player")]
+[node name="RestartButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1651618102 node_paths=PackedStringArray("player")]
 visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
@@ -1154,19 +1156,26 @@ icon_alignment = 2
 script = SubResource("GDScript_jq2sk")
 player = NodePath("../../../../../FFmpegPlayer")
 
-[node name="Button3" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1980844304]
+[node name="PlayButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1980844304]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("20_d13ii")
 icon_alignment = 1
 
-[node name="Button4" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=683132719]
+[node name="PauseButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1064823896]
+visible = false
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+icon = ExtResource("33_come4")
+icon_alignment = 1
+
+[node name="NextButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=683132719]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("21_1u8w0")
 icon_alignment = 1
 
-[node name="Button5" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=2136091940]
+[node name="InfoButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=2136091940]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("24_lswn8")

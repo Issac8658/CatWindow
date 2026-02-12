@@ -19,6 +19,8 @@ namespace FFmpeg
 	{
 		[Signal] public delegate void PlayedEventHandler();
 		[Signal] public delegate void StoppedEventHandler();
+		[Signal] public delegate void RestartedEventHandler();
+		[Signal] public delegate void PausedEventHandler();
 
 		public const int SAMPLE_RATE = FFmpeg.SAMPLE_RATE;
 		public const int CHANNELS = FFmpeg.CHANNELS;
@@ -30,29 +32,26 @@ namespace FFmpeg
 		private Process _ffmpeg;
 		private CancellationTokenSource _cts;
 		private AudioStreamPlayer _player;
+		private FFprobeResult _metadata;
 
-		private Queue<byte[]> _pcmQueue = new();
-		private object _lock = new();
+		private readonly Queue<byte[]> _pcmQueue = new();
+		private readonly object _lock = new();
 
 		private bool _playing = false;
+		private bool _isPaused = false;
 		private string _currentFile = null;
 		private double _bufferedSeconds = 0;
 		private double _startOffset = 0; // in seconds
 		private ulong _totalPlaybackFrames = 0; // in frames
 
-		private FFprobeResult _metadata;
-		public FFprobeResult Metadata
-		{
-			get => _metadata;
-		}
-
-
+		public FFprobeResult Metadata { get => _metadata; }
 		public bool Playing { get => _playing; }
 		public string CurrentFile { get => _currentFile; }
+		public bool IsPaused { get => _isPaused; }
 		public double PlaybackPosition 
 		{ 	get
 			{
-				if(Metadata != null)
+				if (Metadata != null)
 				{
 					double PlayingTime = (double)(_totalPlaybackFrames - SAMPLE_RATE * SCALE) / SAMPLE_RATE / SCALE / 2.0 + _startOffset;
 					double Duration = double.Parse(Metadata.Format.Duration.ToString().Replace('.', ','));
@@ -110,7 +109,7 @@ namespace FFmpeg
 		}
 
 		#region Public Methods
-		public void Play(string pathOrUrl, double StartOffset = 0.0)
+		public void Play(string pathOrUrl, double StartOffset = 0)
 		{
 			GD.Print("Play called");
 			Stop();
@@ -127,45 +126,30 @@ namespace FFmpeg
 			_currentFile = input;
 			_startOffset = StartOffset;
 
-			Godot.Collections.Array<string> additionalArgs = [];
-			
-			additionalArgs += ["-ss", StartOffset.ToString().Replace(',', '.')];
-
-			_ffmpeg = StartFFmpeg(input, FFmpeg.IsUrl(pathOrUrl), [.. additionalArgs]);
+			_ffmpeg = StartFFmpeg(input, FFmpeg.IsUrl(pathOrUrl), ["-ss", _startOffset.ToString().Replace(',', '.')]);
 
 			//GD.Print("Metadating");
 			_metadata = FFprobe.FFprobe.GetMetadata(input);
 			//GD.Print("Metadated");
 			_ = Task.Run(() => ReadPcmLoop(_cts.Token));
 			_playing = true;
-			EmitSignal("Played");
+
 			GD.Print("Playing");
+			EmitSignal("Played");
 		}
 
 		public void Stop()
 		{
-			EmitSignal("Stopped");
-			_cts?.Cancel();
-			_cts = null;
+			StopWithoutReset();
 
-			try
-			{
-				if (_ffmpeg != null && !_ffmpeg.HasExited)
-					_ffmpeg.Kill();
-			}
-			catch { }
-
-			_ffmpeg = null;
-
-			lock (_lock)
-				_pcmQueue.Clear();
-			_player.Stop();
-			_playing = false;
-			_totalPlaybackFrames = 0;
 			_startOffset = 0;
+			_totalPlaybackFrames = 0;
 			_currentFile = null;
 			_metadata = null;
+			_isPaused = false;
+
 			GD.Print("Stopped");
+			EmitSignal("Stopped");
 		}
 
 		public void Seek(double Time) // In seconds
@@ -177,12 +161,10 @@ namespace FFmpeg
 				Play(file, Time);
 			}
 		}
-		public void Restart(double StartOffset = 0)
+		public void Restart()
 		{
 			if (Playing)
 			{
-				// stoping
-				GD.Print("Restarting");
 				_cts?.Cancel();
 				_cts = null;
 	
@@ -205,7 +187,29 @@ namespace FFmpeg
 				//GD.Print("Metadated");
 				_ = Task.Run(() => ReadPcmLoop(_cts.Token));
 				_playing = true;
+
+				GD.Print("Restarted");
+				EmitSignal("Restarted");
 			}
+		}
+
+		public void Pause()
+		{
+			if (_playing && !IsPaused)
+			{
+				StopWithoutReset();
+
+				_isPaused = true;
+
+				GD.Print("Paused");
+				EmitSignal("Paused");
+			}
+		}
+		public void UnPause()
+		{
+			_isPaused = false;
+			Play(_currentFile, PlaybackPosition);
+			GD.Print("Unpaused");
 		}
 
 		#endregion
@@ -269,7 +273,8 @@ namespace FFmpeg
 					lock (_lock)
 						_pcmQueue.Enqueue(chunk);
 				}
-				if (Loop) Restart();
+				if (Loop) CallDeferred("Restart");
+				else CallDeferred("Stop");
 			}
 			catch (OperationCanceledException) { }
 		}
@@ -284,6 +289,27 @@ namespace FFmpeg
 					playback.PushFrame(new Vector2(samples[i], samples[i + 1]));
 				}
 			}
+		}
+		#endregion
+		#region Other
+		private void StopWithoutReset()
+		{
+			_cts?.Cancel();
+			_cts = null;
+
+			try
+			{
+				if (_ffmpeg != null && !_ffmpeg.HasExited)
+					_ffmpeg.Kill();
+			}
+			catch { }
+
+			_ffmpeg = null;
+
+			lock (_lock)
+				_pcmQueue.Clear();
+			_player.Stop();
+			_playing = false;
 		}
 		#endregion
 	}

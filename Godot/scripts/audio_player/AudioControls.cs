@@ -4,12 +4,18 @@ using System.IO;
 
 public partial class AudioControls : Control
 {
+	private Window _window;
+
 	private bool _holding = false;
 
 	[Export]
 	public FFmpegPlayer Player;
 	[Export]
 	public Button StopButton;
+	[Export]
+	public Button PlayButton;
+	[Export]
+	public Button PauseButton;
 	[Export]
 	public Slider SeekSlider;
 	[Export]
@@ -19,7 +25,12 @@ public partial class AudioControls : Control
 
 	public override void _Ready()
 	{
+		_window = GetWindow();
+
 		StopButton.Pressed += Player.Stop;
+		PlayButton.Pressed += Player.UnPause;
+		PauseButton.Pressed += Player.Pause;
+
 		SeekSlider.DragStarted += () => _holding = true;
 		SeekSlider.DragEnded += ValueChanged =>
 		{
@@ -45,18 +56,27 @@ public partial class AudioControls : Control
 					else
 						NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
 			}
+			UpdateButtons();
 		};
-		Player.Stopped += () => NameLabel.Text = "";
+		Player.Stopped += () => 
+		{
+			NameLabel.Text = "";
+			UpdateButtons();
+		};
+		Player.Paused += UpdateButtons;
 	}
 	public override void _Process(double Delta)
 	{
-		double playbackPos = Player.PlaybackPosition;
-		if (!_holding)
-			SeekSlider.Value = playbackPos;
-		if (Player.Metadata != null)
-			TimeLabel.Text = $"{FormatTime((int)playbackPos)} / {FormatTime((int)float.Parse(Player.Metadata.Format.Duration.Replace('.', ',')))}";
-		else
-			TimeLabel.Text = "0:00 / 0:00";
+		if (_window.Visible)
+		{
+			double playbackPos = Player.PlaybackPosition;
+			if (!_holding)
+				SeekSlider.Value = playbackPos;
+			if (Player.Metadata != null)
+				TimeLabel.Text = $"{FormatTime((int)playbackPos)} / {FormatTime((int)float.Parse(Player.Metadata.Format.Duration.Replace('.', ',')))}";
+			else
+				TimeLabel.Text = "0:00 / 0:00";
+		}
 	}
 	static string ToLenght(string originalText, string filler, uint Length)
 	{
@@ -84,5 +104,11 @@ public partial class AudioControls : Control
 		formatedText += ToLenght(remainder.ToString(), "0", 2);
 
 		return formatedText;
+	}
+
+	private void UpdateButtons()
+	{
+		PlayButton.Visible = Player.IsPaused || !Player.Playing;
+		PauseButton.Visible = !Player.IsPaused && Player.Playing;
 	}
 }
