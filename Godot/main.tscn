@@ -386,8 +386,7 @@ render_target_update_mode = 4
 [node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
 script = ExtResource("12_2cqfq")
 ShakePower = 80.0
-WaveScale = 9.0
-MinFramesCount = 1387
+MinFramesCount = 1304
 Player = NodePath("../../../../../../FFmpegPlayer")
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]

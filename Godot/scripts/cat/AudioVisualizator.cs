@@ -43,12 +43,16 @@ public partial class AudioVisualizator : Node2D
 	{
 		float Volume = Mathf.DbToLinear(AudioServer.GetBusPeakVolumeLeftDb(0, 0));
 		float PoweredVolume = Mathf.Pow(Volume - 0.0025f, 0.25f); // for wave transparency
-		
-		Godot.Collections.Array<Vector2> Samples = [.. Capture.GetBuffer(Capture.GetFramesAvailable())];
-		Buffer += Samples;
-		Buffer.Reverse();
-		Buffer.Resize((int)((_viewport.Size.X + 1) * WaveScale));
-		Buffer.Reverse();
+
+		if (Capture.GetFramesAvailable() / MinFramesCount >= 1)
+		{
+			Godot.Collections.Array<Vector2> Samples = [.. Capture.GetBuffer(Capture.GetFramesAvailable() / MinFramesCount * MinFramesCount)];
+			Buffer += Samples;
+			Buffer.Reverse();
+			Buffer.Resize((int)((_viewport.Size.X + 1) * WaveScale));
+			Buffer.Reverse();
+		}
+
 		for (int i = 0; i < _viewport.Size.X; i += 1)
 		{
 			// left channel
