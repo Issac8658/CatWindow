@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b8t61kcpor2ya" path="res://icons/icon16.png" id="4_dg77c"]
 [ext_resource type="Script" uid="uid://b3o0x8hctmxl3" path="res://scripts/audio_player/additional/volume_scaler.gd" id="5_074og"]
 [ext_resource type="Texture2D" uid="uid://byyxo6x103isy" path="res://sprites/ui/close_icon.tres" id="5_getpj"]
+[ext_resource type="StyleBox" uid="uid://b1vqr8jjeeka1" path="res://skin_styleboxes/cat_window_base.tres" id="6_4lmeg"]
 [ext_resource type="Texture2D" uid="uid://brhfu31058r4j" path="res://sprites/cat/eye.tres" id="6_5vw27"]
 [ext_resource type="Shader" uid="uid://cg3t4ael3q1ur" path="res://visualizator.gdshader" id="7_b1qrp"]
 [ext_resource type="Texture2D" uid="uid://cv343i7dh5hg0" path="res://sprites/cat/eye_closed.tres" id="7_kek77"]
@@ -13,16 +14,14 @@
 [ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://sprites/cat/eye_closed2.tres" id="8_4c57u"]
 [ext_resource type="Texture2D" uid="uid://r1xec0igyanx" path="res://sprites/cat/eye_half_closed.tres" id="10_facbu"]
 [ext_resource type="SpriteFrames" uid="uid://bno08nlqvcvlk" path="res://sprites/loading_animation/loading_animation.tres" id="11_2cqfq"]
-[ext_resource type="Texture2D" uid="uid://ch0ttshyk53g7" path="res://sprites/cat/ear/ear_outline.png" id="11_ycdy4"]
 [ext_resource type="Script" uid="uid://c2nk2plantxwq" path="res://scripts/cat/AudioVisualizator.cs" id="12_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://c2hs3wds2qjjr" path="res://sprites/cat/mouth.tres" id="12_4k2k6"]
-[ext_resource type="Script" uid="uid://d0fylhsie5g80" path="res://scripts/cat/cat_parts/Ear.cs" id="12_w48qg"]
 [ext_resource type="Texture2D" uid="uid://dh1os3ghexq33" path="res://sprites/cat/mouth_sad.tres" id="13_0rl1p"]
-[ext_resource type="Texture2D" uid="uid://bvr5cs4etbca" path="res://sprites/cat/ear/ear_base.png" id="13_w48qg"]
 [ext_resource type="Texture2D" uid="uid://cw3po3kcwwls6" path="res://sprites/cat/mouth_open.tres" id="14_ok6jj"]
 [ext_resource type="Script" uid="uid://chrmqfe064beg" path="res://scripts/cat/cat_parts/Paw.cs" id="15_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://x3h8r12ja0en" path="res://sprites/cat/paw.png" id="15_vivmo"]
 [ext_resource type="AudioStream" uid="uid://cqph6lklnpwh2" path="res://sounds/purrr.ogg" id="15_yaehf"]
+[ext_resource type="PackedScene" uid="uid://fa0oerei3hax" path="res://ear.tscn" id="19_0cp0l"]
 [ext_resource type="Script" uid="uid://2ecvmagdwik8" path="res://scripts/audio_player/playlists/Playlist.cs" id="19_getpj"]
 [ext_resource type="Texture2D" uid="uid://brynt0sn70rxu" path="res://sprites/ui/remove_icon.tres" id="19_kq58d"]
 [ext_resource type="Texture2D" uid="uid://b6ghpt02ee2il" path="res://sprites/ui/add_icon.tres" id="19_qsp4k"]
@@ -41,6 +40,7 @@
 [ext_resource type="Texture2D" uid="uid://blwjrcxnfx6rs" path="res://sprites/ui/pause_icon.tres" id="33_come4"]
 [ext_resource type="Texture2D" uid="uid://cgjfm3w80mhff" path="res://sprites/ui/rescale_corner.tres" id="40_h8e4i"]
 [ext_resource type="Script" uid="uid://dbun11idw3vgy" path="res://scripts/cat/additional/resize.gd" id="41_4lmeg"]
+[ext_resource type="StyleBox" uid="uid://djko02wscso2o" path="res://skin_styleboxes/cat_icon_base.tres" id="41_d2t1y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvp3"]
 content_margin_left = 2.0
@@ -56,16 +56,6 @@ bg_color = Color(0.7214305, 0.15345448, 0.09808048, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vw27"]
 bg_color = Color(0.76862746, 0.16862746, 0.10980392, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dm0k"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
-corner_detail = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vivmo"]
 corner_radius_top_left = 24
@@ -359,7 +349,7 @@ icon_alignment = 1
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_7dm0k")
+theme_override_styles/panel = ExtResource("6_4lmeg")
 script = ExtResource("5_074og")
 percent_label = NodePath("Mask/Screen/VolumeAnchor/VolumeIndicator")
 volume_slider = NodePath("../../PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/HSlider")
@@ -685,78 +675,25 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="LeftEar" type="TextureRect" parent="CatWindow/ContentAndVolume/LeftEarAnchor" unique_id=967423504]
-self_modulate = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
-z_index = -1
+[node name="LeftEar" parent="CatWindow/ContentAndVolume/LeftEarAnchor" unique_id=551491595 instance=ExtResource("19_0cp0l")]
 layout_mode = 1
-anchors_preset = -1
-offset_left = -17.0
-offset_top = -47.0
-offset_right = 47.0
-offset_bottom = 17.0
-pivot_offset = Vector2(32, 64)
-mouse_filter = 2
-texture = ExtResource("11_ycdy4")
-expand_mode = 1
-script = ExtResource("12_w48qg")
-EarEndPoint = Vector2i(-60, -66)
-VelocityDamping = 0.82
-AccelerationDamping = 0.461
-
-[node name="TextureRect4" type="TextureRect" parent="CatWindow/ContentAndVolume/LeftEarAnchor/LeftEar" unique_id=2098082209]
-modulate = Color(0, 0, 0, 1)
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(32, 64)
-mouse_filter = 2
-texture = ExtResource("13_w48qg")
-expand_mode = 1
+offset_left = -16.0
+offset_top = -46.0
+offset_right = 48.0
+offset_bottom = 18.0
 
 [node name="RightEarAnchor" type="Control" parent="CatWindow/ContentAndVolume" unique_id=837336765]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="RightEar" type="TextureRect" parent="CatWindow/ContentAndVolume/RightEarAnchor" unique_id=1041129862]
-self_modulate = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
-z_index = -1
+[node name="LeftEar" parent="CatWindow/ContentAndVolume/RightEarAnchor" unique_id=1535422033 instance=ExtResource("19_0cp0l")]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
 offset_left = -48.0
-offset_top = -47.0
+offset_top = -46.0
 offset_right = 16.0
-offset_bottom = 17.0
-grow_horizontal = 0
-rotation = -0.0031479904
-pivot_offset = Vector2(32, 64)
-mouse_filter = 2
-texture = ExtResource("11_ycdy4")
-expand_mode = 1
-script = ExtResource("12_w48qg")
+offset_bottom = 18.0
 EarEndPoint = Vector2i(60, -66)
-VelocityDamping = 0.82
-AccelerationDamping = 0.461
-
-[node name="TextureRect3" type="TextureRect" parent="CatWindow/ContentAndVolume/RightEarAnchor/RightEar" unique_id=2042892108]
-modulate = Color(0, 0, 0, 1)
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(32, 64)
-mouse_filter = 2
-texture = ExtResource("13_w48qg")
-expand_mode = 1
 
 [node name="MeowSound" type="AudioStreamPlayer" parent="." unique_id=1502461157]
 bus = &"Sounds"
@@ -1064,6 +1001,7 @@ layout_mode = 2
 text = "Unlock Volume"
 
 [node name="VSeparator" type="VSeparator" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1268862376]
+visible = false
 layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1112842766]
@@ -1085,6 +1023,7 @@ value = 100.0
 suffix = "%"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer" unique_id=178290399]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="PlaylistWindow/Content/VBoxContainer/HBoxContainer/VBoxContainer2" unique_id=685122921]
@@ -1430,3 +1369,87 @@ texture = ExtResource("40_h8e4i")
 script = ExtResource("41_4lmeg")
 min_size = Vector2i(201, 176)
 max_size = Vector2i(1700, 800)
+
+[node name="FFmpegAlert" type="Window" parent="." unique_id=1323183534]
+oversampling_override = 1.0
+title = "FFmpeg alert"
+initial_position = 2
+size = Vector2i(303, 182)
+visible = false
+wrap_controls = true
+transient = true
+transient_to_focused = true
+unresizable = true
+popup_window = true
+sharp_corners = true
+minimize_disabled = true
+maximize_disabled = true
+theme = ExtResource("2_272bh")
+
+[node name="MarginContainer" type="MarginContainer" parent="FFmpegAlert" unique_id=1206608039]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FFmpegAlert/MarginContainer" unique_id=1198388137]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="FFmpegAlert/MarginContainer/VBoxContainer" unique_id=2037592948]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Panel" type="Panel" parent="FFmpegAlert/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1596293309]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("41_d2t1y")
+
+[node name="Label" type="Label" parent="FFmpegAlert/MarginContainer/VBoxContainer/HBoxContainer2/Panel" unique_id=563810343]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 42
+text = "!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="FFmpegAlert/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1872994240]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "FFmpeg could not be started, it may not exist, it is corrupted or moved."
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label" type="Label" parent="FFmpegAlert/MarginContainer/VBoxContainer" unique_id=883367056]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+text = "If you continue, the metadata will be ignored, and audio file support will be limited to .wav, .ogg and .mp3"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="FFmpegAlert/MarginContainer/VBoxContainer" unique_id=1086905411]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Button" type="Button" parent="FFmpegAlert/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1539982378]
+layout_mode = 2
+text = "Continue"
+
+[node name="Button2" type="Button" parent="FFmpegAlert/MarginContainer/VBoxContainer/HBoxContainer" unique_id=422023640]
+layout_mode = 2
+text = "Exit"

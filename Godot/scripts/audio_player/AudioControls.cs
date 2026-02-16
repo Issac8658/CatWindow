@@ -34,10 +34,10 @@ public partial class AudioControls : Control
 		PlayButton.Pressed += Player.UnPause;
 		PauseButton.Pressed += Player.Pause;
 
-		PlaybackSpeedSpinBox.ValueChanged += value =>
+		/*PlaybackSpeedSpinBox.ValueChanged += value =>
 		{
 			Player.PlaybackSpeed = value;
-		};
+		};*/
 
 		SeekSlider.DragStarted += () => _holding = true;
 		SeekSlider.DragEnded += ValueChanged =>

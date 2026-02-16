@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://fa0oerei3hax"]
+
+[ext_resource type="Texture2D" uid="uid://ch0ttshyk53g7" path="res://sprites/cat/ear/ear_outline.png" id="1_yoi40"]
+[ext_resource type="Script" uid="uid://d0fylhsie5g80" path="res://scripts/cat/cat_parts/Ear.cs" id="2_b8od3"]
+[ext_resource type="Texture2D" uid="uid://bvr5cs4etbca" path="res://sprites/cat/ear/ear_base.png" id="3_nq2a4"]
+
+[node name="LeftEar" type="TextureRect" unique_id=551491595]
+self_modulate = Color(0.41568628, 0.41568628, 0.41568628, 0.45882353)
+z_index = -1
+anchors_preset = -1
+offset_left = -17.0
+offset_top = -47.0
+offset_right = 47.0
+offset_bottom = 17.0
+pivot_offset = Vector2(32, 64)
+mouse_filter = 2
+texture = ExtResource("1_yoi40")
+expand_mode = 1
+script = ExtResource("2_b8od3")
+EarEndPoint = Vector2i(-60, -66)
+VelocityDamping = 0.82
+AccelerationDamping = 0.461
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=681136057]
+modulate = Color(0, 0, 0, 1)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(32, 64)
+mouse_filter = 2
+texture = ExtResource("3_nq2a4")
+expand_mode = 1

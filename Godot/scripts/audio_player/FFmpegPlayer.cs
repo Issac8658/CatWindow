@@ -29,6 +29,8 @@ namespace FFmpeg
 		public const float BUFFER_LENGTH = 2.0f;
 		public const int TYPE_SCALE = 4; // because of float 32
 
+		public readonly bool FFmpegIsExist = FFmpeg.IsExists();
+
 		private AudioStreamGeneratorPlayback _playback;
 		private Process _ffmpeg;
 		private CancellationTokenSource _cts;
@@ -50,8 +52,9 @@ namespace FFmpeg
 		public bool Playing { get => _playing; }
 		public string CurrentFile { get => _currentFile; }
 		public bool IsPaused { get => _isPaused; }
-		public double PlaybackPosition 
-		{ 	get
+		public double PlaybackPosition
+		{
+			get
 			{
 				if (Metadata != null)
 				{
@@ -68,7 +71,7 @@ namespace FFmpeg
 		public bool Loop = false; // only for local files
 		[Export]
 		public int TargetBus = 0;
-		[Export]
+		/*[Export]
 		public double PlaybackSpeed
 		{
 			get => _playback_speed;
@@ -78,7 +81,7 @@ namespace FFmpeg
 				Pause();
 				UnPause();
 			}
-		}
+		}*/
 
 		public override void _Ready()
 		{
@@ -96,52 +99,56 @@ namespace FFmpeg
 			GD.Print($"Launches from {OS.GetExecutablePath()}");
 		}
 
-		public override void _PhysicsProcess(double delta)
+		public override void _Process(double delta)
 		{
 			if (_playback == null || !_playback.CanPushBuffer(FRAMES))
 				return;
-
-			byte[] data = null;
-
-			lock (_lock)
+				
+			while (_playback.CanPushBuffer(FRAMES))
 			{
-				if (_pcmQueue.Count > 0)
-					data = _pcmQueue.Dequeue();
+				byte[] data = null;
+
+				lock (_lock)
+				{
+					if (_pcmQueue.Count > 0)
+						data = _pcmQueue.Dequeue();
+				}
+
+				if (data == null)
+					return;
+
+				int floatCount = data.Length / TYPE_SCALE;
+				float[] samples = new float[floatCount];
+				Buffer.BlockCopy(data, 0, samples, 0, data.Length);
+
+				PushSamples(_playback, samples);
 			}
-
-			if (data == null)
-				return;
-
-			int floatCount = data.Length / TYPE_SCALE;
-			float[] samples = new float[floatCount];
-			Buffer.BlockCopy(data, 0, samples, 0, data.Length);
-
-			PushSamples(_playback, samples);
-			_bufferedSeconds = _playback.GetFramesAvailable() / SAMPLE_RATE;
-
-			//GD.Print($"fps: {1 / delta}");
+			_bufferedSeconds = (float)(BUFFER_LENGTH * SAMPLE_RATE - _playback.GetFramesAvailable()) / SAMPLE_RATE;
 		}
 
 		#region Public Methods
 		public void Play(string pathOrUrl, double StartOffset = 0)
 		{
 			GD.Print("Play called");
-			Stop();
+			if (FFmpegIsExist)
+			{
+				Stop();
 
-			string input = pathOrUrl.StartsWith("user://") // res:// not supported because of ffmpeg, need to extract audio before use
-				? ProjectSettings.GlobalizePath(pathOrUrl)
-				: pathOrUrl;
+				string input = pathOrUrl.StartsWith("user://") // res:// not supported because of ffmpeg, need to extract audio before use
+					? ProjectSettings.GlobalizePath(pathOrUrl)
+					: pathOrUrl;
 
-			GD.Print($"Input: \"{pathOrUrl}\"");
+				GD.Print($"Input: \"{pathOrUrl}\"");
 
-			_cts = new CancellationTokenSource();
-			_player.Play();
-			_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
-			_currentFile = input;
-			_startOffset = StartOffset;
-			_metadata = FFprobe.FFprobe.GetMetadata(input);
+				_cts = new CancellationTokenSource();
+				_player.Play();
+				_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+				_currentFile = input;
+				_startOffset = StartOffset;
+				_metadata = FFprobe.FFprobe.GetMetadata(input);
 
-			Continue();
+				Continue();
+			}
 
 			GD.Print("Playing");
 			EmitSignal("Played");
@@ -175,16 +182,16 @@ namespace FFmpeg
 			{
 				_cts?.Cancel();
 				_cts = null;
-	
+
 				try
 				{
 					if (_ffmpeg != null && !_ffmpeg.HasExited)
 						_ffmpeg.Kill();
 				}
 				catch { }
-	
+
 				_ffmpeg = null;
-				
+
 				_playing = false;
 				Continue(true);
 
@@ -234,14 +241,14 @@ namespace FFmpeg
 				ResultArgs.Add(arg);
 			ResultArgs.Add("-i");
 			ResultArgs.Add(input);
-			ResultArgs.Add("-map");
-			ResultArgs.Add("a:0");
-			//ResultArgs.Add("-vn");
-			if (PlaybackSpeed != 1)
+			//ResultArgs.Add("-map");
+			//ResultArgs.Add("a:0");
+			ResultArgs.Add("-vn");
+			/*if (PlaybackSpeed != 1)
 			{
 				ResultArgs.Add("-filter:a");
 				ResultArgs.Add($"aresample={SAMPLE_RATE},atempo={PlaybackSpeed.ToString(CultureInfo.InvariantCulture)}");
-			}
+			}*/
 			ResultArgs.Add("-f");
 			ResultArgs.Add("f32le");
 			ResultArgs.Add("-ac");
@@ -324,9 +331,9 @@ namespace FFmpeg
 			if (!_playing)
 			{
 				_cts = new CancellationTokenSource();
-	
-				_ffmpeg = StartFFmpeg(_currentFile, IgnoreOffset ? [] : ["-ss", _startOffset.ToString(CultureInfo.InvariantCulture)], PlaybackSpeed);
-	
+
+				_ffmpeg = StartFFmpeg(_currentFile, IgnoreOffset ? [] : ["-ss", _startOffset.ToString(CultureInfo.InvariantCulture)]);
+
 				_ = Task.Run(() => ReadPcmLoop(_cts.Token));
 				_playing = true;
 				_isPaused = false;
@@ -345,10 +352,11 @@ namespace FFmpeg
 		public const int CHANNELS = 2;
 		public const int FRAMES = 4096;
 
-		public static string FFmpegPath
+		public static string FFmpegCommand
 		{
 			get
 			{
+				/*
 				string userDir = Path.GetDirectoryName(OS.GetExecutablePath()); //OS.GetUserDataDir();
 				string ffmpegPath = Path.Combine(userDir, "ffmpeg.exe");
 
@@ -360,6 +368,32 @@ namespace FFmpeg
 				GD.PushError("FFmpeg not exist!11!!!1! panic panic where ffmpeg??"); // I clearly needed more sleep...
 
 				return ffmpegPath;
+				*/
+				return "ffmpeg";
+			}
+		}
+		public static bool IsExists()
+		{
+			try
+			{
+				var psi = new ProcessStartInfo
+				{
+					FileName = FFmpegCommand,
+					Arguments = "-version",
+					RedirectStandardOutput = true,
+					RedirectStandardError = true,
+					UseShellExecute = false,
+					CreateNoWindow = true
+				};
+
+				using var process = Process.Start(psi);
+				process.WaitForExit(2000);
+
+				return process.ExitCode == 0;
+			}
+			catch
+			{
+				return false;
 			}
 		}
 
@@ -367,7 +401,7 @@ namespace FFmpeg
 		{
 			ProcessStartInfo psi = new()
 			{
-				FileName = FFmpegPath,
+				FileName = FFmpegCommand,
 				RedirectStandardOutput = true,
 				RedirectStandardError = false,
 				UseShellExecute = false,
@@ -426,8 +460,8 @@ namespace FFmpeg
 			{
 				get
 				{
-				string userDir = Path.GetDirectoryName(OS.GetExecutablePath()); //OS.GetUserDataDir();
-				string ffprobePath = Path.Combine(userDir, "ffprobe.exe");
+					string userDir = Path.GetDirectoryName(OS.GetExecutablePath()); //OS.GetUserDataDir();
+					string ffprobePath = Path.Combine(userDir, "ffprobe.exe");
 
 					if (File.Exists(ffprobePath))
 						return ffprobePath;
@@ -461,7 +495,7 @@ namespace FFmpeg
 				}
 				return ":3"; // why do null when I can do ":3"?
 			}
-			
+
 			public static FFprobeResult GetMetadata(string filePath)
 			{
 				string RawMetadata = GetRawMetadata(filePath);
@@ -484,7 +518,7 @@ namespace FFmpeg
 					RedirectStandardOutput = true,
 					RedirectStandardError = false,
 					UseShellExecute = false,
-   					StandardOutputEncoding = System.Text.Encoding.UTF8,
+					StandardOutputEncoding = System.Text.Encoding.UTF8,
 					CreateNoWindow = !OS.GetCmdlineArgs().Contains("--ffmpeg_debug")
 				};
 
