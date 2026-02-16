@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -25,8 +26,8 @@ namespace FFmpeg
 		public const int SAMPLE_RATE = FFmpeg.SAMPLE_RATE;
 		public const int CHANNELS = FFmpeg.CHANNELS;
 		public const int FRAMES = FFmpeg.FRAMES;
-		public const int SCALE = 4;
-		public const float BUFFER_LENGTH = 1.0f;
+		public const float BUFFER_LENGTH = 2.0f;
+		public const int TYPE_SCALE = 4; // because of float 32
 
 		private AudioStreamGeneratorPlayback _playback;
 		private Process _ffmpeg;
@@ -43,6 +44,7 @@ namespace FFmpeg
 		private double _bufferedSeconds = 0;
 		private double _startOffset = 0; // in seconds
 		private ulong _totalPlaybackFrames = 0; // in frames
+		private double _playback_speed = 1.0;
 
 		public FFprobeResult Metadata { get => _metadata; }
 		public bool Playing { get => _playing; }
@@ -53,8 +55,8 @@ namespace FFmpeg
 			{
 				if (Metadata != null)
 				{
-					double PlayingTime = (double)(_totalPlaybackFrames - SAMPLE_RATE * SCALE) / SAMPLE_RATE / SCALE / 2.0 + _startOffset;
-					double Duration = double.Parse(Metadata.Format.Duration.ToString().Replace('.', ','));
+					double PlayingTime = (double)(_totalPlaybackFrames - SAMPLE_RATE) / SAMPLE_RATE / TYPE_SCALE / 2.0 + _startOffset;
+					double Duration = double.Parse(Metadata.Format.Duration, CultureInfo.InvariantCulture);
 					return PlayingTime - Mathf.Floor(PlayingTime / Duration) * Duration;
 				}
 				else
@@ -66,6 +68,17 @@ namespace FFmpeg
 		public bool Loop = false; // only for local files
 		[Export]
 		public int TargetBus = 0;
+		[Export]
+		public double PlaybackSpeed
+		{
+			get => _playback_speed;
+			set
+			{
+				_playback_speed = value;
+				Pause();
+				UnPause();
+			}
+		}
 
 		public override void _Ready()
 		{
@@ -83,7 +96,7 @@ namespace FFmpeg
 			GD.Print($"Launches from {OS.GetExecutablePath()}");
 		}
 
-		public override void _Process(double delta)
+		public override void _PhysicsProcess(double delta)
 		{
 			if (_playback == null || !_playback.CanPushBuffer(FRAMES))
 				return;
@@ -99,13 +112,14 @@ namespace FFmpeg
 			if (data == null)
 				return;
 
-			int floatCount = data.Length / SCALE;
+			int floatCount = data.Length / TYPE_SCALE;
 			float[] samples = new float[floatCount];
 			Buffer.BlockCopy(data, 0, samples, 0, data.Length);
 
 			PushSamples(_playback, samples);
 			_bufferedSeconds = _playback.GetFramesAvailable() / SAMPLE_RATE;
-			_totalPlaybackFrames++;
+
+			//GD.Print($"fps: {1 / delta}");
 		}
 
 		#region Public Methods
@@ -125,14 +139,9 @@ namespace FFmpeg
 			_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
 			_currentFile = input;
 			_startOffset = StartOffset;
-
-			_ffmpeg = StartFFmpeg(input, FFmpeg.IsUrl(pathOrUrl), ["-ss", _startOffset.ToString().Replace(',', '.')]);
-
-			//GD.Print("Metadating");
 			_metadata = FFprobe.FFprobe.GetMetadata(input);
-			//GD.Print("Metadated");
-			_ = Task.Run(() => ReadPcmLoop(_cts.Token));
-			_playing = true;
+
+			Continue();
 
 			GD.Print("Playing");
 			EmitSignal("Played");
@@ -157,7 +166,6 @@ namespace FFmpeg
 			if (Playing)
 			{
 				string file = _currentFile;
-				Stop();
 				Play(file, Time);
 			}
 		}
@@ -177,16 +185,8 @@ namespace FFmpeg
 	
 				_ffmpeg = null;
 				
-				// starting
-				_cts = new CancellationTokenSource();
-	
-				_ffmpeg = StartFFmpeg(_currentFile, FFmpeg.IsUrl(_currentFile), []);
-	
-				//GD.Print("Metadating");
-				//_metadata = FFprobe.FFprobe.GetMetadata(_currentFile);
-				//GD.Print("Metadated");
-				_ = Task.Run(() => ReadPcmLoop(_cts.Token));
-				_playing = true;
+				_playing = false;
+				Continue(true);
 
 				GD.Print("Restarted");
 				EmitSignal("Restarted");
@@ -214,10 +214,10 @@ namespace FFmpeg
 
 		#endregion
 		#region Decoding
-		private static Process StartFFmpeg(string input, bool IsURL, string[] additionalArgs)
+		private static Process StartFFmpeg(string input, string[] additionalArgs, double PlaybackSpeed = 1)
 		{
 			Godot.Collections.Array<string> ResultArgs = [];
-			if (IsURL)
+			if (FFmpeg.IsUrl(input))
 			{
 				ResultArgs.Add("-fflags");
 				ResultArgs.Add("nobuffer");
@@ -234,12 +234,20 @@ namespace FFmpeg
 				ResultArgs.Add(arg);
 			ResultArgs.Add("-i");
 			ResultArgs.Add(input);
+			ResultArgs.Add("-map");
+			ResultArgs.Add("a:0");
+			//ResultArgs.Add("-vn");
+			if (PlaybackSpeed != 1)
+			{
+				ResultArgs.Add("-filter:a");
+				ResultArgs.Add($"aresample={SAMPLE_RATE},atempo={PlaybackSpeed.ToString(CultureInfo.InvariantCulture)}");
+			}
 			ResultArgs.Add("-f");
 			ResultArgs.Add("f32le");
 			ResultArgs.Add("-ac");
-			ResultArgs.Add(CHANNELS.ToString());
+			ResultArgs.Add(CHANNELS.ToString(CultureInfo.InvariantCulture));
 			ResultArgs.Add("-ar");
-			ResultArgs.Add(SAMPLE_RATE.ToString());
+			ResultArgs.Add(SAMPLE_RATE.ToString(CultureInfo.InvariantCulture));
 			ResultArgs.Add("pipe:1");
 
 			return FFmpeg.Start([.. ResultArgs]);
@@ -248,7 +256,7 @@ namespace FFmpeg
 		async Task ReadPcmLoop(CancellationToken token)
 		{
 			Stream stdout = _ffmpeg.StandardOutput.BaseStream;
-			byte[] buffer = new byte[FRAMES * CHANNELS * SCALE];
+			byte[] buffer = new byte[FRAMES * CHANNELS * TYPE_SCALE];
 
 			try
 			{
@@ -311,6 +319,19 @@ namespace FFmpeg
 			_player.Stop();
 			_playing = false;
 		}
+		private void Continue(bool IgnoreOffset = false)
+		{
+			if (!_playing)
+			{
+				_cts = new CancellationTokenSource();
+	
+				_ffmpeg = StartFFmpeg(_currentFile, IgnoreOffset ? [] : ["-ss", _startOffset.ToString(CultureInfo.InvariantCulture)], PlaybackSpeed);
+	
+				_ = Task.Run(() => ReadPcmLoop(_cts.Token));
+				_playing = true;
+				_isPaused = false;
+			}
+		}
 		#endregion
 	}
 	#endregion
@@ -333,7 +354,6 @@ namespace FFmpeg
 
 				if (File.Exists(ffmpegPath))
 					return ffmpegPath;
-				GD.Print($"kdfhsgr; {ffmpegPath}");
 
 				//Extract();
 

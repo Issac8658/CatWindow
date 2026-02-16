@@ -117,14 +117,14 @@ public partial class Playlist : Window
 						if (Metadata.Format != null)
 						{
 							GD.Print($"Has tags");
-
-							if (Metadata.Format.Tags.Title != null)
-								if (Metadata.Format.Tags.Artist != null)
-									trackLabel.TrackName = $"{Metadata.Format.Tags.Title}[color=dim_gray] — {Metadata.Format.Tags.Artist}[/color]";
+							if (Metadata.Format.Tags != null)
+								if (Metadata.Format.Tags.Title != null)
+									if (Metadata.Format.Tags.Artist != null)
+										trackLabel.TrackName = $"{Metadata.Format.Tags.Title}[color=dim_gray] — {Metadata.Format.Tags.Artist}[/color]";
+									else
+										trackLabel.TrackName = Metadata.Format.Tags.Title;
 								else
-									trackLabel.TrackName = Metadata.Format.Tags.Title;
-							else
-								trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
+									trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
 						}
 						//trackLabel.TrackLength = Godot.FileAccess.GetSize(Folder.GetCurrentDir());
 						TrackLabelsContainer.AddChild(trackLabel);

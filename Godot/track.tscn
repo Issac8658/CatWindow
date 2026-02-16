@@ -59,7 +59,7 @@ layout_mode = 2
 text = "2:54"
 
 [node name="PanelContainer5" type="PanelContainer" parent="." unique_id=1262667338]
-custom_minimum_size = Vector2(84, 0)
+custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("3_vr403")
@@ -67,7 +67,7 @@ theme_override_styles/panel = ExtResource("3_vr403")
 [node name="Size" type="RichTextLabel" parent="PanelContainer5" unique_id=711128112]
 layout_mode = 2
 bbcode_enabled = true
-text = "800.23mb"
+text = "1000.23mb"
 scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 2

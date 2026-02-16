@@ -63,7 +63,7 @@ public partial class AudioVisualizator : Node2D
 			float Y1 = viewportSize.Y / 2 + Sample1 * viewportSize.Y / 2;
 
 			// right channel
-			float Sample2 = Buffer[Mathf.Clamp((int)((i + 1) * WaveScale), 0, Buffer.Count - 1)].X;
+			float Sample2 = Buffer[Mathf.Clamp((int)((i + 1) * WaveScale), 0, Buffer.Count - 1)].Y;
 			float X2 = i + 1;
 			float Y2 = viewportSize.Y / 2 + Sample2 * viewportSize.Y / 2;
 

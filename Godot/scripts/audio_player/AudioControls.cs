@@ -1,6 +1,7 @@
 using Godot;
 using FFmpeg;
 using System.IO;
+using System.Globalization;
 
 public partial class AudioControls : Control
 {
@@ -19,6 +20,8 @@ public partial class AudioControls : Control
 	[Export]
 	public Slider SeekSlider;
 	[Export]
+	public SpinBox PlaybackSpeedSpinBox;
+	[Export]
 	public Label TimeLabel;
 	[Export]
 	public RichTextLabel NameLabel;
@@ -31,23 +34,28 @@ public partial class AudioControls : Control
 		PlayButton.Pressed += Player.UnPause;
 		PauseButton.Pressed += Player.Pause;
 
+		PlaybackSpeedSpinBox.ValueChanged += value =>
+		{
+			Player.PlaybackSpeed = value;
+		};
+
 		SeekSlider.DragStarted += () => _holding = true;
 		SeekSlider.DragEnded += ValueChanged =>
 		{
 			Player.Seek(SeekSlider.Value);
 			_holding = false;
 		};
-		Player.Played += () =>
+		Player.Played += () => // чем гуще лес if else if else...
 		{
 			if (Player.Metadata != null)
 			{
 				if (Player.Metadata.Format.StartTime != null)
-					SeekSlider.MinValue = float.Parse(Player.Metadata.Format.StartTime.Replace('.', ','));
+					SeekSlider.MinValue = float.Parse(Player.Metadata.Format.StartTime, CultureInfo.InvariantCulture);
 				else
 					SeekSlider.MinValue = 0;
-				SeekSlider.MaxValue = float.Parse(Player.Metadata.Format.Duration.Replace('.', ','));
+				SeekSlider.MaxValue = float.Parse(Player.Metadata.Format.Duration, CultureInfo.InvariantCulture);
 	
-				if (Player.Metadata.Format.Tags != null) // чем гуще лес if else if else...
+				if (Player.Metadata.Format.Tags != null)
 					if (Player.Metadata.Format.Tags.Title != null)
 						if (Player.Metadata.Format.Tags.Artist != null)
 							NameLabel.Text = $"{Player.Metadata.Format.Tags.Title}[color=dim_gray] — {Player.Metadata.Format.Tags.Artist}[/color]";
@@ -56,6 +64,8 @@ public partial class AudioControls : Control
 					else
 						NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
 			}
+			else
+				NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
 			UpdateButtons();
 		};
 		Player.Stopped += () => 
@@ -73,7 +83,7 @@ public partial class AudioControls : Control
 			if (!_holding)
 				SeekSlider.Value = playbackPos;
 			if (Player.Metadata != null)
-				TimeLabel.Text = $"{FormatTime((int)playbackPos)} / {FormatTime((int)float.Parse(Player.Metadata.Format.Duration.Replace('.', ',')))}";
+				TimeLabel.Text = $"{FormatTime((int)playbackPos)} / {FormatTime((int)float.Parse(Player.Metadata.Format.Duration, CultureInfo.InvariantCulture))}";
 			else
 				TimeLabel.Text = "0:00 / 0:00";
 		}

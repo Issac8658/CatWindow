@@ -29,6 +29,7 @@ config/windows_native_icon="res://icons/icon.ico"
 [audio]
 
 buses/default_bus_layout="uid://c0swfa232oh26"
+driver/mix_rate=48000
 
 [autoload]
 

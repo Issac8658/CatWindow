@@ -77,11 +77,6 @@ corner_radius_bottom_left = 24
 shader = ExtResource("7_b1qrp")
 shader_parameter/chromatic_distance = Vector2(-2, 2)
 
-[sub_resource type="Curve" id="Curve_4lmeg"]
-
-[sub_resource type="CurveTexture" id="CurveTexture_0cp0l"]
-curve = SubResource("Curve_4lmeg")
-
 [sub_resource type="Gradient" id="Gradient_2cqfq"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
 
@@ -389,7 +384,6 @@ handle_input_locally = false
 canvas_item_default_texture_filter = 0
 canvas_item_default_texture_repeat = 1
 size = Vector2i(146, 102)
-render_target_clear_mode = 1
 render_target_update_mode = 4
 
 [node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
@@ -397,15 +391,6 @@ script = ExtResource("12_2cqfq")
 ShakePower = 80.0
 MinFramesCount = 1304
 Player = NodePath("../../../../../../FFmpegPlayer")
-
-[node name="TextureRect" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=803263602]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("CurveTexture_0cp0l")
-expand_mode = 1
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
@@ -1134,7 +1119,7 @@ autowrap_mode = 0
 layout_mode = 2
 text = "0:23 / 2:56"
 
-[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "PlayButton", "PauseButton", "SeekSlider", "TimeLabel", "NameLabel")]
+[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "PlayButton", "PauseButton", "SeekSlider", "PlaybackSpeedSpinBox", "TimeLabel", "NameLabel")]
 layout_mode = 2
 script = ExtResource("23_htxhm")
 Player = NodePath("../../../../FFmpegPlayer")
@@ -1142,6 +1127,7 @@ StopButton = NodePath("StopButton")
 PlayButton = NodePath("PlayButton")
 PauseButton = NodePath("PauseButton")
 SeekSlider = NodePath("SeekSlider")
+PlaybackSpeedSpinBox = NodePath("../HBoxContainer/VBoxContainer2/SpinBox")
 TimeLabel = NodePath("../HBoxContainer2/Label2")
 NameLabel = NodePath("../HBoxContainer2/PanelContainer/Label")
 
@@ -1426,6 +1412,7 @@ layout_mode = 2
 text = "NOOOOO"
 
 [node name="ResizeCorner" type="TextureRect" parent="." unique_id=1074496807]
+modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 1, 1, 0.48235294)
 z_index = -1
 layout_mode = 1
