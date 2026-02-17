@@ -21,3 +21,6 @@ obj
 
 # IDE
 .vscode/
+
+# Other trash
+*.csproj.old

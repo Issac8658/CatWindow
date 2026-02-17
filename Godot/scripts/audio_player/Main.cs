@@ -14,14 +14,19 @@ public partial class Main : Control
 
 	public override void _Ready()
 	{
+		string[] CMDArgs = OS.GetCmdlineArgs();
 		if (OS.GetCmdlineArgs().Length > 0)
-			if (Godot.FileAccess.FileExists(OS.GetCmdlineArgs()[0]) || FFmpeg.FFmpeg.IsUrl(OS.GetCmdlineArgs()[0]))
+			if (Godot.FileAccess.FileExists(CMDArgs[0]) || FFmpeg.FFmpeg.IsUrl(CMDArgs[0]))
 			{
-				Player.Play(OS.GetCmdlineArgs()[0]);
+				Player.Play(CMDArgs[0]);
+				GD.Print($"Found file in cmd arguments: {CMDArgs[0]}");
 			}
 
 		GetWindow().FilesDropped += (files) =>
 		{
+			GD.Print($"Files dropped:");
+			GD.Print(new Godot.Collections.Array<string>(files));
+
 			if (files.Length > 0)
 				if (Path.GetExtension(files[0]).Equals(".m3u", System.StringComparison.InvariantCultureIgnoreCase)
 				 || Path.GetExtension(files[0]).Equals(".m3u8", System.StringComparison.InvariantCultureIgnoreCase))
@@ -39,6 +44,8 @@ public partial class Main : Control
 
 		GetNode("/root/PipeListener").Connect("FileCaught", Callable.From((string path) =>
 		{
+			GD.Print($"Received file from pipe {path}");
+
 			if (Godot.FileAccess.FileExists(path) || FFmpeg.FFmpeg.IsUrl(path))
 				Player.Play(path);
 		}));

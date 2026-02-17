@@ -22,6 +22,7 @@ namespace FFmpeg
 		[Signal] public delegate void StoppedEventHandler();
 		[Signal] public delegate void RestartedEventHandler();
 		[Signal] public delegate void PausedEventHandler();
+		[Signal] public delegate void UnPausedEventHandler();
 
 		public const int SAMPLE_RATE = FFmpeg.SAMPLE_RATE;
 		public const int CHANNELS = FFmpeg.CHANNELS;
@@ -132,22 +133,13 @@ namespace FFmpeg
 			GD.Print("Play called");
 			if (FFmpegIsExist)
 			{
-				Stop();
-
 				string input = pathOrUrl.StartsWith("user://") // res:// not supported because of ffmpeg, need to extract audio before use
 					? ProjectSettings.GlobalizePath(pathOrUrl)
 					: pathOrUrl;
 
 				GD.Print($"Input: \"{pathOrUrl}\"");
 
-				_cts = new CancellationTokenSource();
-				_player.Play();
-				_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
-				_currentFile = input;
-				_startOffset = StartOffset;
-				_metadata = FFprobe.FFprobe.GetMetadata(input);
-
-				Continue();
+				_Play(input, StartOffset);
 			}
 
 			GD.Print("Playing");
@@ -156,13 +148,7 @@ namespace FFmpeg
 
 		public void Stop()
 		{
-			StopWithoutReset();
-
-			_startOffset = 0;
-			_totalPlaybackFrames = 0;
-			_currentFile = null;
-			_metadata = null;
-			_isPaused = false;
+			_Stop();
 
 			GD.Print("Stopped");
 			EmitSignal("Stopped");
@@ -172,13 +158,20 @@ namespace FFmpeg
 		{
 			if (Playing)
 			{
-				string file = _currentFile;
-				Play(file, Time);
+				if (!FFmpeg.IsUrl(_currentFile))
+				{
+					_Play(_currentFile, Time);
+					GD.Print($"Seeked to {Time}");
+				}
+				else
+					GD.Print("Seeking is unavailable for online assets");
 			}
+			else
+				GD.Print("Seeking is unavailable: playback has not started");
 		}
 		public void Restart()
 		{
-			if (Playing)
+			if (_playing)
 			{
 				_cts?.Cancel();
 				_cts = null;
@@ -198,6 +191,8 @@ namespace FFmpeg
 				GD.Print("Restarted");
 				EmitSignal("Restarted");
 			}
+			else
+				GD.Print("Couldn't restart: playback has not started or paused");
 		}
 
 		public void Pause()
@@ -211,12 +206,20 @@ namespace FFmpeg
 				GD.Print("Paused");
 				EmitSignal("Paused");
 			}
+			else
+				GD.Print("Couldn't pause: playback stopped or already paused");
 		}
 		public void UnPause()
 		{
-			_isPaused = false;
-			Play(_currentFile, PlaybackPosition);
-			GD.Print("Unpaused");
+			if (_isPaused && !_playing)
+			{
+				_isPaused = false;
+				_Play(_currentFile, PlaybackPosition);
+				GD.Print("Unpaused");
+				EmitSignal("UnPaused");
+			}
+			else
+				GD.Print("Couldn't continue playback: playback has already started or stopped completely");
 		}
 
 		#endregion
@@ -307,6 +310,31 @@ namespace FFmpeg
 		}
 		#endregion
 		#region Other
+		private void _Play(string input, double StartOffset)
+		{
+			_Stop();
+
+			_cts = new CancellationTokenSource();
+			_player.Play();
+			_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();
+			_currentFile = input;
+			_startOffset = StartOffset;
+			_metadata = FFprobe.FFprobe.GetMetadata(input);
+
+			Continue();
+		}
+
+		private void _Stop()
+		{
+			StopWithoutReset();
+
+			_startOffset = 0;
+			_totalPlaybackFrames = 0;
+			_currentFile = null;
+			_metadata = null;
+			_isPaused = false;
+		}
+
 		private void StopWithoutReset()
 		{
 			_cts?.Cancel();

@@ -677,6 +677,7 @@ size_flags_vertical = 0
 
 [node name="LeftEar" parent="CatWindow/ContentAndVolume/LeftEarAnchor" unique_id=551491595 instance=ExtResource("19_0cp0l")]
 layout_mode = 1
+anchors_preset = 0
 offset_left = -16.0
 offset_top = -46.0
 offset_right = 48.0
@@ -689,6 +690,7 @@ size_flags_vertical = 0
 
 [node name="LeftEar" parent="CatWindow/ContentAndVolume/RightEarAnchor" unique_id=1535422033 instance=ExtResource("19_0cp0l")]
 layout_mode = 1
+anchors_preset = 0
 offset_left = -48.0
 offset_top = -46.0
 offset_right = 16.0
@@ -1375,7 +1377,6 @@ oversampling_override = 1.0
 title = "FFmpeg alert"
 initial_position = 2
 size = Vector2i(303, 182)
-visible = false
 wrap_controls = true
 transient = true
 transient_to_focused = true

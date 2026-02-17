@@ -45,8 +45,10 @@ public partial class AudioControls : Control
 			Player.Seek(SeekSlider.Value);
 			_holding = false;
 		};
+		
 		Player.Played += () => // чем гуще лес if else if else...
 		{
+			NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
 			if (Player.Metadata != null)
 			{
 				if (Player.Metadata.Format.StartTime != null)
@@ -56,16 +58,13 @@ public partial class AudioControls : Control
 				SeekSlider.MaxValue = float.Parse(Player.Metadata.Format.Duration, CultureInfo.InvariantCulture);
 	
 				if (Player.Metadata.Format.Tags != null)
+				{
 					if (Player.Metadata.Format.Tags.Title != null)
-						if (Player.Metadata.Format.Tags.Artist != null)
-							NameLabel.Text = $"{Player.Metadata.Format.Tags.Title}[color=dim_gray] — {Player.Metadata.Format.Tags.Artist}[/color]";
-						else
-							NameLabel.Text = Player.Metadata.Format.Tags.Title;
-					else
-						NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
+						NameLabel.Text = Player.Metadata.Format.Tags.Title;
+					if (Player.Metadata.Format.Tags.Artist != null)
+						NameLabel.Text += $"[color=dim_gray] — {Player.Metadata.Format.Tags.Artist}[/color]";
+				}
 			}
-			else
-				NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
 			UpdateButtons();
 		};
 		Player.Stopped += () => 
@@ -82,10 +81,15 @@ public partial class AudioControls : Control
 			double playbackPos = Player.PlaybackPosition;
 			if (!_holding)
 				SeekSlider.Value = playbackPos;
+
+			string currentTime = FormatTime((int)playbackPos);
+			TimeLabel.Text = $"{currentTime} / ??:??";
 			if (Player.Metadata != null)
-				TimeLabel.Text = $"{FormatTime((int)playbackPos)} / {FormatTime((int)float.Parse(Player.Metadata.Format.Duration, CultureInfo.InvariantCulture))}";
-			else
-				TimeLabel.Text = "0:00 / 0:00";
+			{
+				float time = float.Parse(Player.Metadata.Format.Duration, CultureInfo.InvariantCulture);
+				if (time != 0)
+					TimeLabel.Text = $"{currentTime} / {FormatTime((int)time)}";
+			}
 		}
 	}
 	static string ToLenght(string originalText, string filler, uint Length)
