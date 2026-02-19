@@ -13,10 +13,13 @@ Simple audioplayer with cute interface :3c
 
 ## Expoting
 1. Godot
-Main part is made on [Godot Mono](https://godotengine.org/download/) 4.6 and it is used to export this part.
+Main part is made on [Godot Mono](https://godotengine.org/download/) 4.6.1 and it is used to export this part.
 
 2. Bootstrap
 It is needed for a single-instance, this is a mini DotNet project, vs code with the appropriate plugins is used for building
+
+- Run `dotnet publish -r win-x64 --self-contained true`
+- Done, bootstrap will be stored in `bin\Debug\Release\net10.0\win-x64\publish`
 
 3. Packing
 - Create any folder anywhere.

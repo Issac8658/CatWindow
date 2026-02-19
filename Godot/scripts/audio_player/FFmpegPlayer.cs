@@ -57,14 +57,14 @@ namespace FFmpeg
 		{
 			get
 			{
+				double PlayingTime = (double)(_totalPlaybackFrames - SAMPLE_RATE) / SAMPLE_RATE / TYPE_SCALE / 2.0 + _startOffset;
 				if (Metadata != null)
 				{
-					double PlayingTime = (double)(_totalPlaybackFrames - SAMPLE_RATE) / SAMPLE_RATE / TYPE_SCALE / 2.0 + _startOffset;
 					double Duration = double.Parse(Metadata.Format.Duration, CultureInfo.InvariantCulture);
-					return PlayingTime - Mathf.Floor(PlayingTime / Duration) * Duration;
+					if (Duration != 0)
+						return PlayingTime - Mathf.Floor(PlayingTime / Duration) * Duration;
 				}
-				else
-					return 0;
+				return PlayingTime;
 			}
 		}
 

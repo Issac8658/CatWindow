@@ -1,5 +1,7 @@
 extends Control;
 
+const DEFAULT_SIZE := Vector2i(250, 200)
+
 @onready var window := get_window()
 
 var mouse_offset := Vector2i(0,0);
@@ -27,6 +29,8 @@ func _ready() -> void:
 					is_dragging = true;
 				else:
 					is_dragging = false;
+			elif ((Event as InputEventMouseButton).button_index == MOUSE_BUTTON_RIGHT):
+				window.size = DEFAULT_SIZE;
 	);
 
 func _process(_delta: float) -> void:

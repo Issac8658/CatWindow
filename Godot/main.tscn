@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://dfox0qsbvlho2" path="res://scripts/audio_player/FFmpegPlayer.cs" id="27_a6jrf"]
 [ext_resource type="Script" uid="uid://c4f60mfldphk1" path="res://scripts/audio_player/additional/url_player.gd" id="28_xuqvo"]
 [ext_resource type="Texture2D" uid="uid://blwjrcxnfx6rs" path="res://sprites/ui/pause_icon.tres" id="33_come4"]
+[ext_resource type="Texture2D" uid="uid://c6558mtc71bei" path="res://sprites/ui/loop_icon.tres" id="39_0cp0l"]
 [ext_resource type="Texture2D" uid="uid://cgjfm3w80mhff" path="res://sprites/ui/rescale_corner.tres" id="40_h8e4i"]
 [ext_resource type="Script" uid="uid://dbun11idw3vgy" path="res://scripts/cat/additional/resize.gd" id="41_4lmeg"]
 [ext_resource type="StyleBox" uid="uid://djko02wscso2o" path="res://skin_styleboxes/cat_icon_base.tres" id="41_d2t1y"]
@@ -248,6 +249,19 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_facbu"]
 bg_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Gradient" id="Gradient_bkj7p"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_074og"]
+gradient = SubResource("Gradient_bkj7p")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2cqfq"]
+radius = 15.132746
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w48qg"]
 content_margin_left = 24.0
 content_margin_top = 24.0
@@ -266,19 +280,6 @@ func _ready() -> void:
 	)
 	
 "
-
-[sub_resource type="Gradient" id="Gradient_bkj7p"]
-interpolation_mode = 1
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_074og"]
-gradient = SubResource("Gradient_bkj7p")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_2cqfq"]
-radius = 15.132746
 
 [node name="Cat" type="Control" unique_id=1558346445 node_paths=PackedStringArray("ClickableFace", "Player", "PlaylistWindow")]
 layout_mode = 3
@@ -697,6 +698,184 @@ offset_right = 16.0
 offset_bottom = 18.0
 EarEndPoint = Vector2i(60, -66)
 
+[node name="ResizeCorner" type="TextureRect" parent="." unique_id=1074496807]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.48235294)
+z_index = -1
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -14.0
+offset_top = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 12
+texture = ExtResource("40_h8e4i")
+script = ExtResource("41_4lmeg")
+min_size = Vector2i(201, 176)
+max_size = Vector2i(1700, 800)
+
+[node name="LeftPawAnchor" type="Control" parent="." unique_id=325740499 node_paths=PackedStringArray("PawNodes", "PawLine", "NodeToPush", "PawDragControl", "PawDragJoint", "PawRoot")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+script = ExtResource("15_2cqfq")
+PawNodes = [NodePath("PawPhysics/PawKnee"), NodePath("PawPhysics/PawRoot")]
+PawLine = NodePath("Line2D")
+NodeToPush = NodePath("PawPhysics/PawKnee")
+PawDragControl = NodePath("PawPhysics/PawKnee/MoveControl2")
+PawDragJoint = NodePath("PawPhysics/PawKnee/MoveControl2/PinJoint2D2")
+PawRoot = NodePath("PawPhysics/PawRoot")
+MaxPushMagnitude = 100.0
+
+[node name="Line2D" type="Line2D" parent="LeftPawAnchor" unique_id=586303237]
+position = Vector2(30, -22)
+points = PackedVector2Array(0, 35, 0, 0)
+width = 30.0
+texture = ExtResource("15_vivmo")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+
+[node name="PawPhysics" type="Node2D" parent="LeftPawAnchor" unique_id=696405988]
+position = Vector2(30, -22)
+
+[node name="PawRoot" type="StaticBody2D" parent="LeftPawAnchor/PawPhysics" unique_id=1615711425]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D3" type="Sprite2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=121601370]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=1894028317]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="DampedSpringJoint2D2" type="PinJoint2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=1908256987]
+node_a = NodePath("..")
+node_b = NodePath("../../PawKnee")
+disable_collision = false
+angular_limit_enabled = true
+angular_limit_lower = -0.34906584
+angular_limit_upper = 0.34906584
+
+[node name="PawKnee" type="RigidBody2D" parent="LeftPawAnchor/PawPhysics" unique_id=1719679755]
+position = Vector2(0, 34)
+
+[node name="Sprite2D2" type="Sprite2D" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=36772808]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=1178976792]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="MoveControl2" type="Control" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=559584714]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+pivot_offset = Vector2(15, 15)
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="LeftPawAnchor/PawPhysics/PawKnee/MoveControl2" unique_id=1157155399]
+position = Vector2(15, 15)
+node_b = NodePath("../..")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="LeftPawAnchor/PawPhysics/PawKnee/MoveControl2/PinJoint2D2" unique_id=566852529]
+
+[node name="RightPawAnchor" type="Control" parent="." unique_id=1936857273 node_paths=PackedStringArray("PawNodes", "PawLine", "NodeToPush", "PawDragControl", "PawDragJoint", "PawRoot")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("15_2cqfq")
+PawNodes = [NodePath("PawPhysics2/PawKnee"), NodePath("PawPhysics2/PawRoot")]
+PawLine = NodePath("Line2D2")
+NodeToPush = NodePath("PawPhysics2/PawKnee")
+PawDragControl = NodePath("PawPhysics2/PawKnee/MoveControl")
+PawDragJoint = NodePath("PawPhysics2/PawKnee/MoveControl/PinJoint2D")
+PawRoot = NodePath("PawPhysics2/PawRoot")
+MaxPushMagnitude = 100.0
+
+[node name="Line2D2" type="Line2D" parent="RightPawAnchor" unique_id=431053123]
+position = Vector2(-30, -22)
+points = PackedVector2Array(0, 35, 0, 0)
+width = 30.0
+texture = ExtResource("15_vivmo")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+
+[node name="PawPhysics2" type="Node2D" parent="RightPawAnchor" unique_id=536988227]
+position = Vector2(-30, -22)
+
+[node name="PawRoot" type="StaticBody2D" parent="RightPawAnchor/PawPhysics2" unique_id=757149736]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D3" type="Sprite2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=1806896965]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=1338943225]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="DampedSpringJoint2D2" type="PinJoint2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=779085411]
+node_a = NodePath("..")
+node_b = NodePath("../../PawKnee")
+disable_collision = false
+angular_limit_enabled = true
+angular_limit_lower = -0.34906584
+angular_limit_upper = 0.34906584
+
+[node name="PawKnee" type="RigidBody2D" parent="RightPawAnchor/PawPhysics2" unique_id=1506979335]
+position = Vector2(0, 34)
+
+[node name="Sprite2D2" type="Sprite2D" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1817433025]
+visible = false
+scale = Vector2(0.2437486, 0.2437486)
+texture = SubResource("GradientTexture2D_074og")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1078358460]
+shape = SubResource("CircleShape2D_2cqfq")
+
+[node name="MoveControl" type="Control" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1156148681]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+pivot_offset = Vector2(15, 15)
+
+[node name="PinJoint2D" type="PinJoint2D" parent="RightPawAnchor/PawPhysics2/PawKnee/MoveControl" unique_id=486726548]
+position = Vector2(15, 15)
+node_b = NodePath("../..")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="RightPawAnchor/PawPhysics2/PawKnee/MoveControl/PinJoint2D" unique_id=424966871]
+
+[node name="Label" type="Label" parent="." unique_id=2078924189]
+layout_mode = 0
+offset_left = 2583.0
+offset_top = 1566.0
+offset_right = 3193.0
+offset_bottom = 2176.0
+text = ""
+autowrap_mode = 1
+
 [node name="MeowSound" type="AudioStreamPlayer" parent="." unique_id=1502461157]
 bus = &"Sounds"
 
@@ -705,6 +884,12 @@ stream = ExtResource("15_yaehf")
 volume_db = -17.023
 bus = &"Sounds"
 parameters/looping = true
+
+[node name="FFmpegPlayer" type="Node" parent="." unique_id=253374428]
+script = ExtResource("27_a6jrf")
+Loop = true
+TargetBus = 1
+metadata/_custom_type_script = "uid://dfox0qsbvlho2"
 
 [node name="SettingsWindow" type="Window" parent="." unique_id=42616857]
 transparent_bg = true
@@ -1120,6 +1305,12 @@ layout_mode = 2
 icon = ExtResource("21_1u8w0")
 icon_alignment = 1
 
+[node name="LoopButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=738065958]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+icon = ExtResource("39_0cp0l")
+icon_alignment = 1
+
 [node name="InfoButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=2136091940]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
@@ -1146,238 +1337,12 @@ caret_blink_interval = 0.5
 layout_mode = 2
 text = "Play!"
 
-[node name="Label" type="Label" parent="." unique_id=2078924189]
-layout_mode = 0
-offset_left = 2583.0
-offset_top = 1566.0
-offset_right = 3193.0
-offset_bottom = 2176.0
-text = ""
-autowrap_mode = 1
-
-[node name="LeftPawAnchor" type="Control" parent="." unique_id=325740499 node_paths=PackedStringArray("PawNodes", "PawLine", "NodeToPush", "PawDragControl", "PawDragJoint", "PawRoot")]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-grow_vertical = 0
-script = ExtResource("15_2cqfq")
-PawNodes = [NodePath("PawPhysics/PawKnee"), NodePath("PawPhysics/PawRoot")]
-PawLine = NodePath("Line2D")
-NodeToPush = NodePath("PawPhysics/PawKnee")
-PawDragControl = NodePath("PawPhysics/PawKnee/MoveControl2")
-PawDragJoint = NodePath("PawPhysics/PawKnee/MoveControl2/PinJoint2D2")
-PawRoot = NodePath("PawPhysics/PawRoot")
-MaxPushMagnitude = 100.0
-
-[node name="Line2D" type="Line2D" parent="LeftPawAnchor" unique_id=586303237]
-position = Vector2(30, -22)
-points = PackedVector2Array(0, 35, 0, 0)
-width = 30.0
-texture = ExtResource("15_vivmo")
-texture_mode = 1
-joint_mode = 2
-begin_cap_mode = 2
-
-[node name="PawPhysics" type="Node2D" parent="LeftPawAnchor" unique_id=696405988]
-position = Vector2(30, -22)
-
-[node name="PawRoot" type="StaticBody2D" parent="LeftPawAnchor/PawPhysics" unique_id=1615711425]
-collision_layer = 0
-collision_mask = 0
-
-[node name="Sprite2D3" type="Sprite2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=121601370]
-visible = false
-scale = Vector2(0.2437486, 0.2437486)
-texture = SubResource("GradientTexture2D_074og")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=1894028317]
-shape = SubResource("CircleShape2D_2cqfq")
-
-[node name="DampedSpringJoint2D2" type="PinJoint2D" parent="LeftPawAnchor/PawPhysics/PawRoot" unique_id=1908256987]
-node_a = NodePath("..")
-node_b = NodePath("../../PawKnee")
-disable_collision = false
-angular_limit_enabled = true
-angular_limit_lower = -0.34906584
-angular_limit_upper = 0.34906584
-
-[node name="PawKnee" type="RigidBody2D" parent="LeftPawAnchor/PawPhysics" unique_id=1719679755]
-position = Vector2(0, 34)
-
-[node name="Sprite2D2" type="Sprite2D" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=36772808]
-visible = false
-scale = Vector2(0.2437486, 0.2437486)
-texture = SubResource("GradientTexture2D_074og")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=1178976792]
-shape = SubResource("CircleShape2D_2cqfq")
-
-[node name="MoveControl2" type="Control" parent="LeftPawAnchor/PawPhysics/PawKnee" unique_id=559584714]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -15.0
-offset_top = -15.0
-offset_right = 15.0
-offset_bottom = 15.0
-pivot_offset = Vector2(15, 15)
-
-[node name="PinJoint2D2" type="PinJoint2D" parent="LeftPawAnchor/PawPhysics/PawKnee/MoveControl2" unique_id=1157155399]
-position = Vector2(15, 15)
-node_b = NodePath("../..")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="LeftPawAnchor/PawPhysics/PawKnee/MoveControl2/PinJoint2D2" unique_id=566852529]
-
-[node name="RightPawAnchor" type="Control" parent="." unique_id=1936857273 node_paths=PackedStringArray("PawNodes", "PawLine", "NodeToPush", "PawDragControl", "PawDragJoint", "PawRoot")]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 0
-script = ExtResource("15_2cqfq")
-PawNodes = [NodePath("PawPhysics2/PawKnee"), NodePath("PawPhysics2/PawRoot")]
-PawLine = NodePath("Line2D2")
-NodeToPush = NodePath("PawPhysics2/PawKnee")
-PawDragControl = NodePath("PawPhysics2/PawKnee/MoveControl")
-PawDragJoint = NodePath("PawPhysics2/PawKnee/MoveControl/PinJoint2D")
-PawRoot = NodePath("PawPhysics2/PawRoot")
-MaxPushMagnitude = 100.0
-
-[node name="Line2D2" type="Line2D" parent="RightPawAnchor" unique_id=431053123]
-position = Vector2(-30, -22)
-points = PackedVector2Array(0, 35, 0, 0)
-width = 30.0
-texture = ExtResource("15_vivmo")
-texture_mode = 1
-joint_mode = 2
-begin_cap_mode = 2
-
-[node name="PawPhysics2" type="Node2D" parent="RightPawAnchor" unique_id=536988227]
-position = Vector2(-30, -22)
-
-[node name="PawRoot" type="StaticBody2D" parent="RightPawAnchor/PawPhysics2" unique_id=757149736]
-collision_layer = 0
-collision_mask = 0
-
-[node name="Sprite2D3" type="Sprite2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=1806896965]
-visible = false
-scale = Vector2(0.2437486, 0.2437486)
-texture = SubResource("GradientTexture2D_074og")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=1338943225]
-shape = SubResource("CircleShape2D_2cqfq")
-
-[node name="DampedSpringJoint2D2" type="PinJoint2D" parent="RightPawAnchor/PawPhysics2/PawRoot" unique_id=779085411]
-node_a = NodePath("..")
-node_b = NodePath("../../PawKnee")
-disable_collision = false
-angular_limit_enabled = true
-angular_limit_lower = -0.34906584
-angular_limit_upper = 0.34906584
-
-[node name="PawKnee" type="RigidBody2D" parent="RightPawAnchor/PawPhysics2" unique_id=1506979335]
-position = Vector2(0, 34)
-
-[node name="Sprite2D2" type="Sprite2D" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1817433025]
-visible = false
-scale = Vector2(0.2437486, 0.2437486)
-texture = SubResource("GradientTexture2D_074og")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1078358460]
-shape = SubResource("CircleShape2D_2cqfq")
-
-[node name="MoveControl" type="Control" parent="RightPawAnchor/PawPhysics2/PawKnee" unique_id=1156148681]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -15.0
-offset_top = -15.0
-offset_right = 15.0
-offset_bottom = 15.0
-pivot_offset = Vector2(15, 15)
-
-[node name="PinJoint2D" type="PinJoint2D" parent="RightPawAnchor/PawPhysics2/PawKnee/MoveControl" unique_id=486726548]
-position = Vector2(15, 15)
-node_b = NodePath("../..")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="RightPawAnchor/PawPhysics2/PawKnee/MoveControl/PinJoint2D" unique_id=424966871]
-
-[node name="FFmpegPlayer" type="Node" parent="." unique_id=253374428]
-script = ExtResource("27_a6jrf")
-Loop = true
-TargetBus = 1
-metadata/_custom_type_script = "uid://dfox0qsbvlho2"
-
-[node name="Window" type="Window" parent="." unique_id=589452129]
-oversampling_override = 1.0
-title = "3:<"
-initial_position = 1
-size = Vector2i(280, 161)
-visible = false
-unresizable = true
-sharp_corners = true
-minimize_disabled = true
-maximize_disabled = true
-theme = ExtResource("2_272bh")
-
-[node name="MarginContainer" type="MarginContainer" parent="Window" unique_id=1537097475]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer" unique_id=1173410344]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer" unique_id=37877439]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-text = "You haven't given me audio
-files for the third minute!1! 3:<
-I'm leaving."
-
-[node name="VBoxContainer" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=354218728]
-layout_mode = 2
-alignment = 1
-
-[node name="Button" type="Button" parent="Window/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1041144481]
-layout_mode = 2
-text = "NOOOOO"
-
-[node name="ResizeCorner" type="TextureRect" parent="." unique_id=1074496807]
-modulate = Color(1, 1, 1, 0)
-self_modulate = Color(1, 1, 1, 0.48235294)
-z_index = -1
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -14.0
-offset_top = -14.0
-grow_horizontal = 0
-grow_vertical = 0
-mouse_default_cursor_shape = 12
-texture = ExtResource("40_h8e4i")
-script = ExtResource("41_4lmeg")
-min_size = Vector2i(201, 176)
-max_size = Vector2i(1700, 800)
-
 [node name="FFmpegAlert" type="Window" parent="." unique_id=1323183534]
 oversampling_override = 1.0
 title = "FFmpeg alert"
 initial_position = 2
 size = Vector2i(303, 182)
-wrap_controls = true
+visible = false
 transient = true
 transient_to_focused = true
 unresizable = true
@@ -1454,3 +1419,45 @@ text = "Continue"
 [node name="Button2" type="Button" parent="FFmpegAlert/MarginContainer/VBoxContainer/HBoxContainer" unique_id=422023640]
 layout_mode = 2
 text = "Exit"
+
+[node name="Window" type="Window" parent="." unique_id=589452129]
+oversampling_override = 1.0
+title = "3:<"
+initial_position = 1
+size = Vector2i(280, 161)
+visible = false
+unresizable = true
+sharp_corners = true
+minimize_disabled = true
+maximize_disabled = true
+theme = ExtResource("2_272bh")
+
+[node name="MarginContainer" type="MarginContainer" parent="Window" unique_id=1537097475]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Window/MarginContainer" unique_id=1173410344]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Window/MarginContainer/VBoxContainer" unique_id=37877439]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "You haven't given me audio
+files for the third minute!1! 3:<
+I'm leaving."
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Window/MarginContainer/VBoxContainer" unique_id=354218728]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="Window/MarginContainer/VBoxContainer/VBoxContainer" unique_id=1041144481]
+layout_mode = 2
+text = "NOOOOO"
