@@ -10,7 +10,8 @@ public partial class Playlist : Window
 
 	//private DirAccess playlistsFolder;
 
-	private string[] _currentPlaylist = [];
+	private Godot.Collections.Dictionary<string, bool> _currentPlaylist = [];
+	private string _currentPlaylistFile;
 	//private Godot.Collections.Array<string> _playlists = [];
 
 	[Export]
@@ -128,9 +129,14 @@ public partial class Playlist : Window
 						}
 						//trackLabel.TrackLength = Godot.FileAccess.GetSize(Folder.GetCurrentDir());
 						TrackLabelsContainer.AddChild(trackLabel);
+
+						_currentPlaylist.Add(line, true);
 					}
+					else
+						_currentPlaylist.Add(line, false);
 				}
 			}
+			_currentPlaylistFile = PlaylistPath;
 		}
 	}
 

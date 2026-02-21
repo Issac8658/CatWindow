@@ -23,6 +23,7 @@ namespace FFmpeg
 		[Signal] public delegate void RestartedEventHandler();
 		[Signal] public delegate void PausedEventHandler();
 		[Signal] public delegate void UnPausedEventHandler();
+		[Signal] public delegate void EndedEventHandler();
 
 		public const int SAMPLE_RATE = FFmpeg.SAMPLE_RATE;
 		public const int CHANNELS = FFmpeg.CHANNELS;
@@ -292,7 +293,11 @@ namespace FFmpeg
 						_pcmQueue.Enqueue(chunk);
 				}
 				if (Loop) CallDeferred("Restart");
-				else CallDeferred("Stop");
+				else 
+				{
+					CallDeferred("Stop");
+					EmitSignal("Ended");
+				}
 			}
 			catch (OperationCanceledException) { }
 		}
