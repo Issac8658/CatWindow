@@ -380,7 +380,7 @@ render_target_update_mode = 4
 [node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
 script = ExtResource("12_2cqfq")
 ShakePower = 80.0
-MinFramesCount = 1304
+MinFramesCount = 1466
 Player = NodePath("../../../../../../FFmpegPlayer")
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
@@ -1264,6 +1264,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 1.0
 step = 0.01
+ticks_on_borders = true
 
 [node name="PreviousButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1836025060]
 custom_minimum_size = Vector2(28, 28)

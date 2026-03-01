@@ -73,6 +73,7 @@ public partial class AudioControls : Control
 			UpdateButtons();
 		};
 		Player.Paused += UpdateButtons;
+		Player.UnPaused += UpdateButtons;
 	}
 	public override void _Process(double Delta)
 	{
@@ -123,6 +124,6 @@ public partial class AudioControls : Control
 	private void UpdateButtons()
 	{
 		PlayButton.Visible = Player.IsPaused || !Player.Playing;
-		PauseButton.Visible = !Player.IsPaused && Player.Playing;
+		PauseButton.Visible = !PlayButton.Visible;
 	}
 }

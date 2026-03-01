@@ -60,12 +60,12 @@ public partial class AudioVisualizator : Node2D
 			// left channel
 			float Sample1 = Buffer[Mathf.Clamp((int)(i * WaveScale), 0, Buffer.Count - 1)].X;
 			float X1 = i;
-			float Y1 = viewportSize.Y / 2 + Sample1 * viewportSize.Y / 2;
+			float Y1 = viewportSize.Y / 2 + -Sample1 * viewportSize.Y / 2;
 
 			// right channel
 			float Sample2 = Buffer[Mathf.Clamp((int)((i + 1) * WaveScale), 0, Buffer.Count - 1)].Y;
 			float X2 = i + 1;
-			float Y2 = viewportSize.Y / 2 + Sample2 * viewportSize.Y / 2;
+			float Y2 = viewportSize.Y / 2 + -Sample2 * viewportSize.Y / 2;
 
 			// Making lines red if amplitude >1
 			Color col = new(1, 1, 1, PoweredVolume);

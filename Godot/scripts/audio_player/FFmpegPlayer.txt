@@ -60,8 +60,7 @@ namespace FFmpeg
 		{
 			get
 			{
-				double PlayingTime = FFmpeg.FrameToTime(_totalPlaybackFrames - _bufferedFrames) + _startOffset;
-
+				double PlayingTime = FFmpeg.FrameToTime(_totalPlaybackFrames - _bufferedFrames);
 				if (Metadata != null)
 				{
 					double Duration;
@@ -70,7 +69,7 @@ namespace FFmpeg
 					else
 						Duration = FFmpeg.FrameToTime(_trueDuration);
 					if (Duration != 0)
-						PlayingTime -= Mathf.Floor(PlayingTime / Duration) * Duration;
+						return PlayingTime - Mathf.Floor(PlayingTime / Duration) * Duration;
 				}
 				return PlayingTime;
 			}
@@ -132,9 +131,8 @@ namespace FFmpeg
 				_totalPlaybackFrames += (ulong)floatCount;
 
 				PushSamples(_playback, samples);
-				
-				_bufferedFrames = (ulong)(_bufferLength - _playback.GetFramesAvailable()) * CHANNELS;
 			}
+			_bufferedFrames = (ulong)(_bufferLength - _playback.GetFramesAvailable()) * CHANNELS;
 		}
 
 		#region Public Methods
@@ -299,7 +297,7 @@ namespace FFmpeg
 					lock (_lock)
 						_pcmQueue.Enqueue(chunk);
 				}
-				if (_trueDuration == 0 && canContinue)
+				if (_trueDuration == 0)
 					_trueDuration = _totalPlaybackFrames;
 				if (Loop) CallDeferred("Restart");
 				else 
@@ -326,11 +324,7 @@ namespace FFmpeg
 		#region Other
 		private void _Play(string input, double StartOffset)
 		{
-			StopWithoutReset();
-
-			_totalPlaybackFrames = 0;
-			_trueDuration = 0;
-			_isPaused = false;
+			_Stop();
 			
 			_cts = new CancellationTokenSource();
 			_player.Play();

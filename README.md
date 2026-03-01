@@ -7,26 +7,33 @@ Simple audioplayer with cute interface :3c
 - Correct audio wave visualizator
 - Seamless looping
 - .m3u and .m3u8 Playlists (wip)
-- Changable playback speed (wip)
 - Max volume up to 2000%
 - Cute window with ears and paws :3c
 
 ## Expoting
+0. Download the project in any convenient way
+
 1. Godot
-Main part is made on [Godot Mono](https://godotengine.org/download/) 4.6.1 and it is used to export this part.
+Main part is made in [Godot Mono](https://godotengine.org/download/) 4.6.1 and it is used to export this part.
+
+- Download and install [Godot Mono 4.6.1](https://godotengine.org/download/archive/4.6.1-stable/) (.Net version, not standart)
+- Open `Godot_v4.6.1-stable_mono_win64.exe` and import project in `/Godot/project.godot`
+- Change it as you need
+- Export and get executable file
 
 2. Bootstrap
 It is needed for a single-instance, this is a mini DotNet project, vs code with the appropriate plugins is used for building
 
-- Run `dotnet publish -r win-x64 --self-contained true`
+- Download and install [DotNet 10.0](https://dotnet.microsoft.com/download)
+- Run `dotnet publish -r win-x64 --self-contained true` in bootstrap folder
 - Done, bootstrap will be stored in `bin\Debug\Release\net10.0\win-x64\publish`
 
 3. Packing
 - Create any folder anywhere.
 - Move the following to this folder:
-<br>Export results of Godot part and rename the executable file to CatWindow.bin (or another name if you changed it in Bootstrap)
-<br>Bootstrap executable file (and dependencies, if any)
-<br>ffmpeg and ffprobe binaries(You can use other versions of ffmpeg, the main thing is that ffmpeg.exe and ffprobe.exe are in the folder)
+<br>   Export results of Godot part and rename the executable file to CatWindow.bin (or another name if you changed it in Bootstrap, but Windows correct working only with .bin)
+<br>   Bootstrap executable file (and dependencies, if any)
+<br>   *(Windows only)* ffmpeg and ffprobe binaries(You can use other versions of ffmpeg, the main thing is that ffmpeg.exe and ffprobe.exe are in the folder)
 - Launch Bootstrap and use
 
 ## [FFmpeg](https://ffmpeg.org)
