@@ -2,7 +2,7 @@
 Simple audioplayer with cute interface :3c
 > You need him. Don't ask me why.
 
-### Features
+## Features
 - Supports all formats played by FFmpeg
 - Correct audio wave visualizator
 - Seamless looping
@@ -31,12 +31,14 @@ It is needed for a single-instance, this is a mini DotNet project, vs code with 
 3. Packing
 - Create any folder anywhere.
 - Move the following to this folder:
-<br>   Export results of Godot part and rename the executable file to CatWindow.bin (or another name if you changed it in Bootstrap, but Windows correct working only with .bin)
-<br>   Bootstrap executable file (and dependencies, if any)
-<br>   *(Windows only)* ffmpeg and ffprobe binaries(You can use other versions of ffmpeg, the main thing is that ffmpeg.exe and ffprobe.exe are in the folder)
+    - Export results of Godot part and rename the executable file to CatWindow.bin (or another name if you changed it in Bootstrap, but Windows correct working only with .bin)
+    - Bootstrap executable file (and dependencies, if any)
+    - *(Windows only)* ffmpeg and ffprobe binaries(You can use other versions of ffmpeg, the main thing is that ffmpeg.exe and ffprobe.exe are in the folder)
 - Launch Bootstrap and use
 
-## [FFmpeg](https://ffmpeg.org)
+---
+
+# [FFmpeg](https://ffmpeg.org)
 This project uses FFmpeg under the [LGPL v2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html) license.
 FFmpeg is not modified and is distributed as a separate binary.
 Source code of FFmpeg can be found [here](https://www.ffmpeg.org/download.html#get-sources)
