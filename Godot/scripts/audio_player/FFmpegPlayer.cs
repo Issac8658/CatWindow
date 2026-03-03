@@ -30,7 +30,7 @@ namespace FFmpeg
 		public const int TYPE_SCALE = FFmpeg.TYPE_SCALE; // because of float 32
 		public const float BUFFER_LENGTH = 2.0f;
 
-		public readonly bool FFmpegIsExist = FFmpeg.IsExists();
+		public static readonly bool FFmpegIsExist = FFmpeg.IsExists();
 
 		private AudioStreamGeneratorPlayback _playback;
 		private Process _ffmpeg;
@@ -432,11 +432,11 @@ namespace FFmpeg
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,
 					UseShellExecute = false,
-					CreateNoWindow = true
+					CreateNoWindow = !OS.GetCmdlineArgs().Contains("--ffmpeg_debug")
 				};
 
 				using var process = Process.Start(psi);
-				process.WaitForExit(2000);
+				process.WaitForExit();
 
 				return true;
 			}

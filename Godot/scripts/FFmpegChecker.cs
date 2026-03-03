@@ -1,15 +1,22 @@
+using FFmpeg;
 using Godot;
-using System;
 
 public partial class FFmpegChecker : Window
 {
-	// Called when the node enters the scene tree for the first time.
+	[Export]
+	public Button ContinueButton;
+	[Export]
+	public Button ExitButton;
+
 	public override void _Ready()
 	{
-	}
+		if (!FFmpegPlayer.FFmpegIsExist)
+		{
+			Visible = true;
+		}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+		ContinueButton.Pressed += () => Visible = false;
+		ExitButton.Pressed += () => { GetTree().Quit(); };
+		CloseRequested += () => { GetTree().Quit(); };
 	}
 }

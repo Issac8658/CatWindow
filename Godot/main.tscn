@@ -42,6 +42,7 @@
 [ext_resource type="Texture2D" uid="uid://cgjfm3w80mhff" path="res://sprites/ui/rescale_corner.tres" id="40_h8e4i"]
 [ext_resource type="Script" uid="uid://dbun11idw3vgy" path="res://scripts/cat/additional/resize.gd" id="41_4lmeg"]
 [ext_resource type="StyleBox" uid="uid://djko02wscso2o" path="res://skin_styleboxes/cat_icon_base.tres" id="41_d2t1y"]
+[ext_resource type="Script" uid="uid://b512fj57jcwsu" path="res://scripts/FFmpegChecker.cs" id="42_d2t1y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvp3"]
 content_margin_left = 2.0
@@ -1355,11 +1356,11 @@ caret_blink_interval = 0.5
 layout_mode = 2
 text = "Play!"
 
-[node name="FFmpegAlert" type="Window" parent="." unique_id=1323183534]
+[node name="FFmpegAlert" type="Window" parent="." unique_id=1323183534 node_paths=PackedStringArray("ContinueButton", "ExitButton")]
 oversampling_override = 1.0
 title = "FFmpeg alert"
 initial_position = 2
-size = Vector2i(303, 182)
+size = Vector2i(303, 160)
 visible = false
 transient = true
 transient_to_focused = true
@@ -1369,6 +1370,9 @@ sharp_corners = true
 minimize_disabled = true
 maximize_disabled = true
 theme = ExtResource("2_272bh")
+script = ExtResource("42_d2t1y")
+ContinueButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Button")
+ExitButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Button2")
 
 [node name="MarginContainer" type="MarginContainer" parent="FFmpegAlert" unique_id=1206608039]
 anchors_preset = 15
@@ -1421,7 +1425,7 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
-text = "If you continue, the metadata will be ignored, and audio file support will be limited to .wav, .ogg and .mp3"
+text = "If you continue, CatWindow will not be able to play external audio!"
 vertical_alignment = 1
 autowrap_mode = 3
 

@@ -1,4 +1,5 @@
 using System.IO;
+using FFmpeg;
 using Godot;
 
 // draw your ascii cat here :3c
@@ -34,7 +35,7 @@ public partial class Main : Control
 		{
 			if (Event is InputEventMouseButton EventMouse)
 				if (Event.IsPressed() && EventMouse.ButtonIndex == MouseButton.Left)
-					PlaylistWindow.Visible = !PlaylistWindow.Visible;
+					PlaylistWindow.Visible = !PlaylistWindow.Visible && FFmpegPlayer.FFmpegIsExist;
 		};
 
 		GetNode("/root/PipeListener").Connect("FileCaught", Callable.From((string path) =>
@@ -48,13 +49,16 @@ public partial class Main : Control
 
 	public void PlayFile(string file)
 	{
-		if (Path.GetExtension(file).Equals(".m3u", System.StringComparison.InvariantCultureIgnoreCase)
-		 || Path.GetExtension(file).Equals(".m3u8", System.StringComparison.InvariantCultureIgnoreCase))
-			PlaylistWindow.ParsePlaylist(file);
-		else
+		if (FFmpegPlayer.FFmpegIsExist)
 		{
-			PlaylistWindow.Unload();
-			Player.Play(file);
+			if (Path.GetExtension(file).Equals(".m3u", System.StringComparison.InvariantCultureIgnoreCase)
+			 || Path.GetExtension(file).Equals(".m3u8", System.StringComparison.InvariantCultureIgnoreCase))
+				PlaylistWindow.ParsePlaylist(file);
+			else
+			{
+				PlaylistWindow.Unload();
+				Player.Play(file);
+			}
 		}
 	}
 }
