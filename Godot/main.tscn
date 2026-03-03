@@ -1142,6 +1142,7 @@ popup/item_0/text = "New Unnamed Playlist"
 popup/item_0/id = 0
 
 [node name="RemovePlaylist" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=591477105]
+visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -1150,6 +1151,7 @@ icon = ExtResource("19_kq58d")
 icon_alignment = 2
 
 [node name="NewPlaylist" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=2101433007]
+visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 text = "Add Track"
@@ -1157,6 +1159,7 @@ icon = ExtResource("19_qsp4k")
 icon_alignment = 2
 
 [node name="OpenPlaylist" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=1353809143]
+visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 tooltip_text = "Add created"
@@ -1168,7 +1171,7 @@ size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("20_qsp4k")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PlaylistWindow/Content/VBoxContainer/PanelContainer" unique_id=1373729665]
-custom_minimum_size = Vector2(0, 22)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_vertical = 3
 

@@ -4,6 +4,7 @@ using FFmpeg;
 using FFmpeg.FFprobe;
 using System.Text.Json.Serialization;
 using System.Linq;
+using System.Threading.Tasks;
 
 public partial class Playlist : Window
 {
@@ -50,60 +51,40 @@ public partial class Playlist : Window
 
 			string[] Lines = Playlist.GetAsText().Replace("\r", "").Split("\n");
 
-			int i = 0;
-			foreach (string line in Lines)
+			int c = 0;
+			for (int i = 0; i < Lines.Length; i++)
 			{
+				string line = Lines[i];
 				if (!line.StartsWith('#'))
 				{
 					if (Folder.FileExists(line))
 					{
 						GD.Print($"Track {line}");
-						FFprobeResult Metadata = FFprobe.GetMetadata(RelToAbs(Folder, line));
-						if (Metadata == null) break;
+						string path = RelToAbs(Folder, line);
 
 						Track trackLabel = TrackLabelTemplate.Instantiate<Track>();
-						trackLabel.TrackIndex = i + 1;
-						trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
+						trackLabel.TrackIndex = c + 1;
+						trackLabel.TrackName = Path.GetFileNameWithoutExtension(path);
 
-						GD.Print($"Has meta");
-
-						trackLabel.TrackType = Metadata.Format.FormatName;
-						trackLabel.TrackLength = float.Parse(Metadata.Format.Duration.Replace('.', ','));
-						trackLabel.TrackSize = ulong.Parse(Metadata.Format.Size.ToString());
-
-						if (Metadata.Format != null)
-						{
-							GD.Print($"Has tags");
-							if (Metadata.Format.Tags != null)
-								if (Metadata.Format.Tags.Title != null)
-									if (Metadata.Format.Tags.Artist != null)
-										trackLabel.TrackName = $"{Metadata.Format.Tags.Title}[color=dim_gray] — {Metadata.Format.Tags.Artist}[/color]";
-									else
-										trackLabel.TrackName = Metadata.Format.Tags.Title;
-								else
-									trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
-						}
-
-						int id = i;
-						
 						trackLabel.GuiInput += Event =>
 						{
 							if (Event is InputEventMouseButton mouseButtonEvent)
 							{
 								if (mouseButtonEvent.Pressed && mouseButtonEvent.ButtonIndex == MouseButton.Left)
 								{
-									Select(id);
+									Select(c);
 								}
 							}
 						};
 						TrackLabelsContainer.AddChild(trackLabel);
 
-						_currentPlaylist.Add(line, true);
-
-						i++;
+						Task.Run(async () => _ = SetMeta(trackLabel, path));
+						
+						_currentPlaylist.Add(path, true);
+						c++;
 					}
 					//else
-						//_currentPlaylist.Add(line, false);
+					//_currentPlaylist.Add(line, false);
 				}
 			}
 			_currentPlaylistFile = PlaylistPath;
@@ -163,7 +144,7 @@ public partial class Playlist : Window
 		Player.Play(_currentPlaylist.Keys.ElementAt(_current));
 		UpdateTracks();
 	}
-	
+
 	public void Select(int Index)
 	{
 		if (_currentPlaylist.Count == 0)
@@ -190,5 +171,27 @@ public partial class Playlist : Window
 			}
 		}
 		return file;
+	}
+
+	private static async Task SetMeta(Track Label, string path)
+	{
+		FFprobeResult Metadata = FFprobe.GetMetadata(path);
+		if (Metadata == null) return;
+
+		Label.TrackType = Metadata.Format.FormatName;
+		Label.TrackLength = float.Parse(Metadata.Format.Duration.Replace('.', ','));
+		Label.TrackSize = ulong.Parse(Metadata.Format.Size.ToString());
+
+		if (Metadata.Format != null)
+		{
+			if (Metadata.Format.Tags != null)
+				if (Metadata.Format.Tags.Title != null)
+					if (Metadata.Format.Tags.Artist != null)
+						Label.TrackName = $"{Metadata.Format.Tags.Title}[color=dim_gray] — {Metadata.Format.Tags.Artist}[/color]";
+					else
+						Label.TrackName = Metadata.Format.Tags.Title;
+				else
+					Label.TrackName = Path.GetFileNameWithoutExtension(path);
+		}
 	}
 }

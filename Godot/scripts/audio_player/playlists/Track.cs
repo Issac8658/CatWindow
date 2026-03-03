@@ -16,7 +16,7 @@ public partial class Track : Control
 		get => _trackIndex;
 		set
 		{
-			TrackIndexLabel.Text = ToLenghtBBCode(value.ToString(), "0", 3);
+			TrackIndexLabel.SetDeferred("text", ToLenghtBBCode(value.ToString(), "0", 3));
 			_trackIndex = value;
 		}
 	}
@@ -26,7 +26,8 @@ public partial class Track : Control
 		get => _trackName;
 		set
 		{
-			_trackName = TrackNameLabel.Text = value;
+			TrackNameLabel.SetDeferred("text", value);
+			_trackName = value;
 		}
 	}
 	[Export]
@@ -49,7 +50,7 @@ public partial class Track : Control
 			else
 				formatedText += minutes.ToString() + ":";
 			formatedText += ToLenght(remainder.ToString(), "0", 2);
-			TrackLengthLabel.Text = formatedText;
+			TrackLengthLabel.SetDeferred("text", formatedText);
 			_trackLength = value;
 		}
 	}
@@ -59,7 +60,7 @@ public partial class Track : Control
 		get => _trackSize;
 		set
 		{
-			TrackSizeLabel.Text = FormatBytes(value);
+			TrackSizeLabel.SetDeferred("text", FormatBytes(value));
 			_trackSize = value;
 		}
 	}
@@ -69,7 +70,8 @@ public partial class Track : Control
 		get => _trackType;
 		set
 		{
-			_trackType = TrackTypeLabel.Text = value.ToUpper();
+			_trackType = value.ToUpper();
+			TrackTypeLabel.SetDeferred("text", _trackType);
 		}
 	}
 	[Export]

@@ -150,6 +150,10 @@ namespace FFmpeg
 
 				_Play(input, StartOffset);
 			}
+			else
+			{
+				
+			}
 
 			GD.Print("Playing");
 			EmitSignal("Played");
@@ -368,6 +372,7 @@ namespace FFmpeg
 				_pcmQueue.Clear();
 			_player.Stop();
 			_playing = false;
+			_bufferedFrames = 0;
 		}
 		private void Continue(bool IgnoreOffset = false)
 		{
