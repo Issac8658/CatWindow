@@ -31,9 +31,11 @@ It is needed for a single-instance, this is a mini DotNet project, vs code with 
 3. Packing
 - Create any folder anywhere.
 - Move the following to this folder:
+
     - Export results of Godot part and rename the executable file to CatWindow.bin (or another name if you changed it in Bootstrap, but Windows correct working only with .bin)
     - Bootstrap executable file (and dependencies, if any)
     - *(Windows only)* ffmpeg and ffprobe binaries(You can use other versions of ffmpeg, the main thing is that ffmpeg.exe and ffprobe.exe are in the folder)
+    
 - Launch Bootstrap and use
 
 ---

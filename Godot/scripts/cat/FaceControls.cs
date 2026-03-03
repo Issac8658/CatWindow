@@ -29,6 +29,10 @@ public partial class FaceControls : Control
 	[Export]
 	public Control ClosedEyes2;
 	[Export]
+	public CanvasItem NormalMouth;
+	[Export]
+	public CanvasItem SadMouth;
+	[Export]
 	public MainWindowControl ControlNode;
 	[Export]
 	public Control FaceContainer;
@@ -105,13 +109,13 @@ public partial class FaceControls : Control
 
 		CloseButton.MouseEntered += () =>
 		{
-			MouthAnimatior.Stop(true);
-			MouthAnimatior.Play("normal_to_sad");
+			SadMouth.Visible = true;
+			NormalMouth.Visible = false;
 		};
 		CloseButton.MouseExited += () =>
 		{
-			MouthAnimatior.Stop(true);
-			MouthAnimatior.Play("sad_to_normal");
+			SadMouth.Visible = false;
+			NormalMouth.Visible = true;
 		};
 
 		Blincking();

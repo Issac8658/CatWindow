@@ -23,7 +23,6 @@ namespace FFmpeg
 		[Signal] public delegate void RestartedEventHandler();
 		[Signal] public delegate void PausedEventHandler();
 		[Signal] public delegate void UnPausedEventHandler();
-		[Signal] public delegate void EndedEventHandler();
 
 		public const int SAMPLE_RATE = FFmpeg.SAMPLE_RATE;
 		public const int CHANNELS = FFmpeg.CHANNELS;
@@ -62,7 +61,7 @@ namespace FFmpeg
 			{
 				double PlayingTime = FFmpeg.FrameToTime(_totalPlaybackFrames - _bufferedFrames) + _startOffset;
 
-				if (Metadata != null)
+				if (Metadata != null && Metadata.Format != null)
 				{
 					double Duration;
 					if (_trueDuration == 0)
@@ -112,7 +111,7 @@ namespace FFmpeg
 		{
 			if (_playback == null || !_playback.CanPushBuffer(FRAMES))
 				return;
-				
+
 			while (_playback.CanPushBuffer(FRAMES))
 			{
 				byte[] data = null;
@@ -132,7 +131,7 @@ namespace FFmpeg
 				_totalPlaybackFrames += (ulong)floatCount;
 
 				PushSamples(_playback, samples);
-				
+
 				_bufferedFrames = (ulong)(_bufferLength - _playback.GetFramesAvailable()) * CHANNELS;
 			}
 		}
@@ -302,11 +301,7 @@ namespace FFmpeg
 				if (_trueDuration == 0 && canContinue)
 					_trueDuration = _totalPlaybackFrames;
 				if (Loop) CallDeferred("Restart");
-				else 
-				{
-					CallDeferred("Stop");
-					EmitSignal("Ended");
-				}
+				else CallDeferred("Stop");
 			}
 			catch (OperationCanceledException) { }
 		}
@@ -331,7 +326,7 @@ namespace FFmpeg
 			_totalPlaybackFrames = 0;
 			_trueDuration = 0;
 			_isPaused = false;
-			
+
 			_cts = new CancellationTokenSource();
 			_player.Play();
 			_playback = (AudioStreamGeneratorPlayback)_player.GetStreamPlayback();

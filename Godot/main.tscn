@@ -380,16 +380,18 @@ render_target_update_mode = 4
 [node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
 script = ExtResource("12_2cqfq")
 ShakePower = 80.0
-MinFramesCount = 1466
+MinFramesCount = 733
 Player = NodePath("../../../../../../FFmpegPlayer")
 
-[node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
+[node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "NormalMouth", "SadMouth", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
 script = ExtResource("7_ycdy4")
 FaceAnchor = NodePath("FaceAnchor")
 OpenedEyes = NodePath("FaceAnchor/EyesAnchor/OpenedEyes")
 ClosedEyes = NodePath("FaceAnchor/EyesAnchor/ClosedEyes")
 ClosedEyes2 = NodePath("FaceAnchor/EyesAnchor/Closed2Eyes")
+NormalMouth = NodePath("FaceAnchor/MouthAnchor/Normalk")
+SadMouth = NodePath("FaceAnchor/MouthAnchor/Sad")
 ControlNode = NodePath("../../..")
 FaceContainer = NodePath("..")
 PurrSound = NodePath("../../../../PurrSound")
@@ -582,6 +584,7 @@ libraries/ = SubResource("AnimationLibrary_ycdy4")
 texture = ExtResource("12_4k2k6")
 
 [node name="Sad" type="Sprite2D" parent="CatWindow/ContentAndVolume/Mask/Screen/FaceAnchor/MouthAnchor" unique_id=1676494747]
+visible = false
 position = Vector2(0, 1.5)
 texture = ExtResource("13_0rl1p")
 
@@ -708,12 +711,15 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -14.0
-offset_top = -14.0
+offset_left = -21.0
+offset_top = -21.0
+offset_right = 7.0
+offset_bottom = 7.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_default_cursor_shape = 12
 texture = ExtResource("40_h8e4i")
+stretch_mode = 3
 script = ExtResource("41_4lmeg")
 min_size = Vector2i(201, 176)
 max_size = Vector2i(1700, 800)
@@ -1080,7 +1086,7 @@ size_flags_horizontal = 8
 size_flags_stretch_ratio = 0.0
 text = "20"
 
-[node name="PlaylistWindow" type="Window" parent="." unique_id=1787179825 node_paths=PackedStringArray("Player", "TrackLabelsContainer")]
+[node name="PlaylistWindow" type="Window" parent="." unique_id=1787179825 node_paths=PackedStringArray("Player", "TrackLabelsContainer", "NextButton", "PreviousButton", "StopButton")]
 oversampling_override = 1.0
 title = "₍^•ω•^₎⟆"
 initial_position = 4
@@ -1095,6 +1101,9 @@ script = ExtResource("19_getpj")
 TrackLabelTemplate = ExtResource("21_xuqvo")
 Player = NodePath("../FFmpegPlayer")
 TrackLabelsContainer = NodePath("Content/VBoxContainer/PanelContainer/ScrollContainer/Container")
+NextButton = NodePath("Content/VBoxContainer/Controls/NextButton")
+PreviousButton = NodePath("Content/VBoxContainer/Controls/PreviousButton")
+StopButton = NodePath("Content/VBoxContainer/Controls/StopButton")
 
 [node name="Content" type="PanelContainer" parent="PlaylistWindow" unique_id=2130255548]
 anchors_preset = 15
@@ -1245,7 +1254,7 @@ autowrap_mode = 0
 layout_mode = 2
 text = "0:23 / 2:56"
 
-[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "PlayButton", "PauseButton", "SeekSlider", "PlaybackSpeedSpinBox", "TimeLabel", "NameLabel")]
+[node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "PlayButton", "PauseButton", "SeekSlider", "PlaybackSpeedSpinBox", "TimeLabel", "NameLabel", "PlaylistWindow")]
 layout_mode = 2
 script = ExtResource("23_htxhm")
 Player = NodePath("../../../../FFmpegPlayer")
@@ -1256,6 +1265,7 @@ SeekSlider = NodePath("SeekSlider")
 PlaybackSpeedSpinBox = NodePath("../HBoxContainer/VBoxContainer2/SpinBox")
 TimeLabel = NodePath("../HBoxContainer2/Label2")
 NameLabel = NodePath("../HBoxContainer2/PanelContainer/Label")
+PlaylistWindow = NodePath("../../..")
 
 [node name="SeekSlider" type="HSlider" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1543049038]
 custom_minimum_size = Vector2(60, 0)
@@ -1267,6 +1277,7 @@ step = 0.01
 ticks_on_borders = true
 
 [node name="PreviousButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1836025060]
+visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("20_0odxb")
@@ -1301,18 +1312,21 @@ icon = ExtResource("33_come4")
 icon_alignment = 1
 
 [node name="NextButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=683132719]
+visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("21_1u8w0")
 icon_alignment = 1
 
 [node name="LoopButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=738065958]
+visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("39_0cp0l")
 icon_alignment = 1
 
 [node name="InfoButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=2136091940]
+visible = false
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 icon = ExtResource("24_lswn8")

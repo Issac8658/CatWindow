@@ -18,7 +18,7 @@ public partial class Main : Control
 		if (OS.GetCmdlineArgs().Length > 0)
 			if (Godot.FileAccess.FileExists(CMDArgs[0]) || FFmpeg.FFmpeg.IsUrl(CMDArgs[0]))
 			{
-				Player.Play(CMDArgs[0]);
+				PlayFile(CMDArgs[0]);
 				GD.Print($"Found file in cmd arguments: {CMDArgs[0]}");
 			}
 
@@ -27,12 +27,7 @@ public partial class Main : Control
 			GD.Print($"Files dropped:");
 			GD.Print(new Godot.Collections.Array<string>(files));
 
-			if (files.Length > 0)
-				if (Path.GetExtension(files[0]).Equals(".m3u", System.StringComparison.InvariantCultureIgnoreCase)
-				 || Path.GetExtension(files[0]).Equals(".m3u8", System.StringComparison.InvariantCultureIgnoreCase))
-					PlaylistWindow.ParsePlaylist(files[0]);
-				else
-					Player.Play(files[0]);
+			if (files.Length > 0) PlayFile(files[0]);
 		};
 
 		ClickableFace.GuiInput += Event =>
@@ -47,7 +42,19 @@ public partial class Main : Control
 			GD.Print($"Received file from pipe {path}");
 
 			if (Godot.FileAccess.FileExists(path) || FFmpeg.FFmpeg.IsUrl(path))
-				Player.Play(path);
+				PlayFile(path);
 		}));
+	}
+
+	public void PlayFile(string file)
+	{
+		if (Path.GetExtension(file).Equals(".m3u", System.StringComparison.InvariantCultureIgnoreCase)
+		 || Path.GetExtension(file).Equals(".m3u8", System.StringComparison.InvariantCultureIgnoreCase))
+			PlaylistWindow.ParsePlaylist(file);
+		else
+		{
+			PlaylistWindow.Unload();
+			Player.Play(file);
+		}
 	}
 }

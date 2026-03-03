@@ -41,30 +41,31 @@ public partial class AudioVisualizator : Node2D
 
 	public override void _Draw()
 	{
+		if (!Player.Playing)
+			return;
+
 		float Volume = Mathf.DbToLinear(AudioServer.GetBusPeakVolumeLeftDb(0, 0));
-		float PoweredVolume = Mathf.Pow(Volume - 0.0025f, 0.25f); // for wave transparency
+		float PoweredVolume = Mathf.Pow(Volume - 0.0025f, 0.125f); // for wave transparency
 
 		Vector2I viewportSize = _viewport.Size;
 
 		if (Capture.GetFramesAvailable() / MinFramesCount >= 1)
 		{
 			Godot.Collections.Array<Vector2> Samples = [.. Capture.GetBuffer(Capture.GetFramesAvailable() / MinFramesCount * MinFramesCount)];
-			Buffer += Samples;
+			Buffer += Compress(Samples, WaveScale);
 			Buffer.Reverse();
-			Buffer.Resize((int)((viewportSize.X + 1) * WaveScale));
+			Buffer.Resize(viewportSize.X + 1);
 			Buffer.Reverse();
 		}
 		
-		for (int i = 0; i < viewportSize.X; i += 1)
+		for (int i = 0; i < viewportSize.X + 1; i += 1)
 		{
 			// left channel
-			float Sample1 = Buffer[Mathf.Clamp((int)(i * WaveScale), 0, Buffer.Count - 1)].X;
-			float X1 = i;
+			float Sample1 = Buffer[Mathf.Clamp(i, 0, Buffer.Count - 1)].X;
 			float Y1 = viewportSize.Y / 2 + -Sample1 * viewportSize.Y / 2;
 
 			// right channel
-			float Sample2 = Buffer[Mathf.Clamp((int)((i + 1) * WaveScale), 0, Buffer.Count - 1)].Y;
-			float X2 = i + 1;
+			float Sample2 = Buffer[Mathf.Clamp(i + 1, 0, Buffer.Count - 1)].Y;
 			float Y2 = viewportSize.Y / 2 + -Sample2 * viewportSize.Y / 2;
 
 			// Making lines red if amplitude >1
@@ -72,7 +73,17 @@ public partial class AudioVisualizator : Node2D
 			if (MathF.Abs(Sample1) > 1f || MathF.Abs(Sample2) > 1f)
 				col = new Color(1, 0, 0, PoweredVolume);
 
-			DrawLine(new Vector2(X1, Y1), new Vector2(X2, Y2), col);
+			DrawLine(new Vector2(i, Y1), new Vector2(i, Y2), col);
 		}
+	}
+
+	public static Godot.Collections.Array<Vector2> Compress(Godot.Collections.Array<Vector2> Array, float scale)
+	{
+		Godot.Collections.Array<Vector2> ResultArray = [];
+		for (float i = 0; i < Array.Count; i += scale)
+		{
+			ResultArray.Add( Array[Mathf.FloorToInt(i)].Lerp( Array[Mathf.CeilToInt(i)], i % 1) );
+		}
+		return ResultArray;
 	}
 }

@@ -5,78 +5,123 @@
 [ext_resource type="StyleBox" uid="uid://bnidi1t0kcpl3" path="res://theme/container2.tres" id="3_vr403"]
 [ext_resource type="StyleBox" uid="uid://c71483xqqek8k" path="res://overflow_mask.tres" id="4_8nfsw"]
 
-[node name="Track" type="HBoxContainer" unique_id=974262905 node_paths=PackedStringArray("TrackIndexLabel", "TrackNameLabel", "TrackLengthLabel", "TrackSizeLabel", "TrackTypeLabel")]
-mouse_filter = 0
-script = ExtResource("1_bcvet")
-TrackIndexLabel = NodePath("PanelContainer/Index")
-TrackNameLabel = NodePath("PanelContainer4/Panel/Name")
-TrackLengthLabel = NodePath("PanelContainer2/Length")
-TrackSizeLabel = NodePath("PanelContainer5/Size")
-TrackTypeLabel = NodePath("PanelContainer3/Type")
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8nfsw"]
+blend_mode = 1
+light_mode = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=68292566]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vr403"]
+bg_color = Color(0.18717623, 0.18717608, 0.18717614, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ucvjy"]
+bg_color = Color(0.16206557, 0.1620656, 0.16206557, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Track" type="MarginContainer" unique_id=1534995392 node_paths=PackedStringArray("TrackIndexLabel", "TrackNameLabel", "TrackLengthLabel", "TrackSizeLabel", "TrackTypeLabel", "SelectionControl", "HoverControl")]
+offset_right = 272.0
+offset_bottom = 31.0
+script = ExtResource("1_bcvet")
+TrackIndexLabel = NodePath("HBoxContainer/PanelContainer/Index")
+TrackNameLabel = NodePath("HBoxContainer/PanelContainer4/Panel/Name")
+TrackLengthLabel = NodePath("HBoxContainer/PanelContainer2/Length")
+TrackSizeLabel = NodePath("HBoxContainer/PanelContainer5/Size")
+TrackTypeLabel = NodePath("HBoxContainer/PanelContainer3/Type")
+SelectionControl = NodePath("SelectionPanel")
+HoverControl = NodePath("HoverPanel")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1352506180]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=68292566]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_8nfsw")
 
-[node name="Index" type="RichTextLabel" parent="PanelContainer" unique_id=51817558]
+[node name="Index" type="RichTextLabel" parent="HBoxContainer/PanelContainer" unique_id=51817558]
 layout_mode = 2
+mouse_filter = 2
 bbcode_enabled = true
 text = "001"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="PanelContainer4" type="PanelContainer" parent="." unique_id=676281478]
+[node name="PanelContainer4" type="PanelContainer" parent="HBoxContainer" unique_id=676281478]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("3_vr403")
 
-[node name="Panel" type="PanelContainer" parent="PanelContainer4" unique_id=58652927]
+[node name="Panel" type="PanelContainer" parent="HBoxContainer/PanelContainer4" unique_id=58652927]
 clip_children = 1
 layout_mode = 2
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("4_8nfsw")
 
-[node name="Name" type="RichTextLabel" parent="PanelContainer4/Panel" unique_id=666626945]
+[node name="Name" type="RichTextLabel" parent="HBoxContainer/PanelContainer4/Panel" unique_id=666626945]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
+mouse_filter = 2
 bbcode_enabled = true
 text = "Track 1"
 scroll_active = false
 autowrap_mode = 0
 selection_enabled = true
 
-[node name="PanelContainer2" type="PanelContainer" parent="." unique_id=1911413983]
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer" unique_id=1911413983]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_8nfsw")
 
-[node name="Length" type="Label" parent="PanelContainer2" unique_id=991008978]
+[node name="Length" type="Label" parent="HBoxContainer/PanelContainer2" unique_id=991008978]
 layout_mode = 2
 text = "2:54"
 
-[node name="PanelContainer5" type="PanelContainer" parent="." unique_id=1262667338]
+[node name="PanelContainer5" type="PanelContainer" parent="HBoxContainer" unique_id=1262667338]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("3_vr403")
 
-[node name="Size" type="RichTextLabel" parent="PanelContainer5" unique_id=711128112]
+[node name="Size" type="RichTextLabel" parent="HBoxContainer/PanelContainer5" unique_id=711128112]
 layout_mode = 2
+mouse_filter = 2
 bbcode_enabled = true
 text = "1000.23mb"
 scroll_active = false
 autowrap_mode = 0
 horizontal_alignment = 2
 
-[node name="PanelContainer3" type="PanelContainer" parent="." unique_id=768377000]
+[node name="PanelContainer3" type="PanelContainer" parent="HBoxContainer" unique_id=768377000]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_8nfsw")
 
-[node name="Type" type="Label" parent="PanelContainer3" unique_id=1507978085]
+[node name="Type" type="Label" parent="HBoxContainer/PanelContainer3" unique_id=1507978085]
 layout_mode = 2
 text = "MP3"
+
+[node name="SelectionPanel" type="Panel" parent="." unique_id=805462007]
+visible = false
+material = SubResource("CanvasItemMaterial_8nfsw")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vr403")
+
+[node name="HoverPanel" type="Panel" parent="." unique_id=1236378555]
+visible = false
+material = SubResource("CanvasItemMaterial_8nfsw")
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ucvjy")

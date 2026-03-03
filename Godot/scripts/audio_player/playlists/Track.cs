@@ -1,13 +1,14 @@
 using Godot;
 using System;
 
-public partial class Track : Node
+public partial class Track : Control
 {
 	private int _trackIndex = 0;
 	private string _trackName = "Unnamed track";
 	private float _trackLength = 0; // in seconds
 	private ulong _trackSize = 0; // in bytes
 	private string _trackType = "CAT"; // mp3 ogg wav etc...
+	private bool _selected = false;
 
 	[Export]
 	public int TrackIndex
@@ -73,6 +74,11 @@ public partial class Track : Node
 	}
 	[Export]
 	public string TrackPath;
+	public bool Selected
+	{
+		get => _selected;
+		set { SelectionControl.Visible = _selected = value; }
+	}
 
 	[ExportCategory("Nodes")]
 	[Export]
@@ -85,6 +91,10 @@ public partial class Track : Node
 	public RichTextLabel TrackSizeLabel;
 	[Export]
 	public Label TrackTypeLabel;
+	[Export]
+	public Control SelectionControl;
+	[Export]
+	public Control HoverControl;
 
 	static string ToLenghtBBCode(string originalText, string filler, uint Length)
 	{
@@ -113,5 +123,17 @@ public partial class Track : Node
 		}
 
 		return $"{len:0.##} [color=dim_gray]{sizes[order]}[/color]";
+	}
+
+	public override void _Ready()
+	{
+		MouseEntered += () =>
+		{
+			HoverControl.Visible = true;
+		};
+		MouseExited += () =>
+		{
+			HoverControl.Visible = false;
+		};
 	}
 }

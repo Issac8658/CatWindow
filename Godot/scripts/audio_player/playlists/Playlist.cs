@@ -3,6 +3,7 @@ using System.IO;
 using FFmpeg;
 using FFmpeg.FFprobe;
 using System.Text.Json.Serialization;
+using System.Linq;
 
 public partial class Playlist : Window
 {
@@ -12,6 +13,7 @@ public partial class Playlist : Window
 
 	private Godot.Collections.Dictionary<string, bool> _currentPlaylist = [];
 	private string _currentPlaylistFile;
+	public int _current = 0;
 	//private Godot.Collections.Array<string> _playlists = [];
 
 	[Export]
@@ -20,67 +22,22 @@ public partial class Playlist : Window
 	public FFmpegPlayer Player;
 	[Export]
 	public Container TrackLabelsContainer;
-	//[Export]
-	//public OptionButton PlaylistDropdown;
-
+	[Export]
+	public Button NextButton;
+	[Export]
+	public Button PreviousButton;
+	[Export]
+	public Button StopButton;
 
 	public override void _Ready()
 	{
-		/*
-			// creating playlists directory
-
-			string playlistsAbsolutePath = ProjectSettings.GlobalizePath(PLAYLISTS_DIR);
-
-
-			DirAccess userFolder = DirAccess.Open("user://");
-
-			if (!userFolder.DirExists(PLAYLISTS_DIR)) // if playlists folder isn't exist
-			{
-				userFolder.MakeDir(PLAYLISTS_DIR); // cat :3 will create it
-			}
-			playlistsFolder = DirAccess.Open(PLAYLISTS_DIR);
-
-			UpdatePlaylists(playlistsFolder.GetFiles(), 0); // zero for new playlist
-
-		*/
 		CloseRequested += Hide;
-	}
-	/*
-	private void UpdatePlaylists(string[] playlists, uint selectedPlaylist)
-	{
-		// clearing music list container
-		foreach (Node child in TrackLabelsContainer.GetChildren())
-		{
-			child.QueueFree();
-		}
-		// clearing dropdown list
-		for (int i = 0; i < PlaylistDropdown.ItemCount; i++)
-		{
-			PlaylistDropdown.RemoveItem(i);
-		}
-		// Adding playlists
-		foreach (string file in playlists)
-		{
-			// if file is a playlist (m3u8, m3u or pls)
-			if (Path.GetExtension(file).Equals(".m3u8", StringComparison.OrdinalIgnoreCase) 
-			 || Path.GetExtension(file).Equals(".m3u", StringComparison.OrdinalIgnoreCase))
-			{
-				AddPlaylist(Path.Combine(playlistsFolder.GetCurrentDir(), file));
-			}
-		}
+		Player.Stopped += Next;
+
+		NextButton.Pressed += Next;
+		PreviousButton.Pressed += Previous;
 	}
 
-	private void AddPlaylist(string PlaylistPath)
-	{
-		if (playlistsFolder.FileExists(PlaylistPath))
-		{
-			PlaylistDropdown.AddItem(Path.GetFileNameWithoutExtension(PlaylistPath));
-			_playlists.Add(PlaylistPath);
-		}
-	}
-	*/
-
-	//private void ParseAndSelectPlaylist(uint playlistId)
 	public void ParsePlaylist(string PlaylistPath)
 	{
 		if (Godot.FileAccess.FileExists(PlaylistPath))
@@ -88,10 +45,9 @@ public partial class Playlist : Window
 			GD.Print($"Playlist {PlaylistPath}");
 			DirAccess Folder = DirAccess.Open(Path.GetDirectoryName(PlaylistPath));
 			Godot.FileAccess Playlist = Godot.FileAccess.Open(PlaylistPath, Godot.FileAccess.ModeFlags.Read);
-			foreach (Node child in TrackLabelsContainer.GetChildren())
-			{
-				child.QueueFree();
-			}
+
+			Unload();
+
 			string[] Lines = Playlist.GetAsText().Replace("\r", "").Split("\n");
 
 			int i = 0;
@@ -106,7 +62,7 @@ public partial class Playlist : Window
 						if (Metadata == null) break;
 
 						Track trackLabel = TrackLabelTemplate.Instantiate<Track>();
-						trackLabel.TrackIndex = ++i;
+						trackLabel.TrackIndex = i + 1;
 						trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
 
 						GD.Print($"Has meta");
@@ -127,17 +83,99 @@ public partial class Playlist : Window
 								else
 									trackLabel.TrackName = Path.GetFileNameWithoutExtension(line);
 						}
-						//trackLabel.TrackLength = Godot.FileAccess.GetSize(Folder.GetCurrentDir());
+
+						int id = i;
+						
+						trackLabel.GuiInput += Event =>
+						{
+							if (Event is InputEventMouseButton mouseButtonEvent)
+							{
+								if (mouseButtonEvent.Pressed && mouseButtonEvent.ButtonIndex == MouseButton.Left)
+								{
+									Select(id);
+								}
+							}
+						};
 						TrackLabelsContainer.AddChild(trackLabel);
 
 						_currentPlaylist.Add(line, true);
+
+						i++;
 					}
-					else
-						_currentPlaylist.Add(line, false);
+					//else
+						//_currentPlaylist.Add(line, false);
 				}
 			}
 			_currentPlaylistFile = PlaylistPath;
+
+			Player.Loop = false;
+			Select(0);
+			UpdateTracks();
+
+			NextButton.Visible = PreviousButton.Visible = true;
 		}
+	}
+
+	public void Unload()
+	{
+		foreach (Node child in TrackLabelsContainer.GetChildren())
+		{
+			child.QueueFree();
+		}
+		_currentPlaylist = [];
+		_currentPlaylistFile = null;
+		_current = 0;
+		Player.Loop = true;
+
+		NextButton.Visible = PreviousButton.Visible = false;
+
+		Player.Stop();
+	}
+
+	public void UpdateTracks()
+	{
+		for (int i = 0; i < TrackLabelsContainer.GetChildCount(); i++)
+		{
+			(TrackLabelsContainer.GetChildren()[i] as Track).Selected = i == _current;
+		}
+	}
+
+	public void Next()
+	{
+		if (_currentPlaylist.Count == 0)
+			return;
+
+		_current++;
+		if (_current >= _currentPlaylist.Count)
+			_current = 0;
+		Player.Play(_currentPlaylist.Keys.ElementAt(_current));
+		UpdateTracks();
+	}
+
+	public void Previous()
+	{
+		if (_currentPlaylist.Count == 0)
+			return;
+
+		_current--;
+		if (_current < 0)
+			_current = _currentPlaylist.Count - 1;
+		Player.Play(_currentPlaylist.Keys.ElementAt(_current));
+		UpdateTracks();
+	}
+	
+	public void Select(int Index)
+	{
+		if (_currentPlaylist.Count == 0)
+			return;
+
+		_current = Index;
+		if (_current >= _currentPlaylist.Count)
+			_current = 0;
+		if (_current < 0)
+			_current = _currentPlaylist.Count - 1;
+		Player.Play(_currentPlaylist.Keys.ElementAt(_current));
+		UpdateTracks();
 	}
 
 	private static string RelToAbs(DirAccess folder, string file)

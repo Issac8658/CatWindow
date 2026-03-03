@@ -25,12 +25,16 @@ public partial class AudioControls : Control
 	public Label TimeLabel;
 	[Export]
 	public RichTextLabel NameLabel;
+	[Export]
+	public Playlist PlaylistWindow;
+
+
 
 	public override void _Ready()
 	{
 		_window = GetWindow();
 
-		StopButton.Pressed += Player.Stop;
+		StopButton.Pressed += PlaylistWindow.Unload;
 		PlayButton.Pressed += Player.UnPause;
 		PauseButton.Pressed += Player.Pause;
 
@@ -45,18 +49,14 @@ public partial class AudioControls : Control
 			Player.Seek(SeekSlider.Value);
 			_holding = false;
 		};
-		
+
 		Player.Played += () => // чем гуще лес if else if else...
 		{
 			NameLabel.Text = Path.GetFileNameWithoutExtension(Player.CurrentFile);
-			if (Player.Metadata != null)
+			if (Player.Metadata != null && Player.Metadata.Format != null)
 			{
-				if (Player.Metadata.Format.StartTime != null)
-					SeekSlider.MinValue = float.Parse(Player.Metadata.Format.StartTime, CultureInfo.InvariantCulture);
-				else
-					SeekSlider.MinValue = 0;
 				SeekSlider.MaxValue = float.Parse(Player.Metadata.Format.Duration, CultureInfo.InvariantCulture);
-	
+
 				if (Player.Metadata.Format.Tags != null)
 				{
 					if (Player.Metadata.Format.Tags.Title != null)
@@ -67,7 +67,7 @@ public partial class AudioControls : Control
 			}
 			UpdateButtons();
 		};
-		Player.Stopped += () => 
+		Player.Stopped += () =>
 		{
 			NameLabel.Text = "";
 			UpdateButtons();
@@ -85,7 +85,7 @@ public partial class AudioControls : Control
 
 			string currentTime = FormatTime((int)playbackPos);
 			TimeLabel.Text = $"{currentTime} / ??:??";
-			if (Player.Metadata != null)
+			if (Player.Metadata != null && Player.Metadata.Format != null)
 			{
 				float time = float.Parse(Player.Metadata.Format.Duration, CultureInfo.InvariantCulture);
 				if (time != 0)
