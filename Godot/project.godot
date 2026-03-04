@@ -23,7 +23,7 @@ config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0, 0, 0, 0)
 boot_splash/show_image=false
-config/icon="uid://ckwihntx3kdtx"
+config/icon="uid://c13d2nh7p0tf4"
 config/windows_native_icon="res://icons/icon.ico"
 
 [audio]
