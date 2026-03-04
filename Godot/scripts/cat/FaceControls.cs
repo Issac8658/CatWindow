@@ -137,7 +137,7 @@ public partial class FaceControls : Control
 			pos = Vector2.Zero;
 		}
 
-		FaceAnchor.Position = FaceAnchor.Position.Lerp(pos + _defaultFaceAnchorPos, 0.2f);
+		FaceAnchor.Position = FaceAnchor.Position.Lerp(pos + _defaultFaceAnchorPos, (float)Mathf.Exp(-10 * delta));
 	}
 
 	public override void _Input(InputEvent @event)

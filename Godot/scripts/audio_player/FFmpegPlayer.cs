@@ -514,6 +514,7 @@ namespace FFmpeg
 			{
 				get
 				{
+					/*
 					string userDir = Path.GetDirectoryName(OS.GetExecutablePath()); //OS.GetUserDataDir();
 					string ffprobePath = Path.Combine(userDir, "ffprobe");
 
@@ -524,6 +525,8 @@ namespace FFmpeg
 					GD.PushError("FFprobe not found, panic #2 idk");
 
 					return ffprobePath;
+					*/
+					return "ffprobe";
 				}
 			}
 
