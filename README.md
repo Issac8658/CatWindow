@@ -25,12 +25,12 @@ Main part is made in [Godot Mono](https://godotengine.org/download/) 4.6.1 and i
 It is needed for a single-instance, this is a mini DotNet project, vs code with the appropriate plugins is used for building
 
 - Download and install [DotNet 10.0](https://dotnet.microsoft.com/download)
-### Windows:
-- Run `dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true` in bootstrap folder
-- Done, bootstrap will be stored in `bin\Release\net10.0\win-x64\publish`
-### Linux:
-- Run `dotnet publish -c Release -r linux-x64 --self-contained true /p:PublishSingleFile=true` in bootstrap folder
-- Done, bootstrap will be stored in `bin\Release\net10.0\linux-x64\publish`
+- Windows:
+    - Run `dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true` in bootstrap folder
+    - Done, bootstrap will be stored in `bin\Release\net10.0\win-x64\publish`
+- Linux:
+    - Run `dotnet publish -c Release -r linux-x64 --self-contained true /p:PublishSingleFile=true` in bootstrap folder
+    - Done, bootstrap will be stored in `bin\Release\net10.0\linux-x64\publish`
 
 3. Packing
 - Create any folder anywhere.
