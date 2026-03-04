@@ -65,6 +65,8 @@ public partial class Playlist : Window
 						Track trackLabel = TrackLabelTemplate.Instantiate<Track>();
 						trackLabel.TrackIndex = c + 1;
 						trackLabel.TrackName = Path.GetFileNameWithoutExtension(path);
+						
+						int id = c;
 
 						trackLabel.GuiInput += Event =>
 						{
@@ -72,7 +74,7 @@ public partial class Playlist : Window
 							{
 								if (mouseButtonEvent.Pressed && mouseButtonEvent.ButtonIndex == MouseButton.Left)
 								{
-									Select(c);
+									Select(id);
 								}
 							}
 						};

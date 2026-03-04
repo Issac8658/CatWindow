@@ -23,6 +23,7 @@ namespace FFmpeg
 		[Signal] public delegate void RestartedEventHandler();
 		[Signal] public delegate void PausedEventHandler();
 		[Signal] public delegate void UnPausedEventHandler();
+		[Signal] public delegate void OnErrorEventHandler(int ErrorCode);
 
 		public const int SAMPLE_RATE = FFmpeg.SAMPLE_RATE;
 		public const int CHANNELS = FFmpeg.CHANNELS;
@@ -43,6 +44,7 @@ namespace FFmpeg
 
 		private bool _playing = false;
 		private bool _isPaused = false;
+		private bool _cantPlay = false;
 		private string _currentFile = null;
 		private int _bufferLength = 0;
 		private double _startOffset = 0; // in seconds
@@ -304,7 +306,7 @@ namespace FFmpeg
 				}
 				if (_trueDuration == 0 && canContinue)
 					_trueDuration = _totalPlaybackFrames;
-				if (Loop) CallDeferred("Restart");
+				if (Loop && !_cantPlay) CallDeferred("Restart");
 				else CallDeferred("Stop");
 			}
 			catch (OperationCanceledException) { }
@@ -338,6 +340,7 @@ namespace FFmpeg
 			_currentFile = input;
 			_startOffset = StartOffset;
 			_metadata = FFprobe.FFprobe.GetMetadata(input);
+			_cantPlay = false;
 
 			Continue();
 		}
@@ -385,6 +388,19 @@ namespace FFmpeg
 				_ = Task.Run(() => ReadPcmLoop(_cts.Token));
 				_playing = true;
 				_isPaused = false;
+
+				_ffmpeg.Exited += new EventHandler((sender, e) =>
+				{
+					if (_ffmpeg.ExitCode != 0)
+					{
+						if (!_cantPlay)
+						{
+							GD.PushWarning($"Couldn't  play {_currentFile}!");
+						}
+						_cantPlay = true;
+						_Stop();
+					}
+				});
 			}
 		}
 		#endregion
