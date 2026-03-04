@@ -126,6 +126,9 @@ public partial class FaceControls : Control
 		_defaultFaceAnchorPos = _faceAnchorParent.Size / 2;
 		_defaultFaceAnchorGlobalPos = _faceAnchorParent.GlobalPosition + _faceAnchorParent.Size / 2;
 
+	}
+	public override void _PhysicsProcess(double delta)
+	{
 		Vector2 pos;
 		if (!ControlNode.IsDragging && !_purring)
 		{
@@ -137,8 +140,9 @@ public partial class FaceControls : Control
 			pos = Vector2.Zero;
 		}
 
-		FaceAnchor.Position = FaceAnchor.Position.Lerp(pos + _defaultFaceAnchorPos, (float)Mathf.Exp(-10 * delta));
+		FaceAnchor.Position = FaceAnchor.Position.Lerp(pos + _defaultFaceAnchorPos, 0.3f);
 	}
+
 
 	public override void _Input(InputEvent @event)
 	{
