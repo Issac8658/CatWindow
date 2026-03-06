@@ -384,13 +384,15 @@ ShakePower = 80.0
 MinFramesCount = 733
 Player = NodePath("../../../../../../FFmpegPlayer")
 
-[node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
+[node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "NormalMouth", "SadMouth", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
 script = ExtResource("7_ycdy4")
 FaceAnchor = NodePath("FaceAnchor")
 OpenedEyes = NodePath("FaceAnchor/EyesAnchor/OpenedEyes")
 ClosedEyes = NodePath("FaceAnchor/EyesAnchor/ClosedEyes")
 ClosedEyes2 = NodePath("FaceAnchor/EyesAnchor/Closed2Eyes")
+NormalMouth = NodePath("FaceAnchor/MouthAnchor/Normalk")
+SadMouth = NodePath("FaceAnchor/MouthAnchor/Sad")
 ControlNode = NodePath("../../..")
 FaceContainer = NodePath("..")
 PurrSound = NodePath("../../../../PurrSound")
