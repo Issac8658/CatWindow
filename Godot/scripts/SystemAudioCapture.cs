@@ -2,6 +2,7 @@ using Godot;
 using FFmpeg;
 using NAudio.Wave;
 using System;
+using NAudio.CoreAudioApi;
 
 public partial class SystemAudioCapture : Node
 {
@@ -20,7 +21,7 @@ public partial class SystemAudioCapture : Node
 		AudioStreamGenerator gen = new()
 		{
 			MixRate = FFmpeg.FFmpeg.SAMPLE_RATE,
-			BufferLength = 0.5f
+			BufferLength = 0.05f
 		};
 		_player.Stream = gen;
 
@@ -32,7 +33,10 @@ public partial class SystemAudioCapture : Node
 
 	public void StartCapture()
 	{
-		capture = new WasapiLoopbackCapture();
+		var device = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+
+		capture = new WasapiLoopbackCapture(device);
+		capture.ShareMode = AudioClientShareMode.Shared;
 
 		capture.DataAvailable += (s, e) =>
 		{

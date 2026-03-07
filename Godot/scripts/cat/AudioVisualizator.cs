@@ -30,13 +30,13 @@ public partial class AudioVisualizator : Node2D
 	{
 			QueueRedraw();
 		// window shaking
-		if (true)
-		{
-			float spec = Spectrum.GetMagnitudeForFrequencyRange(60, 1000).X;
-			Vector2I shake = (Vector2I)(new Vector2((float)GD.RandRange(-ShakePower, ShakePower), (float)GD.RandRange(-ShakePower, ShakePower)) * Mathf.Pow(spec, 2f));
-			GetWindow().Position += shake - _lastShake;
-			_lastShake = shake; // cat window, come back now
-		}
+		//if (false)
+		//{
+		//	float spec = Spectrum.GetMagnitudeForFrequencyRange(60, 1000).X;
+		//	Vector2I shake = (Vector2I)(new Vector2((float)GD.RandRange(-ShakePower, ShakePower), (float)GD.RandRange(-ShakePower, ShakePower)) * Mathf.Pow(spec, 2f));
+		//	GetWindow().Position += shake - _lastShake;
+		//	_lastShake = shake; // cat window, come back now
+		//}
 	}
 
 	public override void _Draw()
@@ -64,7 +64,7 @@ public partial class AudioVisualizator : Node2D
 
 			// right channel
 			float Sample2 = Buffer[Mathf.Clamp(i + 1, 0, Buffer.Count - 1)].Y;
-			float Y2 = viewportSize.Y / 2 + -Sample2 * viewportSize.Y / 2;
+			float Y2 = viewportSize.Y / 2 + -Sample2 * viewportSize.Y / 2 + 1;
 
 			// Making lines red if amplitude >1
 			Color col = new(1, 1, 1, PoweredVolume);
