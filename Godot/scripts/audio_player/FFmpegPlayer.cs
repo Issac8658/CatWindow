@@ -313,7 +313,7 @@ namespace FFmpeg
 		}
 
 
-		private static void PushSamples(AudioStreamGeneratorPlayback playback, float[] samples)
+		public static void PushSamples(AudioStreamGeneratorPlayback playback, float[] samples)
 		{
 			for (int i = 0; i < samples.Length - 1; i += 2)
 			{

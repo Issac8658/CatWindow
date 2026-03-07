@@ -14,8 +14,8 @@ public partial class AudioVisualizator : Node2D
 
 	private Vector2I _lastShake = new();
 
-	private AudioEffectCapture Capture = AudioServer.GetBusEffect(0, 0) as AudioEffectCapture;
-	private AudioEffectSpectrumAnalyzerInstance Spectrum = AudioServer.GetBusEffectInstance(0, 1) as AudioEffectSpectrumAnalyzerInstance;
+	private AudioEffectCapture Capture = AudioServer.GetBusEffect(2, 0) as AudioEffectCapture;
+	private AudioEffectSpectrumAnalyzerInstance Spectrum = AudioServer.GetBusEffectInstance(2, 1) as AudioEffectSpectrumAnalyzerInstance;
 	private SubViewport _viewport;
 
 	private Godot.Collections.Array<Vector2> Buffer = [];
@@ -30,7 +30,7 @@ public partial class AudioVisualizator : Node2D
 	{
 			QueueRedraw();
 		// window shaking
-		if (Player.Playing)
+		if (true)
 		{
 			float spec = Spectrum.GetMagnitudeForFrequencyRange(60, 1000).X;
 			Vector2I shake = (Vector2I)(new Vector2((float)GD.RandRange(-ShakePower, ShakePower), (float)GD.RandRange(-ShakePower, ShakePower)) * Mathf.Pow(spec, 2f));
@@ -41,10 +41,8 @@ public partial class AudioVisualizator : Node2D
 
 	public override void _Draw()
 	{
-		if (!Player.Playing)
-			return;
 
-		float Volume = Mathf.DbToLinear(AudioServer.GetBusPeakVolumeLeftDb(0, 0));
+		float Volume = 1;
 		float PoweredVolume = Mathf.Pow(Volume - 0.0025f, 0.125f); // for wave transparency
 
 		Vector2I viewportSize = _viewport.Size;
