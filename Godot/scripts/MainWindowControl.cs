@@ -21,7 +21,6 @@ public partial class MainWindowControl : Node
 
 	private bool _isDragging = false;
 	private Vector2I MouseOffset = new();
-	private Vector2I WindowPosition;
 
 	private Vector2 CatScale = new();
 	private Vector2 CatScaleAcceleration = new();
@@ -30,6 +29,7 @@ public partial class MainWindowControl : Node
 	private Vector2 CatScaleDoubleLerped = new();
 
 	public Vector2I WindowSize = new(250, 200);
+	public Vector2I WindowPosition;
 
 	public override void _Ready()
 	{
@@ -43,7 +43,7 @@ public partial class MainWindowControl : Node
 				{
 					if (Event.IsPressed())
 					{
-						MouseOffset = GlobalCursorController.MousePosition - _mainWindow.Position;
+						MouseOffset = GlobalCursorController.MousePosition - WindowPosition;
 						_isDragging = true;
 					}
 					else

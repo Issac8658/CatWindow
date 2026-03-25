@@ -23,12 +23,12 @@ func _ready() -> void:
 	);
 	volume_slider.value_changed.connect(set_volume);
 	volume_spinbox.value_changed.connect(set_volume);
-	change_volume(0);
 	
 	unlock_volume_checkbox.toggled.connect(func(toggled):
 		max_volume = 2000 if toggled else 200;
 		change_volume(0);
 	)
+	update()
 
 func _process(delta: float) -> void:
 	if AudioServer.get_bus_volume_linear(1) <= 0.001:

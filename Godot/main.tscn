@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://djibqfuw8ykst" path="res://scripts/SystemAudioCapture.cs" id="26_gngh3"]
 [ext_resource type="Script" uid="uid://dfox0qsbvlho2" path="res://scripts/audio_player/FFmpegPlayer.cs" id="27_a6jrf"]
 [ext_resource type="Script" uid="uid://c4f60mfldphk1" path="res://scripts/audio_player/additional/url_player.gd" id="28_xuqvo"]
+[ext_resource type="Script" uid="uid://dok35iovgthsy" path="res://scripts/audio_player/additional/output_selection.gd" id="32_0n3wm"]
 [ext_resource type="Texture2D" uid="uid://blwjrcxnfx6rs" path="res://sprites/ui/pause_icon.tres" id="33_come4"]
 [ext_resource type="Texture2D" uid="uid://c6558mtc71bei" path="res://sprites/ui/loop_icon.tres" id="39_0cp0l"]
 [ext_resource type="Texture2D" uid="uid://cgjfm3w80mhff" path="res://sprites/ui/rescale_corner.tres" id="40_h8e4i"]
@@ -1098,7 +1099,6 @@ oversampling_override = 1.0
 title = "₍^•ω•^₎⟆"
 initial_position = 4
 size = Vector2i(500, 350)
-visible = false
 wrap_controls = true
 always_on_top = true
 sharp_corners = true
@@ -1129,6 +1129,7 @@ layout_mode = 2
 
 [node name="TotalTracks" type="Label" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=787674207]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Playlist"
 
 [node name="UpdateButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=455621334]
@@ -1171,6 +1172,15 @@ custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 tooltip_text = "Add created"
 icon = ExtResource("21_seu75")
+
+[node name="TotalTracks2" type="Label" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=1245810675]
+layout_mode = 2
+text = "Audio Output:"
+
+[node name="OptionButton" type="OptionButton" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=51449701]
+layout_mode = 2
+fit_to_longest_item = false
+script = ExtResource("32_0n3wm")
 
 [node name="PanelContainer" type="PanelContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=728599844]
 layout_mode = 2
@@ -1266,6 +1276,7 @@ text = "0:23 / 2:56"
 
 [node name="Controls" type="HBoxContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=931197541 node_paths=PackedStringArray("Player", "StopButton", "PlayButton", "PauseButton", "SeekSlider", "PlaybackSpeedSpinBox", "TimeLabel", "NameLabel", "PlaylistWindow")]
 layout_mode = 2
+mouse_filter = 2
 script = ExtResource("23_htxhm")
 Player = NodePath("../../../../FFmpegPlayer")
 StopButton = NodePath("StopButton")
@@ -1284,7 +1295,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 1.0
 step = 0.01
-ticks_on_borders = true
+tick_count = 2
 
 [node name="PreviousButton" type="Button" parent="PlaylistWindow/Content/VBoxContainer/Controls" unique_id=1836025060]
 visible = false

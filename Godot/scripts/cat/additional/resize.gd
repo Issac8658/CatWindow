@@ -26,7 +26,7 @@ func _ready() -> void:
 		if (Event is InputEventMouseButton):
 			if ((Event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT):
 				if (Event.pressed):
-					mouse_offset = DisplayServer.mouse_get_position() - (window.position + window.size);
+					mouse_offset = DisplayServer.mouse_get_position() - (win_control.WindowPosition + win_control.WindowSize);
 					is_dragging = true;
 				else:
 					is_dragging = false;
