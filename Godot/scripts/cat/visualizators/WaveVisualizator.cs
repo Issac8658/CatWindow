@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class AudioVisualizator : Node2D
+public partial class WaveVisualizator : Node2D
 {
 	[Export]
 	public float ShakePower = 20f;
@@ -28,6 +28,7 @@ public partial class AudioVisualizator : Node2D
 	}
 	public override void _Process(double delta)
 	{
+		if (IsVisibleInTree())
 			QueueRedraw();
 		// window shaking
 		//if (false)

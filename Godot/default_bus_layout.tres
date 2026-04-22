@@ -5,6 +5,8 @@ resource_name = "Capture"
 
 [sub_resource type="AudioEffectSpectrumAnalyzer" id="AudioEffectSpectrumAnalyzer_j3pel"]
 resource_name = "SpectrumAnalyzer"
+buffer_length = 0.1
+fft_size = 3
 
 [resource]
 bus/1/name = &"Sounds"

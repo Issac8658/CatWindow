@@ -8,13 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://byyxo6x103isy" path="res://sprites/ui/close_icon.tres" id="5_getpj"]
 [ext_resource type="StyleBox" uid="uid://b1vqr8jjeeka1" path="res://skin_styleboxes/cat_window_base.tres" id="6_4lmeg"]
 [ext_resource type="Texture2D" uid="uid://brhfu31058r4j" path="res://sprites/cat/eye.tres" id="6_5vw27"]
-[ext_resource type="Shader" uid="uid://cg3t4ael3q1ur" path="res://visualizator.gdshader" id="7_b1qrp"]
+[ext_resource type="Shader" uid="uid://cg3t4ael3q1ur" path="res://shaders/chromatic.gdshader" id="7_b1qrp"]
 [ext_resource type="Texture2D" uid="uid://cv343i7dh5hg0" path="res://sprites/cat/eye_closed.tres" id="7_kek77"]
 [ext_resource type="Script" uid="uid://copt2vsf3pcsf" path="res://scripts/cat/FaceControls.cs" id="7_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://sprites/cat/eye_closed2.tres" id="8_4c57u"]
 [ext_resource type="Texture2D" uid="uid://r1xec0igyanx" path="res://sprites/cat/eye_half_closed.tres" id="10_facbu"]
+[ext_resource type="Shader" uid="uid://c63aim711h6xd" path="res://shaders/spectrum_visualizator.gdshader" id="10_wnkbs"]
 [ext_resource type="SpriteFrames" uid="uid://bno08nlqvcvlk" path="res://sprites/loading_animation/loading_animation.tres" id="11_2cqfq"]
-[ext_resource type="Script" uid="uid://c2nk2plantxwq" path="res://scripts/cat/AudioVisualizator.cs" id="12_2cqfq"]
+[ext_resource type="Script" uid="uid://bg430j4ayidye" path="res://scripts/cat/visualizators/SpectrumVisualizator.cs" id="11_f6a44"]
+[ext_resource type="Script" uid="uid://c2nk2plantxwq" path="res://scripts/cat/visualizators/WaveVisualizator.cs" id="12_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://c2hs3wds2qjjr" path="res://sprites/cat/mouth.tres" id="12_4k2k6"]
 [ext_resource type="Texture2D" uid="uid://dh1os3ghexq33" path="res://sprites/cat/mouth_sad.tres" id="13_0rl1p"]
 [ext_resource type="Texture2D" uid="uid://cw3po3kcwwls6" path="res://sprites/cat/mouth_open.tres" id="14_ok6jj"]
@@ -70,6 +72,18 @@ corner_radius_bottom_left = 24
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_come4"]
 shader = ExtResource("7_b1qrp")
 shader_parameter/chromatic_distance = Vector2(-2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0cbny"]
+shader = ExtResource("10_wnkbs")
+shader_parameter/current_values = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="Gradient" id="Gradient_wnkbs"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_f6a44"]
+gradient = SubResource("Gradient_wnkbs")
+width = 1024
+height = 1024
+fill_to = Vector2(0, 1)
 
 [sub_resource type="Gradient" id="Gradient_2cqfq"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
@@ -378,13 +392,32 @@ handle_input_locally = false
 canvas_item_default_texture_filter = 0
 canvas_item_default_texture_repeat = 1
 size = Vector2i(146, 102)
+render_target_clear_mode = 1
 render_target_update_mode = 4
 
 [node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
+visible = false
 script = ExtResource("12_2cqfq")
 ShakePower = 80.0
 MinFramesCount = 733
 Player = NodePath("../../../../../../FFmpegPlayer")
+
+[node name="TextureRect" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=1776572699]
+texture_filter = 2
+texture_repeat = 1
+material = SubResource("ShaderMaterial_0cbny")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_f6a44")
+expand_mode = 1
+script = ExtResource("11_f6a44")
+MaxHZ = 20000.0
+MinHZ = 20.0
+SpectrumScale = 2.0
+SpectrumPower = 13.325
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "NormalMouth", "SadMouth", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
@@ -1099,6 +1132,7 @@ oversampling_override = 1.0
 title = "₍^•ω•^₎⟆"
 initial_position = 4
 size = Vector2i(500, 350)
+visible = false
 wrap_controls = true
 always_on_top = true
 sharp_corners = true

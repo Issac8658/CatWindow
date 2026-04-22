@@ -77,7 +77,7 @@ public partial class MainWindowControl : Node
 		Vector2 DSize = DisplayServer.ScreenGetSize(CurrentScreen) - WindowSize;
 		Vector2 Offset = ((Vector2)WindowPosition - DPosition) / DSize;
 		
-		_mainWindow.Position = WindowPosition - (Vector2I)(CatScaleDoubleLerped * Offset);
-		_mainWindow.Size = WindowSize + (Vector2I)CatScaleDoubleLerped;
+		_mainWindow.Position = WindowPosition;// - (Vector2I)(CatScaleDoubleLerped * Offset);
+		_mainWindow.Size = WindowSize;// + (Vector2I)CatScaleDoubleLerped;
 	}
 }
