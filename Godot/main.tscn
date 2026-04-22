@@ -414,9 +414,10 @@ grow_vertical = 2
 texture = SubResource("GradientTexture2D_f6a44")
 expand_mode = 1
 script = ExtResource("11_f6a44")
-MaxHZ = 20000.0
+MaxHZ = 16000.0
 MinHZ = 20.0
 SpectrumScale = 2.0
+PowOfPow = 0.21022417
 SpectrumPower = 13.325
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "NormalMouth", "SadMouth", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]

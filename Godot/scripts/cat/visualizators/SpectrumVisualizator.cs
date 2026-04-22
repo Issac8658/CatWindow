@@ -9,6 +9,10 @@ public partial class SpectrumVisualizator : TextureRect
 	public float MinHZ = 60;
 	[Export(PropertyHint.ExpEasing)]
 	public float SpectrumScale = 1;
+	[Export(PropertyHint.ExpEasing)]
+	public float SpectrumPow = 1;
+	[Export]
+	public float PowOfPow = 1;
 	[Export]
 	public float SpectrumPower = 1f;
 
@@ -25,9 +29,9 @@ public partial class SpectrumVisualizator : TextureRect
 				Spectrum.GetMagnitudeForFrequencyRange(
 					MathF.Pow((float)i / values.Length, SpectrumScale) * MaxHZ,
 					MathF.Pow((i + 1f) / values.Length, SpectrumScale) * MaxHZ,
-					AudioEffectSpectrumAnalyzerInstance.MagnitudeMode.Max
+					AudioEffectSpectrumAnalyzerInstance.MagnitudeMode.Average
 				) * SpectrumPower;
-				values[i] = specPart.X;
+				values[i] = MathF.Pow(MathF.Pow(specPart.X, (1 - MathF.Pow((float)i / values.Length * 0.5f, SpectrumScale)) * PowOfPow), SpectrumPow);
 			}
 			(Material as ShaderMaterial).SetShaderParameter("current_values", values);
 		}
