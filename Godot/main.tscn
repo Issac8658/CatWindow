@@ -327,7 +327,6 @@ theme_override_constants/separation = 0
 script = ExtResource("3_dg77c")
 TopBar = NodePath("Topbar")
 CloseButton = NodePath("Topbar/TopbarContainer/CloseButton")
-MusicMovesPower = 0.0
 
 [node name="Topbar" type="PanelContainer" parent="CatWindow" unique_id=1007096533]
 z_index = -2
@@ -432,10 +431,9 @@ SpectrumPow = 2.0
 PowOfPow = 0.21022417
 SpectrumPower = 13.325
 
-[node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
+[node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088]
 script = ExtResource("12_2cqfq")
 MinFramesCount = 733
-Player = NodePath("../../../../../../FFmpegPlayer")
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "NormalMouth", "SadMouth", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
