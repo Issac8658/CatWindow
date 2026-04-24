@@ -8,6 +8,18 @@ public partial class WaveVisualizator : Node2D
 	[Export]
 	public float WaveScale = 8;
 	[Export]
+	// Do  - 733 (Semitone 0)
+	// Do# - 692 (Semitone 1)
+	// Re  - 653 (Semitone 2)
+	// Re# - 617 (Semitone 3)
+	// Mi  - 583 (Semitone 4)
+	// Fa  - 550 (Semitone 5)
+	// Fa# - 519 (Semitone 6)
+	// So  - 490 (Semitone 7)
+	// So# - 462 (Semitone 8)
+	// La  - 436 (Semitone 9)
+	// La# - 412 (Semitone 10)
+	// Si  - 389 (Semitone 11)
 	public int MinFramesCount = 1024;
 	[Export]
 	public FFmpeg.FFmpegPlayer Player;
@@ -19,8 +31,7 @@ public partial class WaveVisualizator : Node2D
 	private SubViewport _viewport;
 
 	private Godot.Collections.Array<Vector2> Buffer = [];
-
-	private int f;
+	private Godot.Collections.Array<Vector2> CompressedBuffer = [];
 
 	public override void _Ready()
 	{
@@ -51,13 +62,13 @@ public partial class WaveVisualizator : Node2D
 		if (Capture.GetFramesAvailable() / MinFramesCount >= 1)
 		{
 			Godot.Collections.Array<Vector2> Samples = [.. Capture.GetBuffer(Capture.GetFramesAvailable() / MinFramesCount * MinFramesCount)];
-			Buffer += Compress(Samples, WaveScale);
+			Buffer += Samples;
 			Buffer.Reverse();
-			Buffer.Resize(viewportSize.X + 1);
+			Buffer.Resize(Mathf.FloorToInt((viewportSize.X + 1) * WaveScale));
 			Buffer.Reverse();
 		}
-		
-		for (int i = 0; i < viewportSize.X + 1; i += 1)
+
+		for (int i = 0; i < Buffer.Count; i += 1)
 		{
 			// left channel
 			float Sample1 = Buffer[Mathf.Clamp(i, 0, Buffer.Count - 1)].X;
@@ -65,24 +76,14 @@ public partial class WaveVisualizator : Node2D
 
 			// right channel
 			float Sample2 = Buffer[Mathf.Clamp(i + 1, 0, Buffer.Count - 1)].Y;
-			float Y2 = viewportSize.Y / 2 + -Sample2 * viewportSize.Y / 2 + 1;
+			float Y2 = viewportSize.Y / 2 + -Sample2 * viewportSize.Y / 2;
 
 			// Making lines red if amplitude >1
 			Color col = new(1, 1, 1, PoweredVolume);
 			if (MathF.Abs(Sample1) > 1f || MathF.Abs(Sample2) > 1f)
 				col = new Color(1, 0, 0, PoweredVolume);
 
-			DrawLine(new Vector2(i, Y1), new Vector2(i, Y2), col);
+			DrawLine(new Vector2(i / WaveScale, Y1), new Vector2(i / WaveScale, Y2), col);
 		}
-	}
-
-	public static Godot.Collections.Array<Vector2> Compress(Godot.Collections.Array<Vector2> Array, float scale)
-	{
-		Godot.Collections.Array<Vector2> ResultArray = [];
-		for (float i = 0; i < Array.Count; i += scale)
-		{
-			ResultArray.Add( Array[Mathf.FloorToInt(i)].Lerp( Array[Mathf.CeilToInt(i)], i % 1) );
-		}
-		return ResultArray;
 	}
 }

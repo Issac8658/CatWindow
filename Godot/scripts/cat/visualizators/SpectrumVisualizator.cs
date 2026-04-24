@@ -27,8 +27,8 @@ public partial class SpectrumVisualizator : TextureRect
 			{
 				Vector2 specPart = 
 				Spectrum.GetMagnitudeForFrequencyRange(
-					MathF.Pow((float)i / values.Length, SpectrumScale) * MaxHZ,
-					MathF.Pow((i + 1f) / values.Length, SpectrumScale) * MaxHZ,
+					MathF.Pow((float)i / values.Length, SpectrumScale) * (MaxHZ - MinHZ) + MinHZ,
+					MathF.Pow((i + 1f) / values.Length, SpectrumScale) * (MaxHZ - MinHZ) + MinHZ,
 					AudioEffectSpectrumAnalyzerInstance.MagnitudeMode.Average
 				) * SpectrumPower;
 				values[i] = MathF.Pow(MathF.Pow(specPart.X, (1 - MathF.Pow((float)i / values.Length * 0.5f, SpectrumScale)) * PowOfPow), SpectrumPow);

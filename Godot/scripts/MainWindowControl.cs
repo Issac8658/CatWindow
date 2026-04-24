@@ -9,6 +9,9 @@ public partial class MainWindowControl : Node
 	public Control TopBar;
 	[Export]
 	public Button CloseButton;
+	[ExportGroup("Settings")]
+	[Export(PropertyHint.Range, "0,10,0.1,or_greater")]
+	public float MusicMovesPower = 1f;
 	private AudioEffectSpectrumAnalyzerInstance Spectrum = AudioServer.GetBusEffectInstance(2, 1) as AudioEffectSpectrumAnalyzerInstance;
 
 	public bool IsDragging
@@ -62,22 +65,26 @@ public partial class MainWindowControl : Node
 		{
 			WindowPosition = DisplayServer.MouseGetPosition() - MouseOffset;
 		}
-		CatScale = new Vector2
-		(
-			Mathf.Pow(Spectrum.GetMagnitudeForFrequencyRange(60, 300, AudioEffectSpectrumAnalyzerInstance.MagnitudeMode.Max).X * 1.5f, 2),
-			Mathf.Pow(Spectrum.GetMagnitudeForFrequencyRange(300, 60000, AudioEffectSpectrumAnalyzerInstance.MagnitudeMode.Max).X * 1.5f, 2) * 1.25f
-		) * 1000;
-		CatScaleAcceleration = (CatScale - CatScalePosition) * 0.9f;
-		CatScalePosition += CatScaleAcceleration;
-		CatScaleLerped = CatScaleLerped.Lerp(CatScalePosition, 0.3f).Max(CatScalePosition);
-		CatScaleDoubleLerped = CatScaleDoubleLerped.Lerp(CatScaleLerped, 0.3f);
+		Vector2 Offset = new();
+		if (MusicMovesPower > 0.001f)
+		{
+			CatScale = new Vector2
+			(
+				Mathf.Pow(Spectrum.GetMagnitudeForFrequencyRange(60, 300, AudioEffectSpectrumAnalyzerInstance.MagnitudeMode.Max).X * 1.5f, 2),
+				Mathf.Pow(Spectrum.GetMagnitudeForFrequencyRange(300, 60000, AudioEffectSpectrumAnalyzerInstance.MagnitudeMode.Max).X * 1.5f, 2) * 1.25f
+			) * 1000;
+			CatScaleAcceleration = (CatScale - CatScalePosition) * 0.9f;
+			CatScalePosition += CatScaleAcceleration;
+			CatScaleLerped = CatScaleLerped.Lerp(CatScalePosition, 0.3f).Max(CatScalePosition);
+			CatScaleDoubleLerped = CatScaleDoubleLerped.Lerp(CatScaleLerped, 0.3f);
 
-		int CurrentScreen = DisplayServer.WindowGetCurrentScreen(_mainWindow.GetWindowId());
-		Vector2 DPosition = DisplayServer.ScreenGetPosition(CurrentScreen);
-		Vector2 DSize = DisplayServer.ScreenGetSize(CurrentScreen) - WindowSize;
-		Vector2 Offset = ((Vector2)WindowPosition - DPosition) / DSize;
-		
-		_mainWindow.Position = WindowPosition;// - (Vector2I)(CatScaleDoubleLerped * Offset);
-		_mainWindow.Size = WindowSize;// + (Vector2I)CatScaleDoubleLerped;
+			int CurrentScreen = DisplayServer.WindowGetCurrentScreen(_mainWindow.GetWindowId());
+			Vector2 DPosition = DisplayServer.ScreenGetPosition(CurrentScreen);
+			Vector2 DSize = DisplayServer.ScreenGetSize(CurrentScreen) - WindowSize;
+			Offset = ((Vector2)WindowPosition - DPosition) / DSize;
+		}
+
+		_mainWindow.Position = WindowPosition - (Vector2I)(CatScaleDoubleLerped * Offset * MusicMovesPower);
+		_mainWindow.Size = WindowSize + (Vector2I)(CatScaleDoubleLerped * MusicMovesPower);
 	}
 }

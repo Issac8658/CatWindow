@@ -83,7 +83,7 @@ shader_parameter/current_values = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 
 gradient = SubResource("Gradient_wnkbs")
 width = 1024
 height = 1024
-fill_to = Vector2(0, 1)
+fill_to = Vector2(0, 0.982906)
 
 [sub_resource type="Gradient" id="Gradient_2cqfq"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
@@ -327,6 +327,7 @@ theme_override_constants/separation = 0
 script = ExtResource("3_dg77c")
 TopBar = NodePath("Topbar")
 CloseButton = NodePath("Topbar/TopbarContainer/CloseButton")
+MusicMovesPower = 0.0
 
 [node name="Topbar" type="PanelContainer" parent="CatWindow" unique_id=1007096533]
 z_index = -2
@@ -392,17 +393,28 @@ handle_input_locally = false
 canvas_item_default_texture_filter = 0
 canvas_item_default_texture_repeat = 1
 size = Vector2i(146, 102)
-render_target_clear_mode = 1
 render_target_update_mode = 4
 
-[node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=1839379722]
 visible = false
-script = ExtResource("12_2cqfq")
-ShakePower = 80.0
-MinFramesCount = 733
-Player = NodePath("../../../../../../FFmpegPlayer")
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -102.0
+grow_horizontal = 2
+grow_vertical = 0
+stretch = true
 
-[node name="TextureRect" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=1776572699]
+[node name="SubViewport" type="SubViewport" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport/SubViewportContainer2" unique_id=863046835]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(146, 102)
+render_target_clear_mode = 1
+render_target_update_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport/SubViewportContainer2/SubViewport" unique_id=1776572699]
 texture_filter = 2
 texture_repeat = 1
 material = SubResource("ShaderMaterial_0cbny")
@@ -414,11 +426,16 @@ grow_vertical = 2
 texture = SubResource("GradientTexture2D_f6a44")
 expand_mode = 1
 script = ExtResource("11_f6a44")
-MaxHZ = 16000.0
-MinHZ = 20.0
+MaxHZ = 22500.0
 SpectrumScale = 2.0
+SpectrumPow = 2.0
 PowOfPow = 0.21022417
 SpectrumPower = 13.325
+
+[node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088 node_paths=PackedStringArray("Player")]
+script = ExtResource("12_2cqfq")
+MinFramesCount = 733
+Player = NodePath("../../../../../../FFmpegPlayer")
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "NormalMouth", "SadMouth", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
