@@ -13,9 +13,7 @@
 [ext_resource type="Script" uid="uid://copt2vsf3pcsf" path="res://scripts/cat/FaceControls.cs" id="7_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://sprites/cat/eye_closed2.tres" id="8_4c57u"]
 [ext_resource type="Texture2D" uid="uid://r1xec0igyanx" path="res://sprites/cat/eye_half_closed.tres" id="10_facbu"]
-[ext_resource type="Shader" uid="uid://c63aim711h6xd" path="res://shaders/spectrum_visualizator.gdshader" id="10_wnkbs"]
 [ext_resource type="SpriteFrames" uid="uid://bno08nlqvcvlk" path="res://sprites/loading_animation/loading_animation.tres" id="11_2cqfq"]
-[ext_resource type="Script" uid="uid://bg430j4ayidye" path="res://scripts/cat/visualizators/SpectrumVisualizator.cs" id="11_f6a44"]
 [ext_resource type="Script" uid="uid://c2nk2plantxwq" path="res://scripts/cat/visualizators/WaveVisualizator.cs" id="12_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://c2hs3wds2qjjr" path="res://sprites/cat/mouth.tres" id="12_4k2k6"]
 [ext_resource type="Texture2D" uid="uid://dh1os3ghexq33" path="res://sprites/cat/mouth_sad.tres" id="13_0rl1p"]
@@ -72,18 +70,6 @@ corner_radius_bottom_left = 24
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_come4"]
 shader = ExtResource("7_b1qrp")
 shader_parameter/chromatic_distance = Vector2(-2, 2)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0cbny"]
-shader = ExtResource("10_wnkbs")
-shader_parameter/current_values = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-
-[sub_resource type="Gradient" id="Gradient_wnkbs"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_f6a44"]
-gradient = SubResource("Gradient_wnkbs")
-width = 1024
-height = 1024
-fill_to = Vector2(0, 0.982906)
 
 [sub_resource type="Gradient" id="Gradient_2cqfq"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
@@ -381,46 +367,10 @@ canvas_item_default_texture_repeat = 1
 size = Vector2i(146, 102)
 render_target_update_mode = 4
 
-[node name="SubViewportContainer2" type="SubViewportContainer" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=1839379722]
-visible = false
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -102.0
-grow_horizontal = 2
-grow_vertical = 0
-stretch = true
-
-[node name="SubViewport" type="SubViewport" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport/SubViewportContainer2" unique_id=863046835]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(146, 102)
-render_target_clear_mode = 1
-render_target_update_mode = 0
-
-[node name="TextureRect" type="TextureRect" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport/SubViewportContainer2/SubViewport" unique_id=1776572699]
-texture_filter = 2
-texture_repeat = 1
-material = SubResource("ShaderMaterial_0cbny")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_f6a44")
-expand_mode = 1
-script = ExtResource("11_f6a44")
-MaxHZ = 22500.0
-SpectrumScale = 2.0
-SpectrumPow = 2.0
-PowOfPow = 0.21022417
-SpectrumPower = 13.325
-
 [node name="AudioVisualizator" type="Node2D" parent="CatWindow/ContentAndVolume/Mask/SubViewportContainer/SubViewport" unique_id=474706088]
 script = ExtResource("12_2cqfq")
 MinFramesCount = 733
+DrawFramesSkip = 4
 
 [node name="Screen" type="Control" parent="CatWindow/ContentAndVolume/Mask" unique_id=2143959294 node_paths=PackedStringArray("FaceAnchor", "OpenedEyes", "ClosedEyes", "ClosedEyes2", "NormalMouth", "SadMouth", "ControlNode", "FaceContainer", "PurrSound", "MouthAnimatior", "CloseButton")]
 layout_mode = 2
@@ -653,7 +603,7 @@ texture_filter = 1
 position = Vector2(0.5, 0)
 sprite_frames = ExtResource("11_2cqfq")
 autoplay = "default"
-frame_progress = 0.54116553
+frame_progress = 0.23145965
 
 [node name="VolumeAnchor" type="Control" parent="CatWindow/ContentAndVolume/Mask/Screen" unique_id=1397319058]
 layout_mode = 1
@@ -776,7 +726,7 @@ position = Vector2(30, -22)
 script = ExtResource("26_f6a44")
 Mass = 0.01
 GravityScale = 4.0
-WindowForceMultiplier = 10.0
+WindowForceMultiplier = 5.0
 Damping = 1.0
 
 [node name="PawLine" type="Line2D" parent="LeftPawAnchor/Paw" unique_id=1792725440]
@@ -802,7 +752,7 @@ position = Vector2(-30, -22)
 script = ExtResource("26_f6a44")
 Mass = 0.01
 GravityScale = 4.0
-WindowForceMultiplier = 10.0
+WindowForceMultiplier = 5.0
 Damping = 1.0
 
 [node name="PawLine" type="Line2D" parent="RightPawAnchor/Paw" unique_id=338376676]

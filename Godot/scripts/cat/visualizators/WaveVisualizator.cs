@@ -18,6 +18,10 @@ public partial class WaveVisualizator : Node2D
 	// La# - 412 (Semitone 10)
 	// Si  - 389 (Semitone 11)
 	public int MinFramesCount = 1024;
+	[Export(PropertyHint.Range, "1, 1024,or_greater")]
+	public int DrawFramesSkip = 1;
+	[Export]
+	public bool DisableDrawing = false;
 
 	private AudioEffectCapture Capture = AudioServer.GetBusEffect(2, 0) as AudioEffectCapture;
 	private SubViewport _viewport;
@@ -36,28 +40,29 @@ public partial class WaveVisualizator : Node2D
 
 	public override void _Draw()
 	{
-		Vector2I viewportSize = _viewport.Size;
-
-		if (Capture.GetFramesAvailable() / MinFramesCount >= 1)
+		if (!DisableDrawing)
 		{
-			Godot.Collections.Array<Vector2> Samples = [.. Capture.GetBuffer(Capture.GetFramesAvailable() / MinFramesCount * MinFramesCount)];
-			Buffer += Samples;
-			Buffer.Reverse();
-			Buffer.Resize(Mathf.FloorToInt((viewportSize.X + 1) * WaveScale));
-			Buffer.Reverse();
-		}
+			Vector2I viewportSize = _viewport.Size;
 
-		for (int i = 0; i < Buffer.Count; i += 1)
-		{
-			Vector2 Value1 = Buffer[Mathf.Clamp(i, 0, Buffer.Count - 1)];
-			Vector2 Value2 = Buffer[Mathf.Clamp(i + 1, 0, Buffer.Count - 1)];
-			if (Mathf.Abs(Value1.X) > 0.0005 || Mathf.Abs(Value2.Y) > 0.0005)
+			if (Capture.GetFramesAvailable() / MinFramesCount >= 1)
 			{
-				// left channel
-				float Y1 = viewportSize.Y / 2 + -Value1.X * viewportSize.Y / 2;
-				// right channel
-				float Y2 = viewportSize.Y / 2 + -Value2.Y * viewportSize.Y / 2;
-				DrawLine(new(i / WaveScale, Y1), new(i / WaveScale, Y2), new(1, 1, 1));
+				Buffer += [.. Capture.GetBuffer(Capture.GetFramesAvailable() / MinFramesCount * MinFramesCount)];
+				Buffer.Reverse();
+				Buffer.Resize(Mathf.FloorToInt((viewportSize.X + 1) * WaveScale));
+				Buffer.Reverse();
+			}
+			for (int i = 0; i < Buffer.Count; i += DrawFramesSkip)
+			{
+				Vector2 Value1 = Buffer[Mathf.Clamp(i, 0, Buffer.Count - 1)];
+				Vector2 Value2 = Buffer[Mathf.Clamp(i + DrawFramesSkip, 0, Buffer.Count - 1)];
+				if (Mathf.Abs(Value1.X) > 0.0005 || Mathf.Abs(Value2.Y) > 0.0005)
+				{
+					// left channel
+					float Y1 = viewportSize.Y / 2 + -Value1.X * viewportSize.Y / 2;
+					// right channel
+					float Y2 = viewportSize.Y / 2 + -Value2.Y * viewportSize.Y / 2;
+					DrawLine(new(i / WaveScale, Y1), new((i + DrawFramesSkip - 1) / WaveScale, Y2), new(1, 1, 1));
+				}
 			}
 		}
 	}
