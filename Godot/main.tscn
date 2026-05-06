@@ -1056,10 +1056,11 @@ icon = ExtResource("21_seu75")
 layout_mode = 2
 text = "Audio Output:"
 
-[node name="OptionButton" type="OptionButton" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=51449701]
+[node name="OptionButton" type="OptionButton" parent="PlaylistWindow/Content/VBoxContainer/Summary" unique_id=51449701 node_paths=PackedStringArray("audio_capture_node")]
 layout_mode = 2
 fit_to_longest_item = false
 script = ExtResource("32_0n3wm")
+audio_capture_node = NodePath("../../../../../SystemAudioCapture")
 
 [node name="PanelContainer" type="PanelContainer" parent="PlaylistWindow/Content/VBoxContainer" unique_id=728599844]
 layout_mode = 2
