@@ -34,17 +34,13 @@ public partial class SystemAudioCapture : Node
 	public void StartCapture()
 	{
 		var device = new MMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-
-		capture = new WasapiLoopbackCapture(device);
-		capture.ShareMode = AudioClientShareMode.Shared;
-
-		capture.DataAvailable += (s, e) =>
+		capture = new(device) 
 		{
-			byte[] buffer = e.Buffer;
-			int bytes = e.BytesRecorded;
-
-			ProcessAudio(buffer, bytes);
+			ShareMode = AudioClientShareMode.Shared,
+			WaveFormat = WaveFormat.CreateIeeeFloatWaveFormat(48000, 2)
 		};
+
+		capture.DataAvailable += (s, e) => ProcessAudio(e.Buffer, e.BytesRecorded);
 
 		capture.StartRecording();
 	}

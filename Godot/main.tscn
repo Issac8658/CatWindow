@@ -4,21 +4,22 @@
 [ext_resource type="Theme" uid="uid://dnrglrowlaq6m" path="res://windows.tres" id="2_272bh"]
 [ext_resource type="Script" uid="uid://wce3rlsinvh5" path="res://scripts/MainWindowControl.cs" id="3_dg77c"]
 [ext_resource type="Texture2D" uid="uid://b8t61kcpor2ya" path="res://icons/icon16.png" id="4_dg77c"]
+[ext_resource type="StyleBox" uid="uid://b6y4wppsnm26h" path="res://cat_window_default_resources/cat_window_top_bar.tres" id="4_qnost"]
 [ext_resource type="Script" uid="uid://b3o0x8hctmxl3" path="res://scripts/audio_player/additional/volume_scaler.gd" id="5_074og"]
 [ext_resource type="Texture2D" uid="uid://byyxo6x103isy" path="res://sprites/ui/close_icon.tres" id="5_getpj"]
-[ext_resource type="StyleBox" uid="uid://b1vqr8jjeeka1" path="res://skin_styleboxes/cat_window_base.tres" id="6_4lmeg"]
-[ext_resource type="Texture2D" uid="uid://brhfu31058r4j" path="res://sprites/cat/eye.tres" id="6_5vw27"]
+[ext_resource type="StyleBox" uid="uid://b1vqr8jjeeka1" path="res://cat_window_default_resources/cat_window_base.tres" id="6_4lmeg"]
+[ext_resource type="Texture2D" uid="uid://brhfu31058r4j" path="res://cat_window_default_resources/cat/eye.tres" id="6_5vw27"]
 [ext_resource type="Shader" uid="uid://cg3t4ael3q1ur" path="res://shaders/chromatic.gdshader" id="7_b1qrp"]
-[ext_resource type="Texture2D" uid="uid://cv343i7dh5hg0" path="res://sprites/cat/eye_closed.tres" id="7_kek77"]
+[ext_resource type="Texture2D" uid="uid://cv343i7dh5hg0" path="res://cat_window_default_resources/cat/eye_closed.tres" id="7_kek77"]
 [ext_resource type="Script" uid="uid://copt2vsf3pcsf" path="res://scripts/cat/FaceControls.cs" id="7_ycdy4"]
-[ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://sprites/cat/eye_closed2.tres" id="8_4c57u"]
-[ext_resource type="Texture2D" uid="uid://r1xec0igyanx" path="res://sprites/cat/eye_half_closed.tres" id="10_facbu"]
+[ext_resource type="Texture2D" uid="uid://655qxl3u8g04" path="res://cat_window_default_resources/cat/eye_closed2.tres" id="8_4c57u"]
+[ext_resource type="Texture2D" uid="uid://r1xec0igyanx" path="res://cat_window_default_resources/cat/eye_half_closed.tres" id="10_facbu"]
 [ext_resource type="SpriteFrames" uid="uid://bno08nlqvcvlk" path="res://sprites/loading_animation/loading_animation.tres" id="11_2cqfq"]
 [ext_resource type="Script" uid="uid://c2nk2plantxwq" path="res://scripts/cat/visualizators/WaveVisualizator.cs" id="12_2cqfq"]
-[ext_resource type="Texture2D" uid="uid://c2hs3wds2qjjr" path="res://sprites/cat/mouth.tres" id="12_4k2k6"]
-[ext_resource type="Texture2D" uid="uid://dh1os3ghexq33" path="res://sprites/cat/mouth_sad.tres" id="13_0rl1p"]
-[ext_resource type="Texture2D" uid="uid://cw3po3kcwwls6" path="res://sprites/cat/mouth_open.tres" id="14_ok6jj"]
-[ext_resource type="Texture2D" uid="uid://x3h8r12ja0en" path="res://sprites/cat/paw.png" id="15_vivmo"]
+[ext_resource type="Texture2D" uid="uid://c2hs3wds2qjjr" path="res://cat_window_default_resources/cat/mouth.tres" id="12_4k2k6"]
+[ext_resource type="Texture2D" uid="uid://dh1os3ghexq33" path="res://cat_window_default_resources/cat/mouth_sad.tres" id="13_0rl1p"]
+[ext_resource type="Texture2D" uid="uid://cw3po3kcwwls6" path="res://cat_window_default_resources/cat/mouth_open.tres" id="14_ok6jj"]
+[ext_resource type="Texture2D" uid="uid://x3h8r12ja0en" path="res://cat_window_default_resources/cat/paw.png" id="15_vivmo"]
 [ext_resource type="AudioStream" uid="uid://cqph6lklnpwh2" path="res://sounds/purrr.ogg" id="15_yaehf"]
 [ext_resource type="PackedScene" uid="uid://fa0oerei3hax" path="res://ear.tscn" id="19_0cp0l"]
 [ext_resource type="Script" uid="uid://2ecvmagdwik8" path="res://scripts/audio_player/playlists/Playlist.cs" id="19_getpj"]
@@ -43,17 +44,8 @@
 [ext_resource type="Texture2D" uid="uid://c6558mtc71bei" path="res://sprites/ui/loop_icon.tres" id="39_0cp0l"]
 [ext_resource type="Texture2D" uid="uid://cgjfm3w80mhff" path="res://sprites/ui/rescale_corner.tres" id="40_h8e4i"]
 [ext_resource type="Script" uid="uid://dbun11idw3vgy" path="res://scripts/cat/additional/resize.gd" id="41_4lmeg"]
-[ext_resource type="StyleBox" uid="uid://djko02wscso2o" path="res://skin_styleboxes/cat_icon_base.tres" id="41_d2t1y"]
+[ext_resource type="StyleBox" uid="uid://djko02wscso2o" path="res://cat_window_default_resources/cat_icon_base.tres" id="41_d2t1y"]
 [ext_resource type="Script" uid="uid://b512fj57jcwsu" path="res://scripts/FFmpegChecker.cs" id="42_d2t1y"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvp3"]
-content_margin_left = 2.0
-content_margin_right = 1.0
-bg_color = Color(0.1254902, 0.1254902, 0.1254902, 0.9411765)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_color = Color(0.4862745, 0.4862745, 0.4862745, 0.28235295)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_272bh"]
 bg_color = Color(0.7214305, 0.15345448, 0.09808048, 1)
@@ -306,7 +298,7 @@ z_index = -2
 texture_filter = 1
 custom_minimum_size = Vector2(0, 26)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1bvp3")
+theme_override_styles/panel = ExtResource("4_qnost")
 
 [node name="TopbarContainer" type="HBoxContainer" parent="CatWindow/Topbar" unique_id=270362590]
 layout_mode = 2
